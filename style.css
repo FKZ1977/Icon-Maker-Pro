@@ -1606,7 +1606,7 @@ pre code {
   transform: perspective(600px) rotateX(60deg);
   -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.8) 60%, rgba(0, 0, 0, 0) 95%);
   mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.8) 60%, rgba(0, 0, 0, 0) 95%);
-  animation: cyberFloorForward 4.5s linear infinite;
+  animation: cyberFloorForward 3.5s linear infinite;
   pointer-events: none;
   z-index: 0;
 }
