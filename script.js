@@ -138,7 +138,8 @@ const i18nData = {
     btn_update_now: "今すぐ更新",
     toast_checking_update: "🔄 最新版を確認中...",
     toast_latest_version: "✅ 現在最新のバージョンです",
-    toast_updating: "🚀 最新版に更新して再読み込みします..."
+    toast_updating: "🚀 最新版に更新して再読み込みします...",
+    toast_update_completed: "🚀 最新バージョンに更新されました！"
   },
   en: {
     prompt_start: "Press any key or click / tap screen to start",
@@ -4240,158 +4241,93 @@ function showToast(message) {
 }
 
 // ==========================================
-// 8. PWA & Service Worker 更新制御 (オフライン対応 & 最新版自動取得)
+// 8. PWA & Service Worker 完全自動更新制御
+// (ユーザー操作不要・更新検知時に自動適用し、更新完了時のみポップアップ通知)
 // ==========================================
 let swRegistration = null;
-let newWorkerWaiting = null;
+
+function checkShowUpdatedPopup() {
+  try {
+    if (sessionStorage.getItem('imp_app_updated_flag') === 'true' || localStorage.getItem('imp_app_just_updated') === 'true') {
+      sessionStorage.removeItem('imp_app_updated_flag');
+      localStorage.removeItem('imp_app_just_updated');
+      setTimeout(() => {
+        const dict = (typeof i18nData !== 'undefined' && i18nData[currentLanguage]) ? i18nData[currentLanguage] : { toast_update_completed: "🚀 最新バージョンに更新されました！" };
+        showToast(dict.toast_update_completed || "🚀 最新バージョンに更新されました！");
+      }, 1000);
+    }
+  } catch (e) {}
+}
 
 function registerServiceWorker() {
   if (!('serviceWorker' in navigator)) return;
 
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=1.0.1')
+    // 起動時に更新後ポップアップを表示判定
+    checkShowUpdatedPopup();
+
+    navigator.serviceWorker.register('./sw.js?v=1.0.11')
       .then((reg) => {
         swRegistration = reg;
 
-        // すでに待機中の新しいWorkerがある場合
+        // すでに新しいWorkerが待機している場合は即座にアクティベート
         if (reg.waiting) {
-          newWorkerWaiting = reg.waiting;
-          showPwaUpdateBar();
+          reg.waiting.postMessage({ type: 'SKIP_WAITING' });
         }
 
-        // 新しいWorkerのインストールを監視
+        // 新しいWorkerのインストールを監視し、完了したら自動スキップウェイト
         reg.addEventListener('updatefound', () => {
           const newWorker = reg.installing;
           if (!newWorker) return;
 
           newWorker.addEventListener('statechange', () => {
             if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              newWorkerWaiting = newWorker;
-              showPwaUpdateBar();
+              // 新しいバージョンがインストールされたら即時適用
+              newWorker.postMessage({ type: 'SKIP_WAITING' });
             }
           });
         });
 
-        // 定期的にバックグラウンドで更新チェック (30分ごと)
+        // 起動直後に最新版をチェック
+        reg.update().catch(() => {});
+
+        // 定期的にバックグラウンドで更新チェック (15分ごと)
         setInterval(() => {
           reg.update().catch(() => {});
-        }, 30 * 60 * 1000);
+        }, 15 * 60 * 1000);
       })
       .catch((err) => {
         console.warn('ServiceWorker registration error:', err);
       });
 
-    // iOS Safari ホーム画面 (WebClip) や Android PWA のフォアグラウンド復帰時に即座に最新チェック
+    // iOS Safari ホーム画面や Android PWA のフォアグラウンド復帰時に即座に自動チェック
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible' && swRegistration) {
         swRegistration.update().catch(() => {});
       }
     });
 
-    // オンラインに復帰した時も最新をチェック
+    // オンラインに復帰した時も自動チェック
     window.addEventListener('online', () => {
       if (swRegistration) {
         swRegistration.update().catch(() => {});
       }
     });
 
-    // コントローラーが新しいSWに切り替わったら自動的に最新リロード
+    // 新しいService Workerに切り替わったら自動的に再読み込みし、更新ポップアップフラグをセット
     let isReloading = false;
     navigator.serviceWorker.addEventListener('controllerchange', () => {
       if (!isReloading) {
         isReloading = true;
+        try {
+          sessionStorage.setItem('imp_app_updated_flag', 'true');
+          localStorage.setItem('imp_app_just_updated', 'true');
+        } catch (e) {}
         window.location.reload();
       }
     });
   });
 }
-
-function showPwaUpdateBar() {
-  const bar = document.getElementById('pwaUpdateBar');
-  if (bar) bar.classList.remove('hidden');
-}
-
-function dismissUpdateBar() {
-  const bar = document.getElementById('pwaUpdateBar');
-  if (bar) bar.classList.add('hidden');
-}
-window.dismissUpdateBar = dismissUpdateBar;
-
-function applyAppUpdate() {
-  const dict = i18nData[currentLanguage] || i18nData.ja;
-  showToast(dict.toast_updating || "🚀 最新版に更新して再読み込みします...");
-
-  if (newWorkerWaiting) {
-    newWorkerWaiting.postMessage({ type: 'SKIP_WAITING' });
-  } else {
-    // キャッシュを全破棄してハードリロード
-    if ('caches' in window) {
-      caches.keys().then((names) => {
-        return Promise.all(names.map(name => caches.delete(name)));
-      }).then(() => {
-        window.location.reload(true);
-      }).catch(() => {
-        window.location.reload(true);
-      });
-    } else {
-      window.location.reload(true);
-    }
-  }
-}
-window.applyAppUpdate = applyAppUpdate;
-
-// ユーザーが手動で「🔄 最新版を確認」をクリックした時の強制チェック処理
-async function checkAppUpdate(isUserAction = false) {
-  const dict = i18nData[currentLanguage] || i18nData.ja;
-
-  // 🔄 ボタンのスピン回転演出
-  const refreshBtns = document.querySelectorAll('.header-refresh-btn');
-  refreshBtns.forEach(b => b.classList.add('spinning'));
-  setTimeout(() => refreshBtns.forEach(b => b.classList.remove('spinning')), 1000);
-
-  if (isUserAction) {
-    showToast(dict.toast_checking_update || "🔄 最新版を確認中...");
-  }
-
-  if (!navigator.onLine) {
-    showToast("⚠️ オフラインです。キャッシュから動作しています");
-    return;
-  }
-
-  let updateFound = false;
-
-  if ('serviceWorker' in navigator && swRegistration) {
-    try {
-      await swRegistration.update();
-      if (swRegistration.waiting) {
-        newWorkerWaiting = swRegistration.waiting;
-        showPwaUpdateBar();
-        updateFound = true;
-        return;
-      }
-    } catch (e) {}
-  }
-
-  // サーバー上の最新HTMLヘッダーまたはタイムスタンプを確認して最新状態を判定
-  try {
-    const resp = await fetch('./index.html?check=' + Date.now(), {
-      method: 'HEAD',
-      cache: 'no-store',
-      headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' }
-    });
-
-    if (resp.ok && isUserAction && !updateFound) {
-      setTimeout(() => {
-        showToast(dict.toast_latest_version || "✅ 現在最新のバージョンです");
-      }, 500);
-    }
-  } catch (err) {
-    if (isUserAction && !updateFound) {
-      showToast(dict.toast_latest_version || "✅ 現在最新のバージョンです");
-    }
-  }
-}
-window.checkAppUpdate = checkAppUpdate;
 
 // 初期化
 setLanguage(currentLanguage);

@@ -16,10 +16,12 @@
   <meta http-equiv="Expires" content="0">
   <!-- PWA & Mobile Icons (Android / Chrome / iPhone) -->
   <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="IMP_192.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="IMP_512.png">
-  <link rel="stylesheet" href="style.css?v=1.0.6">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=1.0.11">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=1.0.11">
+  <link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png?v=1.0.11">
+  <link rel="icon" type="image/png" sizes="192x192" href="IMP_192.png?v=1.0.11">
+  <link rel="icon" type="image/png" sizes="512x512" href="IMP_512.png?v=1.0.11">
+  <link rel="stylesheet" href="style.css?v=1.0.11">
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,7 +36,6 @@
 <div id="openingScreen" class="opening-screen">
   <!-- 言語セレクター (オープニング画面右上) -->
   <div class="opening-header-right" onclick="event.stopPropagation()">
-    <button type="button" class="header-refresh-btn" onclick="checkAppUpdate(true)" title="最新版を読み込む" data-i18n-title="btn_refresh_tip">🔄</button>
     <span style="font-size: 16px;">🌐</span>
     <select class="lang-selector opening-lang-select" onchange="setLanguage(this.value)">
       <option value="ja">🇯🇵 JP 日本語</option>
@@ -92,7 +93,6 @@
   <div class="header-top-bar">
     <button id="headerBackToOpeningBtn" class="header-back-btn" onclick="backToOpeningScreen()" data-i18n="back_to_opening">← 起動画面に戻る</button>
     <div class="mode-select-header-right">
-      <button type="button" class="header-refresh-btn" onclick="checkAppUpdate(true)" title="最新版を読み込む" data-i18n-title="btn_refresh_tip">🔄</button>
       <span style="font-size: 16px;">🌐</span>
       <select class="lang-selector mode-lang-select header-lang-select" onchange="setLanguage(this.value)">
         <option value="ja">🇯🇵 JP 日本語</option>
@@ -113,7 +113,6 @@
   <div class="logo-container">
     <h1>IMP – Icon Maker <span class="logo-badge">Pro</span></h1>
   </div>
-  <p class="app-subtitle" data-i18n="app_subtitle">iOS (iPhone) / Android (PWA) / Windows マルチ対応 アイコン作成ツール</p>
 </header>
 
 <!-- モード切替タブ -->
@@ -573,8 +572,7 @@
     <div id="informationContent" class="information-content-box">
       <p id="infoCreatedBy" class="info-created-text">このアプリは、<strong>H.Fukazu</strong>によって制作されました。</p>
       <p class="info-row">
-        <span data-i18n="info_version">バージョン：</span><strong>v1.0.1</strong> <span data-i18n="info_updated_date">（2026/10/10 更新）</span>
-        <button type="button" class="btn-check-update" id="infoCheckUpdateBtn" onclick="checkAppUpdate(true)" data-i18n="btn_check_update">🔄 最新版を確認</button>
+        <span data-i18n="info_version">バージョン：</span><strong>v1.0.11</strong> <span data-i18n="info_updated_date">（2026/10/10 更新）</span>
       </p>
       <p class="info-sub-row"><span data-i18n="info_initial_release">初版リリース：</span><strong>v1.0.0（2026/10/10）</strong></p>
 
@@ -836,17 +834,6 @@
     data-i18n="back_to_top">↑ TOP</button>
 </div>
 
-<!-- PWA 新バージョン更新通知バー -->
-<div id="pwaUpdateBar" class="pwa-update-bar hidden">
-  <div class="pwa-update-content">
-    <span class="pwa-update-icon">🚀</span>
-    <span class="pwa-update-text" data-i18n="update_available">新しいバージョンが利用可能です！</span>
-  </div>
-  <div class="pwa-update-actions">
-    <button type="button" id="pwaUpdateNowBtn" class="btn-update-now" onclick="applyAppUpdate()" data-i18n="btn_update_now">今すぐ更新</button>
-    <button type="button" id="pwaUpdateDismissBtn" class="btn-update-dismiss" onclick="dismissUpdateBar()" title="閉じる">✕</button>
-  </div>
-</div>
 
 <!-- トースト通知 -->
 <div id="toast" class="toast hidden"></div>
@@ -854,8 +841,8 @@
 <!-- ライブラリ -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="sample_icons_data.js?v=1.0.1"></script>
-<script src="script.js?v=1.0.1"></script>
+<script src="sample_icons_data.js?v=1.0.11"></script>
+<script src="script.js?v=1.0.11"></script>
 
 </body>
 </html>
