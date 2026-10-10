@@ -1,6 +1,6 @@
 {
-  "name": "IMP – Icon Maker Pro",
-  "short_name": "IMP",
+  "name": "Icon Maker📂 – Icon Maker Pro",
+  "short_name": "Icon Maker📂",
   "description": "iOS (iPhone) / Android (PWA) / Windows マルチ対応 アイコン作成ツール",
   "start_url": "./index.html",
   "scope": "./",

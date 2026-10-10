@@ -4266,7 +4266,7 @@ function registerServiceWorker() {
     // 起動時に更新後ポップアップを表示判定
     checkShowUpdatedPopup();
 
-    navigator.serviceWorker.register('./sw.js?v=1.0.11')
+    navigator.serviceWorker.register('./sw.js?v=1.0.12')
       .then((reg) => {
         swRegistration = reg;
 
