@@ -14,14 +14,22 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
+  <!-- Google tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7LZXVT7C1X"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7LZXVT7C1X');
+  </script>
   <!-- PWA & Mobile Icons (Android / Chrome / iPhone) -->
   <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=1.0.12">
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=1.0.12">
-  <link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png?v=1.0.12">
-  <link rel="icon" type="image/png" sizes="192x192" href="IMP_192.png?v=1.0.12">
-  <link rel="icon" type="image/png" sizes="512x512" href="IMP_512.png?v=1.0.12">
-  <link rel="stylesheet" href="style.css?v=1.0.12">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=1.0.15">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=1.0.15">
+  <link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png?v=1.0.15">
+  <link rel="icon" type="image/png" sizes="192x192" href="IMP_192.png?v=1.0.15">
+  <link rel="icon" type="image/png" sizes="512x512" href="IMP_512.png?v=1.0.15">
+  <link rel="stylesheet" href="style.css?v=1.0.15">
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -218,10 +226,13 @@
         </select>
       </div>
 
-      <!-- 選択・変形ボタン（キャンバス背景の右横） -->
-      <div class="toolbar-item">
+      <!-- 選択・変形 & 90度回転ボタン -->
+      <div class="toolbar-item transform-buttons-group">
         <button type="button" id="selectTransformBtn" class="btn-tool" title="レイヤーの選択・変形・移動モード" data-i18n="btn_select_transform">
           ✋ 選択・変形
+        </button>
+        <button type="button" id="rotate90Btn" class="btn-tool btn-rotate" title="時計回りに90度回転" data-i18n-title="btn_rotate_90_tip">
+          ↷ <span data-i18n="btn_rotate_90">90°</span>
         </button>
       </div>
 
@@ -239,6 +250,7 @@
         <button type="button" class="fx-tab-btn active" data-tab="fx-color" data-i18n="tab_fx_color">🎨 塗り形式 (単色/グラデ)</button>
         <button type="button" class="fx-tab-btn" data-tab="fx-shadow" data-i18n="tab_fx_shadow">🌑 立体 影 (Shadow)</button>
         <button type="button" class="fx-tab-btn" data-tab="fx-gloss" data-i18n="tab_fx_gloss">✨ 立体 艶 (Gloss/光沢)</button>
+        <button type="button" class="fx-tab-btn" data-tab="fx-filter" data-i18n="tab_fx_filter">🧪 フィルター (透明/ぼかし/尖鋭)</button>
       </div>
 
       <!-- 1. 塗り・グラデーション設定 -->
@@ -340,6 +352,24 @@
           <div class="fx-item">
             <label for="glossIntensity"><span data-i18n="lbl_gloss_intensity">光沢の強さ</span>: <span id="glossIntensityVal">50</span>%</label>
             <input type="range" id="glossIntensity" min="10" max="100" value="50">
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. フィルター (透明度 / ぼかし / 尖鋭化) 設定 -->
+      <div id="fx-filter" class="fx-tab-content">
+        <div class="fx-row">
+          <div class="fx-item">
+            <label for="layerOpacity"><span data-i18n="lbl_layer_opacity">透明度 (不透明度)</span>: <span id="layerOpacityVal">100</span>%</label>
+            <input type="range" id="layerOpacity" min="0" max="100" value="100">
+          </div>
+          <div class="fx-item">
+            <label for="layerBlur"><span data-i18n="lbl_layer_blur">ぼかし (Blur)</span>: <span id="layerBlurVal">0</span>px</label>
+            <input type="range" id="layerBlur" min="0" max="20" value="0" step="0.5">
+          </div>
+          <div class="fx-item">
+            <label for="layerSharpen"><span data-i18n="lbl_layer_sharpen">尖鋭化 (アンシャープ)</span>: <span id="layerSharpenVal">0</span>%</label>
+            <input type="range" id="layerSharpen" min="0" max="100" value="0" step="5">
           </div>
         </div>
       </div>
@@ -468,6 +498,9 @@
         </div>
       </div>
       <div class="control-row">
+        <button type="button" id="uploadRotate90Btn" class="btn-tool btn-rotate" title="画像を時計回りに90度回転" data-i18n-title="btn_rotate_90_tip">
+          ↷ <span data-i18n="btn_rotate_90">90°</span>
+        </button>
         <button id="sendToCanvasBtn" class="btn-tool btn-transfer" title="この画像をキャンバスのレイヤーとして追加して編集します" data-i18n="btn_send_to_canvas">
           🎨 キャンバスに転送してお絵描き・編集する
         </button>
@@ -841,8 +874,8 @@
 <!-- ライブラリ -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="sample_icons_data.js?v=1.0.12"></script>
-<script src="script.js?v=1.0.12"></script>
+<script src="sample_icons_data.js?v=1.0.15"></script>
+<script src="script.js?v=1.0.15"></script>
 
 </body>
 </html>

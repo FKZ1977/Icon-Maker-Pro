@@ -4,6 +4,19 @@
    =================================================== */
 
 // ==========================================
+// Google Analytics 4 (GA4) イベント計測ヘルパー
+// ==========================================
+function trackEvent(eventName, eventParams = {}) {
+  try {
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', eventName, eventParams);
+    }
+  } catch (err) {
+    console.debug('Analytics trackEvent:', err);
+  }
+}
+
+// ==========================================
 // 多言語化 (i18n) 辞書 & 言語切替制御
 // 対応言語 (12言語): ja, en, nl, pt, es, fr, it, de, uk, id, ko, tr
 // ==========================================
@@ -66,12 +79,18 @@ const i18nData = {
     bg_white: "白 (#ffffff)",
     bg_navy: "テーマ紺 (#0A0F1F)",
     btn_select_transform: "✋ 選択・変形",
+    btn_rotate_90: "90°",
+    btn_rotate_90_tip: "時計回りに90度回転",
     btn_undo: "↩ 戻す",
     btn_redo: "↪ やり直し",
     btn_clear: "🗑 クリア",
     tab_fx_color: "🎨 塗り形式 (単色/グラデ)",
     tab_fx_shadow: "🌑 立体 影 (Shadow)",
     tab_fx_gloss: "✨ 立体 艶 (Gloss/光沢)",
+    tab_fx_filter: "🧪 フィルター (透明/ぼかし/尖鋭)",
+    lbl_layer_opacity: "透明度 (不透明度)",
+    lbl_layer_blur: "ぼかし (Blur)",
+    lbl_layer_sharpen: "尖鋭化 (アンシャープ)",
     lbl_solid: "単色",
     lbl_gradient: "グラデーション",
     lbl_grad_c1: "開始色",
@@ -199,12 +218,18 @@ const i18nData = {
     bg_white: "White (#ffffff)",
     bg_navy: "Theme Navy (#0A0F1F)",
     btn_select_transform: "✋ Select / Transform",
+    btn_rotate_90: "90°",
+    btn_rotate_90_tip: "Rotate 90° Clockwise",
     btn_undo: "↩ Undo",
     btn_redo: "↪ Redo",
     btn_clear: "🗑 Clear",
     tab_fx_color: "🎨 Fill Style (Solid / Gradient)",
     tab_fx_shadow: "🌑 3D Shadow",
     tab_fx_gloss: "✨ 3D Gloss / Shine",
+    tab_fx_filter: "🧪 Filter (Opacity/Blur/Sharpen)",
+    lbl_layer_opacity: "Opacity",
+    lbl_layer_blur: "Blur",
+    lbl_layer_sharpen: "Sharpen",
     lbl_solid: "Solid",
     lbl_gradient: "Gradient",
     lbl_grad_c1: "Start Color",
@@ -331,12 +356,18 @@ const i18nData = {
     bg_white: "Wit (#ffffff)",
     bg_navy: "Thema Marineblauw (#0A0F1F)",
     btn_select_transform: "✋ Selecteren / Transformeren",
+    btn_rotate_90: "90°",
+    btn_rotate_90_tip: "90° met de klok mee draaien",
     btn_undo: "↩ Ongedaan maken",
     btn_redo: "↪ Opnieuw uitvoeren",
     btn_clear: "🗑 Wissen",
     tab_fx_color: "🎨 Vullingsstijl (Effen / Verloop)",
     tab_fx_shadow: "🌑 3D Schaduw",
     tab_fx_gloss: "✨ 3D Glans",
+    tab_fx_filter: "🧪 Filter (Dekking/Vervagen/Verscherpen)",
+    lbl_layer_opacity: "Dekking",
+    lbl_layer_blur: "Vervagen",
+    lbl_layer_sharpen: "Verscherpen",
     lbl_solid: "Effen",
     lbl_gradient: "Kleurverloop",
     lbl_grad_c1: "Startkleur",
@@ -463,12 +494,18 @@ const i18nData = {
     bg_white: "Branco (#ffffff)",
     bg_navy: "Azul Marinho (#0A0F1F)",
     btn_select_transform: "✋ Selecionar / Transformar",
+    btn_rotate_90: "90°",
+    btn_rotate_90_tip: "Girar 90° no sentido horário",
     btn_undo: "↩ Desfazer",
     btn_redo: "↪ Refazer",
     btn_clear: "🗑 Limpar",
     tab_fx_color: "🎨 Estilo de Preenchimento (Sólido / Gradiente)",
     tab_fx_shadow: "🌑 Sombra 3D",
     tab_fx_gloss: "✨ Brilho 3D / Lustro",
+    tab_fx_filter: "🧪 Filtro (Opacidade/Desfoque/Nitidez)",
+    lbl_layer_opacity: "Opacidade",
+    lbl_layer_blur: "Desfoque",
+    lbl_layer_sharpen: "Nitidez",
     lbl_solid: "Sólido",
     lbl_gradient: "Gradiente",
     lbl_grad_c1: "Cor Inicial",
@@ -595,12 +632,18 @@ const i18nData = {
     bg_white: "Blanco (#ffffff)",
     bg_navy: "Azul Marino (#0A0F1F)",
     btn_select_transform: "✋ Seleccionar / Transformar",
+    btn_rotate_90: "90°",
+    btn_rotate_90_tip: "Girar 90° en sentido horario",
     btn_undo: "↩ Deshacer",
     btn_redo: "↪ Rehacer",
     btn_clear: "🗑 Limpiar",
     tab_fx_color: "🎨 Estilo de Relleno (Sólido / Degradado)",
     tab_fx_shadow: "🌑 Sombra 3D",
     tab_fx_gloss: "✨ Brillo 3D / Lustre",
+    tab_fx_filter: "🧪 Filtro (Opacidad/Desenfoque/Nitidez)",
+    lbl_layer_opacity: "Opacidad",
+    lbl_layer_blur: "Desenfoque",
+    lbl_layer_sharpen: "Nitidez",
     lbl_solid: "Sólido",
     lbl_gradient: "Degradado",
     lbl_grad_c1: "Color Inicial",
@@ -727,12 +770,18 @@ const i18nData = {
     bg_white: "Blanc (#ffffff)",
     bg_navy: "Bleu marine (#0A0F1F)",
     btn_select_transform: "✋ Sélectionner / Transformer",
+    btn_rotate_90: "90°",
+    btn_rotate_90_tip: "Faire pivoter de 90° dans le sens horaire",
     btn_undo: "↩ Annuler",
     btn_redo: "↪ Rétablir",
     btn_clear: "🗑 Effacer",
     tab_fx_color: "🎨 Remplissage (Uni / Dégradé)",
     tab_fx_shadow: "🌑 Ombre 3D",
     tab_fx_gloss: "✨ Brillance 3D",
+    tab_fx_filter: "🧪 Filtre (Opacité/Flou/Netteté)",
+    lbl_layer_opacity: "Opacité",
+    lbl_layer_blur: "Flou",
+    lbl_layer_sharpen: "Netteté",
     lbl_solid: "Uni",
     lbl_gradient: "Dégradé",
     lbl_grad_c1: "Couleur début",
@@ -859,12 +908,18 @@ const i18nData = {
     bg_white: "Bianco (#ffffff)",
     bg_navy: "Blu Scuro (#0A0F1F)",
     btn_select_transform: "✋ Seleziona / Trasforma",
+    btn_rotate_90: "90°",
+    btn_rotate_90_tip: "Ruota di 90° in senso orario",
     btn_undo: "↩ Annulla",
     btn_redo: "↪ Ripeti",
     btn_clear: "🗑 Cancella",
     tab_fx_color: "🎨 Stile Riempimento (Tinta unita / Sfumatura)",
     tab_fx_shadow: "🌑 Ombra 3D",
     tab_fx_gloss: "✨ Lucentezza 3D",
+    tab_fx_filter: "🧪 Filtro (Opacità/Sfocatura/Nitidezza)",
+    lbl_layer_opacity: "Opacità",
+    lbl_layer_blur: "Sfocatura",
+    lbl_layer_sharpen: "Nitidezza",
     lbl_solid: "Tinta unita",
     lbl_gradient: "Sfumatura",
     lbl_grad_c1: "Colore iniziale",
@@ -991,12 +1046,18 @@ const i18nData = {
     bg_white: "Weiß (#ffffff)",
     bg_navy: "Dunkelblau (#0A0F1F)",
     btn_select_transform: "✋ Auswählen / Transformieren",
+    btn_rotate_90: "90°",
+    btn_rotate_90_tip: "Im Uhrzeigersinn um 90° drehen",
     btn_undo: "↩ Rückgängig",
     btn_redo: "↪ Wiederholen",
     btn_clear: "🗑 Löschen",
     tab_fx_color: "🎨 Füllstil (Einfarbig / Verlauf)",
     tab_fx_shadow: "🌑 3D-Schatten",
     tab_fx_gloss: "✨ 3D-Glanz",
+    tab_fx_filter: "🧪 Filter (Deckkraft/Weichzeichner/Schärfen)",
+    lbl_layer_opacity: "Deckkraft",
+    lbl_layer_blur: "Weichzeichner",
+    lbl_layer_sharpen: "Schärfen",
     lbl_solid: "Einfarbig",
     lbl_gradient: "Farbverlauf",
     lbl_grad_c1: "Startfarbe",
@@ -1123,12 +1184,18 @@ const i18nData = {
     bg_white: "Білий (#ffffff)",
     bg_navy: "Темно-синій (#0A0F1F)",
     btn_select_transform: "✋ Вибір / Трансформація",
+    btn_rotate_90: "90°",
+    btn_rotate_90_tip: "Повернути на 90° за годинниковою стрілкою",
     btn_undo: "↩ Скасувати",
     btn_redo: "↪ Повторити",
     btn_clear: "🗑 Очистити",
     tab_fx_color: "🎨 Стиль заливки (Однотонний / Градієнт)",
     tab_fx_shadow: "🌑 3D Тінь",
     tab_fx_gloss: "✨ 3D Блиск / Глянець",
+    tab_fx_filter: "🧪 Фільтр (Прозорість/Розмиття/Різкість)",
+    lbl_layer_opacity: "Непрозорість",
+    lbl_layer_blur: "Розмиття",
+    lbl_layer_sharpen: "Різкість",
     lbl_solid: "Однотонний",
     lbl_gradient: "Градієнт",
     lbl_grad_c1: "Початковий колір",
@@ -1255,12 +1322,18 @@ const i18nData = {
     bg_white: "Putih (#ffffff)",
     bg_navy: "Biru Dongker (#0A0F1F)",
     btn_select_transform: "✋ Pilih / Transformasi",
+    btn_rotate_90: "90°",
+    btn_rotate_90_tip: "Putar 90° searah jarum jam",
     btn_undo: "↩ Urungkan",
     btn_redo: "↪ Ulangi",
     btn_clear: "🗑 Bersihkan",
     tab_fx_color: "🎨 Gaya Isi (Solid / Gradasi)",
     tab_fx_shadow: "🌑 Bayangan 3D",
     tab_fx_gloss: "✨ Kilau 3D / Gloss",
+    tab_fx_filter: "🧪 Filter (Opasitas/Blur/Ketajaman)",
+    lbl_layer_opacity: "Opasitas",
+    lbl_layer_blur: "Blur (Kabur)",
+    lbl_layer_sharpen: "Ketajaman",
     lbl_solid: "Solid",
     lbl_gradient: "Gradasi",
     lbl_grad_c1: "Warna Awal",
@@ -1387,12 +1460,18 @@ const i18nData = {
     bg_white: "흰색 (#ffffff)",
     bg_navy: "네이비 (#0A0F1F)",
     btn_select_transform: "✋ 선택 / 변형",
+    btn_rotate_90: "90°",
+    btn_rotate_90_tip: "시계 방향으로 90도 회전",
     btn_undo: "↩ 실행 취소",
     btn_redo: "↪ 다시 실행",
     btn_clear: "🗑 지우기",
     tab_fx_color: "🎨 채우기 스타일 (단색 / 그라데이션)",
     tab_fx_shadow: "🌑 3D 그림자",
     tab_fx_gloss: "✨ 3D 광택 / 입체감",
+    tab_fx_filter: "🧪 필터 (투명도/블러/선명화)",
+    lbl_layer_opacity: "투명도 (불투명도)",
+    lbl_layer_blur: "블러 (흐림)",
+    lbl_layer_sharpen: "선명화 (샤픈)",
     lbl_solid: "단색",
     lbl_gradient: "그라데이션",
     lbl_grad_c1: "시작 색상",
@@ -1519,12 +1598,18 @@ const i18nData = {
     bg_white: "Beyaz (#ffffff)",
     bg_navy: "Lacivert (#0A0F1F)",
     btn_select_transform: "✋ Seç / Dönüştür",
+    btn_rotate_90: "90°",
+    btn_rotate_90_tip: "Saat yönünde 90° döndür",
     btn_undo: "↩ Geri Al",
     btn_redo: "↪ Yinele",
     btn_clear: "🗑 Temizle",
     tab_fx_color: "🎨 Dolgu Stili (Tek Renk / Gradyan)",
     tab_fx_shadow: "🌑 3D Gölge",
     tab_fx_gloss: "✨ 3D Parlaklık / Cila",
+    tab_fx_filter: "🧪 Filtre (Opaklık/Bulanıklık/Keskinlik)",
+    lbl_layer_opacity: "Opaklık",
+    lbl_layer_blur: "Bulanıklık",
+    lbl_layer_sharpen: "Keskinleştirme",
     lbl_solid: "Tek Renk",
     lbl_gradient: "Gradyan",
     lbl_grad_c1: "Başlangıç Rengi",
@@ -1610,6 +1695,8 @@ function setLanguage(lang) {
     localStorage.setItem('imp_language', lang);
   } catch (e) {}
 
+  trackEvent('change_language', { language: lang });
+
   // すべての言語セレクターの値を同期
   const selectors = document.querySelectorAll('.lang-selector');
   selectors.forEach(sel => {
@@ -1668,6 +1755,7 @@ function closeOpeningScreen() {
   openingScreen.classList.add('hidden');
   const welcomeMsg = currentLanguage === 'ja' ? "🚀 IMP (Icon Maker Pro) へようこそ！" : "🚀 Welcome to IMP (Icon Maker Pro)!";
   showToast(welcomeMsg);
+  trackEvent('app_start', { language: currentLanguage });
 }
 
 if (openingScreen) {
@@ -1716,6 +1804,7 @@ let lastScreenBeforeInfo = 'opening';
 
 function openInformationPage(fromScreen = 'opening') {
   lastScreenBeforeInfo = fromScreen;
+  trackEvent('view_information', { from: fromScreen });
   const infoPage = document.getElementById('informationPage');
   if (infoPage) {
     infoPage.style.display = 'flex';
@@ -1834,6 +1923,7 @@ const canvasMode = document.getElementById('canvasMode');
 const uploadMode = document.getElementById('uploadMode');
 
 function setMode(mode) {
+  trackEvent('switch_mode', { mode: mode });
   if (mode === 'canvas') {
     tabCanvas.classList.add('active');
     tabUpload.classList.remove('active');
@@ -2009,6 +2099,14 @@ const glossType = document.getElementById('glossType');
 const glossIntensity = document.getElementById('glossIntensity');
 const glossIntensityVal = document.getElementById('glossIntensityVal');
 
+// フィルター (透明度, ぼかし, 尖鋭化)
+const layerOpacity = document.getElementById('layerOpacity');
+const layerOpacityVal = document.getElementById('layerOpacityVal');
+const layerBlur = document.getElementById('layerBlur');
+const layerBlurVal = document.getElementById('layerBlurVal');
+const layerSharpen = document.getElementById('layerSharpen');
+const layerSharpenVal = document.getElementById('layerSharpenVal');
+
 // エフェクトタブ切り替え制御
 fxTabBtns.forEach(btn => {
   btn.addEventListener('click', () => {
@@ -2134,6 +2232,26 @@ if (glossEnable) {
   glossEnable.addEventListener('change', onEffectParamChange);
 }
 
+// フィルター (透明度・ぼかし・尖鋭化) スライダーイベント
+if (layerOpacity) {
+  layerOpacity.addEventListener('input', () => {
+    if (layerOpacityVal) layerOpacityVal.textContent = layerOpacity.value;
+    onEffectParamChange();
+  });
+}
+if (layerBlur) {
+  layerBlur.addEventListener('input', () => {
+    if (layerBlurVal) layerBlurVal.textContent = layerBlur.value;
+    onEffectParamChange();
+  });
+}
+if (layerSharpen) {
+  layerSharpen.addEventListener('input', () => {
+    if (layerSharpenVal) layerSharpenVal.textContent = layerSharpen.value;
+    onEffectParamChange();
+  });
+}
+
 // 現在のエフェクト設定オブジェクトを取得
 function getCurrentEffectSettings() {
   const isGrad = fillModeGradient && fillModeGradient.checked;
@@ -2153,6 +2271,10 @@ function getCurrentEffectSettings() {
     glossEnable: glossEnable ? glossEnable.checked : false,
     glossType: glossType ? glossType.value : 'top',
     glossIntensity: glossIntensity ? parseInt(glossIntensity.value) : 50,
+    // フィルター (透明度, ぼかし, 尖鋭化)
+    opacity: layerOpacity ? parseInt(layerOpacity.value) : 100,
+    blur: layerBlur ? parseFloat(layerBlur.value) : 0,
+    sharpen: layerSharpen ? parseInt(layerSharpen.value) : 0,
   };
 }
 
@@ -2221,6 +2343,23 @@ function syncEffectControlsWithObject(o) {
     glossIntensity.value = o.glossIntensity;
     if (glossIntensityVal) glossIntensityVal.textContent = o.glossIntensity;
   }
+
+  // フィルター (透明度, ぼかし, 尖鋭化)
+  if (layerOpacity) {
+    const op = (o.opacity != null) ? o.opacity : 100;
+    layerOpacity.value = op;
+    if (layerOpacityVal) layerOpacityVal.textContent = op;
+  }
+  if (layerBlur) {
+    const bl = (o.blur != null) ? o.blur : 0;
+    layerBlur.value = bl;
+    if (layerBlurVal) layerBlurVal.textContent = bl;
+  }
+  if (layerSharpen) {
+    const sh = (o.sharpen != null) ? o.sharpen : 0;
+    layerSharpen.value = sh;
+    if (layerSharpenVal) layerSharpenVal.textContent = sh;
+  }
 }
 
 const selectTransformBtn = document.getElementById('selectTransformBtn');
@@ -2241,6 +2380,31 @@ if (selectTransformBtn) {
       selectedObject = null;
       redraw();
     }
+  });
+}
+
+// ↷90度回転ボタン（選択中または最前面のオブジェクトを時計回りに90度回転）
+const rotate90Btn = document.getElementById('rotate90Btn');
+if (rotate90Btn) {
+  rotate90Btn.addEventListener('click', () => {
+    // 選択中オブジェクトがなければ最前面のオブジェクトを自動選択
+    if (!selectedObject && objects.length > 0) {
+      selectedObject = objects[objects.length - 1];
+      isSelectModeActive = true;
+      if (selectTransformBtn) selectTransformBtn.classList.add('active');
+      syncEffectControlsWithObject(selectedObject);
+    }
+
+    if (!selectedObject) {
+      showToast("⚠️ 回転するレイヤーがありません（キャンバスに描画してください）");
+      return;
+    }
+
+    saveState();
+    selectedObject.rotation = ((selectedObject.rotation || 0) + 90) % 360;
+    redraw();
+    const rotDeg = selectedObject.rotation;
+    showToast(`↷ 90°回転しました（現在: ${rotDeg}°）`);
   });
 }
 
@@ -2298,7 +2462,7 @@ function getPos(e, targetCanvas) {
 // ==========================================
 // レイヤー変形・ハンドル・ピンチ操作の状態管理
 // ==========================================
-let activeHandle = null;         // 'tl', 'tc', 'tr', 'ml', 'mr', 'bl', 'bc', 'br'
+let activeHandle = null;         // 'tl', 'tc', 'tr', 'ml', 'mr', 'bl', 'bc', 'br', 'rotate'
 let isDraggingObject = false;    // 選択オブジェクト自体の移動中か
 let isPinching = false;          // 2本指ピンチ操作中か
 let initialPinchDist = 0;
@@ -2306,6 +2470,35 @@ let initialPinchMidX = 0;
 let initialPinchMidY = 0;
 let transformInitialBounds = null;
 let transformSnapshot = null;
+
+// 四隅の「↺」回転ドラッグ操作用ステート
+let rotateCenter = null;         // 回転の中心座標 { x, y }
+let rotateStartAngle = 0;        // ドラッグ開始時のマウス絶対角度 (rad)
+let rotateInitialAngle = 0;      // ドラッグ開始時のオブジェクト角度 (deg)
+
+// 座標逆回転変換（キャンバス絶対座標 -> オブジェクト中心を軸としたローカル座標）
+function toLocalPoint(pt, cx, cy, rotDeg) {
+  if (!rotDeg) return { x: pt.x, y: pt.y };
+  const rad = (-rotDeg * Math.PI) / 180;
+  const dx = pt.x - cx;
+  const dy = pt.y - cy;
+  return {
+    x: cx + dx * Math.cos(rad) - dy * Math.sin(rad),
+    y: cy + dx * Math.sin(rad) + dy * Math.cos(rad)
+  };
+}
+
+// 座標順回転変換（ローカル座標 -> キャンバス絶対座標）
+function toGlobalPoint(pt, cx, cy, rotDeg) {
+  if (!rotDeg) return { x: pt.x, y: pt.y };
+  const rad = (rotDeg * Math.PI) / 180;
+  const dx = pt.x - cx;
+  const dy = pt.y - cy;
+  return {
+    x: cx + dx * Math.cos(rad) - dy * Math.sin(rad),
+    y: cy + dx * Math.sin(rad) + dy * Math.cos(rad)
+  };
+}
 
 function cloneObject(obj) {
   if (!obj) return null;
@@ -2390,6 +2583,30 @@ function getHandlePositions(b) {
     bc: { x: b.x + b.w / 2, y: b.y + b.h },
     br: { x: b.x + b.w, y: b.y + b.h }
   };
+}
+
+// 四隅の「↺」回転ハンドル位置（四隅の角から斜め外側に16pxオフセット）
+function getRotateHandlePositions(b) {
+  if (!b) return {};
+  const offset = 16;
+  return {
+    rot_tl: { x: b.x - offset, y: b.y - offset },
+    rot_tr: { x: b.x + b.w + offset, y: b.y - offset },
+    rot_bl: { x: b.x - offset, y: b.y + b.h + offset },
+    rot_br: { x: b.x + b.w + offset, y: b.y + b.h + offset }
+  };
+}
+
+// 四隅回転ハンドルの当たり判定
+function findRotateHandleAt(localPos, b, hitRadius = 14) {
+  if (!b) return null;
+  const rotHandles = getRotateHandlePositions(b);
+  for (const [key, pt] of Object.entries(rotHandles)) {
+    if (Math.hypot(localPos.x - pt.x, localPos.y - pt.y) <= hitRadius) {
+      return key;
+    }
+  }
+  return null;
 }
 
 // ハンドル判定（スマホは当たり判定を広めに確保）
@@ -2490,19 +2707,30 @@ function applyBoundsToObject(target, oldB, newB) {
   }
 }
 
-// 選択枠 & 8つのリサイズハンドル描画
+// 選択枠 & 8つのリサイズハンドル & 四隅の「↺」回転ハンドル描画
 function drawSelectionBox(ctx, obj) {
   const b = getObjectBounds(obj);
   if (!b) return;
 
+  const cx = b.x + b.w / 2;
+  const cy = b.y + b.h / 2;
+  const rot = obj.rotation || 0;
+
   ctx.save();
-  // 外枠（ネオンピンク破線）
+  // オブジェクトの回転に合わせて選択枠全体を中心基準で回転
+  if (rot) {
+    ctx.translate(cx, cy);
+    ctx.rotate((rot * Math.PI) / 180);
+    ctx.translate(-cx, -cy);
+  }
+
+  // 1. 外枠（ネオンピンク破線）
   ctx.strokeStyle = '#FF4BD8';
   ctx.lineWidth = 1.5;
   ctx.setLineDash([4, 4]);
   ctx.strokeRect(b.x - 0.5, b.y - 0.5, b.w + 1, b.h + 1);
 
-  // 8つのつまみハンドル（4角 ＋ 4辺の中央）
+  // 2. 8つのつまみハンドル（4角 ＋ 4辺の中央）
   ctx.setLineDash([]);
   const handles = getHandlePositions(b);
   for (const [key, pt] of Object.entries(handles)) {
@@ -2515,12 +2743,58 @@ function drawSelectionBox(ctx, obj) {
     ctx.stroke();
   }
 
-  // 描写の正確なpixelサイズバッジ描画
+  // 3. 四隅の「↺」回転ハンドル（各角から外側に16pxオフセット）
+  const rotHandles = getRotateHandlePositions(b);
+  const cornerMap = {
+    rot_tl: { x: b.x, y: b.y },
+    rot_tr: { x: b.x + b.w, y: b.y },
+    rot_bl: { x: b.x, y: b.y + b.h },
+    rot_br: { x: b.x + b.w, y: b.y + b.h }
+  };
+
+  for (const [key, pt] of Object.entries(rotHandles)) {
+    const corner = cornerMap[key];
+
+    // 角から回転ハンドルへの細い接続ライン
+    ctx.strokeStyle = 'rgba(75, 239, 255, 0.45)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(corner.x, corner.y);
+    ctx.lineTo(pt.x, pt.y);
+    ctx.stroke();
+
+    // 回転ハンドルの円（サイバーシアン枠＋ダーク背景）
+    ctx.save();
+    ctx.shadowColor = 'rgba(75, 239, 255, 0.7)';
+    ctx.shadowBlur = 6;
+    ctx.beginPath();
+    ctx.arc(pt.x, pt.y, 8.5, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(10, 15, 31, 0.95)';
+    ctx.fill();
+    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = '#4BEFFF';
+    ctx.stroke();
+    ctx.restore();
+
+    // 円の中心に「↺」マーク
+    ctx.save();
+    ctx.font = 'bold 11px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#4BEFFF';
+    ctx.fillText('↺', pt.x, pt.y + 0.5);
+    ctx.restore();
+  }
+
+  // 4. 描写の正確なpixelサイズ & 回転角度バッジ描画
   const w = Math.round(b.w);
   const h = Math.round(b.h);
   let sizeText = `${w} × ${h} px`;
   if (obj.type === 'circle' || obj.type === 'circleFill') {
     sizeText = `R:${obj.r}px (${w}×${h})`;
+  }
+  if (rot) {
+    sizeText += ` (${rot}°)`;
   }
 
   ctx.font = 'bold 11px monospace';
@@ -2528,7 +2802,7 @@ function drawSelectionBox(ctx, obj) {
   const badgeW = Math.round(textMetrics.width) + 14;
   const badgeH = 18;
   const badgeX = Math.round(b.x + (b.w - badgeW) / 2);
-  const badgeY = b.y > 24 ? Math.round(b.y - badgeH - 6) : Math.round(b.y + b.h + 6);
+  const badgeY = b.y > 28 ? Math.round(b.y - badgeH - 8) : Math.round(b.y + b.h + 8);
 
   // 背景バッジ（ダーク半透明＋ピンクボーダー）
   ctx.fillStyle = 'rgba(10, 15, 31, 0.9)';
@@ -2545,6 +2819,7 @@ function drawSelectionBox(ctx, obj) {
 
   // サイズテキスト（白＋ピンクシャドウ）
   ctx.fillStyle = '#FFFFFF';
+  ctx.textAlign = 'left';
   ctx.textBaseline = 'middle';
   ctx.shadowColor = 'rgba(255, 75, 216, 0.6)';
   ctx.shadowBlur = 4;
@@ -2792,17 +3067,32 @@ canvas.addEventListener('mousemove', (e) => {
   if (selectedObject) {
     const pos = getPos(e, canvas);
     const bounds = getObjectBounds(selectedObject);
-    const handle = findHandleAt(pos, bounds, 10);
-    if (handle) {
-      const cursors = {
-        tl: 'nwse-resize', tr: 'nesw-resize', br: 'nwse-resize', bl: 'nesw-resize',
-        tc: 'ns-resize', bc: 'ns-resize', ml: 'ew-resize', mr: 'ew-resize'
-      };
-      canvas.style.cursor = cursors[handle] || 'pointer';
-      return;
-    } else if (isPointInBounds(pos, bounds)) {
-      canvas.style.cursor = 'move';
-      return;
+    if (bounds) {
+      const cx = bounds.x + bounds.w / 2;
+      const cy = bounds.y + bounds.h / 2;
+      const rot = selectedObject.rotation || 0;
+      const localPos = toLocalPoint(pos, cx, cy, rot);
+
+      // 四隅の「↺」回転ハンドル
+      const rotHandle = findRotateHandleAt(localPos, bounds, 12);
+      if (rotHandle) {
+        canvas.style.cursor = 'grab';
+        return;
+      }
+
+      // 8つのリサイズハンドル
+      const handle = findHandleAt(localPos, bounds, 10);
+      if (handle) {
+        const cursors = {
+          tl: 'nwse-resize', tr: 'nesw-resize', br: 'nwse-resize', bl: 'nesw-resize',
+          tc: 'ns-resize', bc: 'ns-resize', ml: 'ew-resize', mr: 'ew-resize'
+        };
+        canvas.style.cursor = cursors[handle] || 'pointer';
+        return;
+      } else if (isPointInBounds(localPos, bounds)) {
+        canvas.style.cursor = 'move';
+        return;
+      }
     }
   }
   canvas.style.cursor = isSelectModeActive ? 'default' : 'crosshair';
@@ -2867,24 +3157,54 @@ function startDraw(e) {
     currentDragPos = null;
   }
 
-  // 2. 選択中オブジェクトのハンドル（角・中心）をつまんで拡大縮小
+  // 2. 選択中オブジェクトのハンドルやつまみ操作
   if (selectedObject) {
     const bounds = getObjectBounds(selectedObject);
-    const hitHandle = findHandleAt(pos, bounds, isTouch ? 18 : 10);
-    if (hitHandle) {
-      activeHandle = hitHandle;
-      transformInitialBounds = bounds;
-      transformSnapshot = cloneObject(selectedObject);
-      currentDragPos = null;
-      return;
+    if (bounds) {
+      const cx = bounds.x + bounds.w / 2;
+      const cy = bounds.y + bounds.h / 2;
+      const rot = selectedObject.rotation || 0;
+      const localPos = toLocalPoint(pos, cx, cy, rot);
+
+      // A. 四隅の「↺」回転ハンドルがタップされたか
+      const rotHit = findRotateHandleAt(localPos, bounds, isTouch ? 22 : 14);
+      if (rotHit) {
+        activeHandle = 'rotate';
+        rotateCenter = { x: cx, y: cy };
+        rotateStartAngle = Math.atan2(pos.y - cy, pos.x - cx);
+        rotateInitialAngle = rot;
+        transformSnapshot = cloneObject(selectedObject);
+        currentDragPos = null;
+        drawing = true;
+        return;
+      }
+
+      // B. 8つのリサイズハンドルがタップされたか
+      const hitHandle = findHandleAt(localPos, bounds, isTouch ? 18 : 10);
+      if (hitHandle) {
+        activeHandle = hitHandle;
+        transformInitialBounds = bounds;
+        transformSnapshot = cloneObject(selectedObject);
+        currentDragPos = null;
+        drawing = true;
+        return;
+      }
     }
   }
 
   // 3. 選択・変形・移動モード（またはボタンON時）
   if (isSelectModeActive || tool === 'select') {
-    if (selectedObject && isPointInBounds(pos, getObjectBounds(selectedObject))) {
-      isDraggingObject = true;
-      return;
+    if (selectedObject) {
+      const b = getObjectBounds(selectedObject);
+      if (b) {
+        const cx = b.x + b.w / 2;
+        const cy = b.y + b.h / 2;
+        const localPos = toLocalPoint(pos, cx, cy, selectedObject.rotation || 0);
+        if (isPointInBounds(localPos, b)) {
+          isDraggingObject = true;
+          return;
+        }
+      }
     }
 
     const hitObj = findObjectAt(pos.x, pos.y);
@@ -2957,10 +3277,12 @@ function startDraw(e) {
   // 消しゴムツール
   if (tool === 'eraser') {
     saveState();
+    const eff = getCurrentEffectSettings();
     objects.push({
       type: "eraser",
       size: parseInt(penSizeInput.value) || 8,
-      points: [{ x: startX, y: startY }]
+      points: [{ x: startX, y: startY }],
+      ...eff
     });
   }
 }
@@ -3003,10 +3325,36 @@ function draw(e) {
   if (!drawing) return;
   const pos = getPos(e, canvas);
 
-  // 2. ハンドルをつまんで変形
-  if (activeHandle && selectedObject && transformInitialBounds) {
-    const dx = pos.x - startX;
-    const dy = pos.y - startY;
+  // 2. 四隅「↺」回転ハンドルのドラッグ回転操作
+  if (activeHandle === 'rotate' && selectedObject && rotateCenter) {
+    const currentAngle = Math.atan2(pos.y - rotateCenter.y, pos.x - rotateCenter.x);
+    const deltaDeg = ((currentAngle - rotateStartAngle) * 180) / Math.PI;
+    let newDeg = Math.round(rotateInitialAngle + deltaDeg);
+
+    // Shiftキー押下時は15度刻みスナップ
+    if (e.shiftKey) {
+      newDeg = Math.round(newDeg / 15) * 15;
+    }
+
+    newDeg = ((newDeg % 360) + 360) % 360;
+    selectedObject.rotation = newDeg;
+    redraw();
+    return;
+  }
+
+  // 3. 8つのハンドルをつまんで変形（回転角を考慮して変位を逆回転変換）
+  if (activeHandle && activeHandle !== 'rotate' && selectedObject && transformInitialBounds) {
+    let dx = pos.x - startX;
+    let dy = pos.y - startY;
+
+    if (selectedObject.rotation) {
+      const rad = (-selectedObject.rotation * Math.PI) / 180;
+      const rx = dx * Math.cos(rad) - dy * Math.sin(rad);
+      const ry = dx * Math.sin(rad) + dy * Math.cos(rad);
+      dx = rx;
+      dy = ry;
+    }
+
     const newBounds = calculateNewBounds(transformInitialBounds, activeHandle, dx, dy);
 
     Object.assign(selectedObject, cloneObject(transformSnapshot));
@@ -3015,7 +3363,7 @@ function draw(e) {
     return;
   }
 
-  // 3. オブジェクト移動
+  // 4. オブジェクト移動
   if (isDraggingObject && selectedObject) {
     const dx = pos.x - startX;
     const dy = pos.y - startY;
@@ -3026,7 +3374,7 @@ function draw(e) {
     return;
   }
 
-  // 4. ペン・消しゴム
+  // 5. ペン・消しゴム
   const tool = toolSelect.value;
   if (tool === 'pen' || tool === 'eraser') {
     const currentObj = objects[objects.length - 1];
@@ -3036,7 +3384,7 @@ function draw(e) {
     }
   }
 
-  // 5. 直線・四角・円のリアルタイム・ガイド予定枠プレビュー（変形中・移動中・オブジェクト選択中は非表示）
+  // 6. 直線・四角・円のリアルタイム・ガイド予定枠プレビュー（変形中・移動中・オブジェクト選択中は非表示）
   if (!activeHandle && !isDraggingObject && !selectedObject && ['line', 'rect', 'rectFill', 'circle', 'circleFill'].includes(tool)) {
     currentDragPos = pos;
     redraw();
@@ -3048,6 +3396,17 @@ function endDraw(e) {
     isPinching = false;
     transformInitialBounds = null;
     transformSnapshot = null;
+    saveState();
+    redraw();
+    return;
+  }
+
+  if (activeHandle === 'rotate') {
+    activeHandle = null;
+    rotateCenter = null;
+    transformSnapshot = null;
+    currentDragPos = null;
+    drawing = false;
     saveState();
     redraw();
     return;
@@ -3155,12 +3514,16 @@ function moveObject(o, dx, dy) {
   }
 }
 
-// オブジェクト判定
+// オブジェクト判定（回転角度を考慮）
 function findObjectAt(x, y) {
   for (let i = objects.length - 1; i >= 0; i--) {
     const o = objects[i];
     const b = getObjectBounds(o);
-    if (b && isPointInBounds({ x, y }, b)) {
+    if (!b) continue;
+    const cx = b.x + b.w / 2;
+    const cy = b.y + b.h / 2;
+    const localPos = toLocalPoint({ x, y }, cx, cy, o.rotation || 0);
+    if (isPointInBounds(localPos, b)) {
       return o;
     }
   }
@@ -3440,6 +3803,34 @@ function renderGlossEffect(ctx, o, b, fillOrStroke) {
   ctx.restore();
 }
 
+// レイヤー個別フィルター（透明度、ぼかし、尖鋭化）をコンテキストに適用
+function applyFiltersToCtx(ctx, o) {
+  // 1. 透明度 (不透明度)
+  const op = (o.opacity != null ? o.opacity : 100) / 100;
+  ctx.globalAlpha = Math.max(0, Math.min(1, op));
+
+  // 2. ぼかし (Blur) & 3. 尖鋭化 (アンシャープ / Sharpen)
+  const filterList = [];
+
+  if (o.blur && o.blur > 0) {
+    filterList.push(`blur(${o.blur}px)`);
+  }
+
+  if (o.sharpen && o.sharpen > 0) {
+    // 尖鋭化（コントラストと輪郭のエッジのキリッとした引き締め）
+    const contrastVal = 100 + o.sharpen * 0.9;
+    const brightnessVal = 100 + o.sharpen * 0.05;
+    const saturateVal = 100 + o.sharpen * 0.1;
+    filterList.push(`contrast(${contrastVal}%) brightness(${brightnessVal}%) saturate(${saturateVal}%)`);
+  }
+
+  if (filterList.length > 0) {
+    ctx.filter = filterList.join(' ');
+  } else {
+    ctx.filter = 'none';
+  }
+}
+
 // 再描画
 function redraw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -3448,6 +3839,17 @@ function redraw() {
     // 消しゴム（透明化）
     if (o.type === 'eraser' && o.points && o.points.length > 0) {
       ctx.save();
+      if (o.rotation) {
+        const eb = getObjectBounds(o);
+        if (eb) {
+          const cx = eb.x + eb.w / 2;
+          const cy = eb.y + eb.h / 2;
+          ctx.translate(cx, cy);
+          ctx.rotate((o.rotation * Math.PI) / 180);
+          ctx.translate(-cx, -cy);
+        }
+      }
+      applyFiltersToCtx(ctx, o);
       ctx.globalCompositeOperation = 'destination-out';
       ctx.strokeStyle = 'rgba(0,0,0,1)';
       ctx.fillStyle = 'rgba(0,0,0,1)';
@@ -3472,6 +3874,14 @@ function redraw() {
     const b = getObjectBounds(o);
 
     ctx.save();
+    if (o.rotation && b) {
+      const cx = b.x + b.w / 2;
+      const cy = b.y + b.h / 2;
+      ctx.translate(cx, cy);
+      ctx.rotate((o.rotation * Math.PI) / 180);
+      ctx.translate(-cx, -cy);
+    }
+    applyFiltersToCtx(ctx, o);
     applyShadowToCtx(ctx, o);
 
     const fillOrStroke = getCanvasFillOrStroke(ctx, o, b, o.color || '#4BEFFF');
@@ -3565,7 +3975,8 @@ function redraw() {
     if (selectedObject) {
       const sb = getObjectBounds(selectedObject);
       if (sb) {
-        canvasInfoEl.textContent = `選択サイズ: ${Math.round(sb.w)} × ${Math.round(sb.h)} px (X:${Math.round(sb.x)}, Y:${Math.round(sb.y)})`;
+        const rotStr = selectedObject.rotation ? ` 角度: ${selectedObject.rotation}°` : '';
+        canvasInfoEl.textContent = `選択サイズ: ${Math.round(sb.w)} × ${Math.round(sb.h)} px (X:${Math.round(sb.x)}, Y:${Math.round(sb.y)})${rotStr}`;
         canvasInfoEl.style.color = 'var(--accent-cyan)';
       }
     } else {
@@ -3623,7 +4034,15 @@ function updateLayerPanel() {
     textSpan.style.overflow = "hidden";
     textSpan.style.textOverflow = "ellipsis";
     textSpan.style.whiteSpace = "nowrap";
-    textSpan.textContent = `#${index + 1} ${label}`;
+
+    let fxBadge = "";
+    if (obj.opacity != null && obj.opacity < 100) fxBadge += ` ${obj.opacity}%`;
+    if (obj.blur && obj.blur > 0) fxBadge += ` ぼかし:${obj.blur}px`;
+    if (obj.sharpen && obj.sharpen > 0) fxBadge += ` 尖鋭:${obj.sharpen}%`;
+    if (obj.rotation) fxBadge += ` ↷${obj.rotation}°`;
+
+    textSpan.textContent = `#${index + 1} ${label}` + (fxBadge ? ` (${fxBadge.trim()})` : "");
+    if (fxBadge) textSpan.title = fxBadge.trim();
 
     // レイヤー削除ボタン (☒)
     const deleteBtn = document.createElement('button');
@@ -3723,6 +4142,8 @@ function processImageFile(file) {
     alert('画像ファイルを選択してください');
     return;
   }
+
+  trackEvent('upload_image', { file_type: file.type });
 
   const reader = new FileReader();
   reader.onload = function(event) {
@@ -3857,6 +4278,34 @@ document.querySelectorAll('.sample-icon-card').forEach(card => {
   });
 });
 
+// アップロード画像の90度回転ボタン
+const uploadRotate90Btn = document.getElementById('uploadRotate90Btn');
+if (uploadRotate90Btn) {
+  uploadRotate90Btn.addEventListener('click', () => {
+    if (!currentUploadedImage) {
+      showToast('⚠️ 回転する画像がありません。画像を先に選択してください。');
+      return;
+    }
+
+    // オフスクリーンキャンバスで画像を時計回りに90度回転
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = currentUploadedImage.height;
+    tempCanvas.height = currentUploadedImage.width;
+    const tempCtx = tempCanvas.getContext('2d');
+    tempCtx.translate(tempCanvas.width / 2, tempCanvas.height / 2);
+    tempCtx.rotate(Math.PI / 2);
+    tempCtx.drawImage(currentUploadedImage, -currentUploadedImage.width / 2, -currentUploadedImage.height / 2);
+
+    const rotatedImg = new Image();
+    rotatedImg.onload = () => {
+      currentUploadedImage = rotatedImg;
+      renderUploadPreview();
+      showToast('↷ 画像を90°回転しました！');
+    };
+    rotatedImg.src = tempCanvas.toDataURL();
+  });
+}
+
 // アップロード画像をキャンバスレイヤーとして転送
 sendToCanvasBtn.addEventListener('click', () => {
   if (!currentUploadedImage) {
@@ -3868,6 +4317,7 @@ sendToCanvasBtn.addEventListener('click', () => {
   const img = new Image();
   img.onload = () => {
     saveState();
+    const eff = getCurrentEffectSettings();
     objects.push({
       type: "image",
       imgElement: img,
@@ -3875,7 +4325,8 @@ sendToCanvasBtn.addEventListener('click', () => {
       x: 0,
       y: 0,
       w: 256,
-      h: 256
+      h: 256,
+      ...eff
     });
     setMode('canvas');
     redraw();
@@ -4150,55 +4601,96 @@ async function saveAllInZip(sourceCanvas, isModeA = true) {
 // 各種ダウンロードボタンのイベント割り当て
 // ------------------------------------------
 
+// キャンバス保存時に選択枠や回転ハンドルを除外してクリーンに保存するヘルパー
+function withCleanCanvasExport(action) {
+  const prevSelected = selectedObject;
+  if (prevSelected) {
+    selectedObject = null;
+    redraw();
+  }
+  try {
+    action();
+  } finally {
+    if (prevSelected) {
+      selectedObject = prevSelected;
+      redraw();
+    }
+  }
+}
+
 // Mode A (キャンバス)
 document.getElementById('downloadIosA').addEventListener('click', () => {
-  const fill = document.getElementById('fillBgForIosA').checked ? "#ffffff" : null;
-  saveCanvasAsPNG(canvas, 'apple-touch-icon.png', 180, fill);
+  trackEvent('export_icon', { platform: 'ios', mode: 'canvas' });
+  withCleanCanvasExport(() => {
+    const fill = document.getElementById('fillBgForIosA').checked ? "#ffffff" : null;
+    saveCanvasAsPNG(canvas, 'apple-touch-icon.png', 180, fill);
+  });
 });
 
 document.getElementById('downloadAndroid192A').addEventListener('click', () => {
-  saveCanvasAsPNG(canvas, 'android-chrome-192x192.png', 192);
+  trackEvent('export_icon', { platform: 'android_192', mode: 'canvas' });
+  withCleanCanvasExport(() => {
+    saveCanvasAsPNG(canvas, 'android-chrome-192x192.png', 192);
+  });
 });
 
 document.getElementById('downloadAndroid512A').addEventListener('click', () => {
-  saveCanvasAsPNG(canvas, 'android-chrome-512x512.png', 512);
+  trackEvent('export_icon', { platform: 'android_512', mode: 'canvas' });
+  withCleanCanvasExport(() => {
+    saveCanvasAsPNG(canvas, 'android-chrome-512x512.png', 512);
+  });
 });
 
 document.getElementById('downloadIcoA').addEventListener('click', () => {
-  saveICO(canvas, 'favicon.ico');
+  trackEvent('export_icon', { platform: 'ico', mode: 'canvas' });
+  withCleanCanvasExport(() => {
+    saveICO(canvas, 'favicon.ico');
+  });
 });
 
 document.getElementById('downloadPngA').addEventListener('click', () => {
-  saveCanvasAsPNG(canvas, 'imp_canvas.png', 256);
+  trackEvent('export_icon', { platform: 'png', mode: 'canvas' });
+  withCleanCanvasExport(() => {
+    saveCanvasAsPNG(canvas, 'imp_canvas.png', 256);
+  });
 });
 
 document.getElementById('downloadZipA').addEventListener('click', () => {
-  saveAllInZip(canvas, true);
+  trackEvent('export_icon', { platform: 'zip_all', mode: 'canvas' });
+  withCleanCanvasExport(() => {
+    saveAllInZip(canvas, true);
+  });
 });
 
 // Mode B (画像アップロード)
 document.getElementById('downloadIosB').addEventListener('click', () => {
+  trackEvent('export_icon', { platform: 'ios', mode: 'upload' });
   const fill = document.getElementById('fillBgForIosB').checked ? "#ffffff" : null;
   saveCanvasAsPNG(previewCanvas, 'apple-touch-icon.png', 180, fill);
 });
 
 document.getElementById('downloadAndroid192B').addEventListener('click', () => {
+  trackEvent('export_icon', { platform: 'android_192', mode: 'upload' });
   saveCanvasAsPNG(previewCanvas, 'android-chrome-192x192.png', 192);
 });
 
 document.getElementById('downloadAndroid512B').addEventListener('click', () => {
+  trackEvent('export_icon', { platform: 'android_512', mode: 'upload' });
   saveCanvasAsPNG(previewCanvas, 'android-chrome-512x512.png', 512);
 });
 
 document.getElementById('downloadIcoB').addEventListener('click', () => {
+  trackEvent('export_icon', { platform: 'ico', mode: 'upload' });
   saveICO(previewCanvas, 'favicon.ico');
 });
 
 document.getElementById('downloadPngB').addEventListener('click', () => {
+  trackEvent('export_icon', { platform: 'png', mode: 'upload' });
   saveCanvasAsPNG(previewCanvas, 'imp_image.png', 256);
 });
 
 document.getElementById('downloadZipB').addEventListener('click', () => {
+  trackEvent('export_icon', { platform: 'zip_all', mode: 'upload' });
   saveAllInZip(previewCanvas, false);
 });
 
@@ -4209,6 +4701,7 @@ const copySnippetBtn = document.getElementById('copySnippetBtn');
 const snippetCode = document.getElementById('snippetCode');
 
 copySnippetBtn.addEventListener('click', () => {
+  trackEvent('copy_html_code');
   const text = snippetCode.innerText;
   const dict = i18nData[currentLanguage] || i18nData.ja;
   navigator.clipboard.writeText(text).then(() => {
@@ -4266,7 +4759,7 @@ function registerServiceWorker() {
     // 起動時に更新後ポップアップを表示判定
     checkShowUpdatedPopup();
 
-    navigator.serviceWorker.register('./sw.js?v=1.0.12')
+    navigator.serviceWorker.register('./sw.js?v=1.0.13')
       .then((reg) => {
         swRegistration = reg;
 
