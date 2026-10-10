@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>IMP – Icon Maker Pro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0A0F1F">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="IMP">
+  <meta name="application-name" content="IMP">
+  <!-- PWA & Mobile Icons (Android / Chrome / iPhone) -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="IMP_192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="IMP_512.png">
+  <link rel="stylesheet" href="style.css">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=M+PLUS+Rounded+1c:wght@700;800&family=Noto+Serif+JP:wght@600;700&family=Outfit:wght@400;600;700;900&family=Noto+Sans+JP:wght@400;500;700;900&family=Yuji+Mai&family=Yuji+Boku&display=block" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- ===================================================
+     アプリ オープニング画面 (Opening Splash Screen)
+     =================================================== -->
+<div id="openingScreen" class="opening-screen">
+  <!-- 言語セレクター (オープニング画面右上) -->
+  <div class="opening-header-right" onclick="event.stopPropagation()">
+    <span style="font-size: 16px;">🌐</span>
+    <select class="lang-selector opening-lang-select" onchange="setLanguage(this.value)">
+      <option value="ja">🇯🇵 JP 日本語</option>
+      <option value="en">🇺🇸 EN English</option>
+      <option value="nl">🇳🇱 NL Nederlands</option>
+      <option value="pt">🇧🇷 PT Português</option>
+      <option value="es">🇪🇸 ES Español</option>
+      <option value="fr">🇫🇷 FR Français</option>
+      <option value="it">🇮🇹 IT Italiano</option>
+      <option value="de">🇩🇪 DE Deutsch</option>
+      <option value="uk">🇺🇦 UK Українська</option>
+      <option value="id">🇮🇩 ID Indonesia</option>
+      <option value="ko">🇰🇷 KO 한국어</option>
+      <option value="tr">🇹🇷 TR Türkçe</option>
+    </select>
+  </div>
+
+  <!-- サイバー背景エフェクト -->
+  <div class="opening-bg-grid"></div>
+  <div class="opening-bg-glow"></div>
+
+  <div class="opening-content">
+    <!-- 中央アニメーションロゴエリア -->
+    <div class="opening-logo-wrapper">
+      <div class="opening-title" id="openingTitle">
+        <span class="opening-word word-icon">
+          <span class="opening-letter lead-letter letter-i">I</span><span class="opening-rest rest-con">con</span>
+        </span>
+        <span class="opening-word word-maker">
+          <span class="opening-letter lead-letter letter-m">M</span><span class="opening-rest rest-maker">aker</span>
+        </span>
+        <span class="opening-word word-pro">
+          <span class="opening-letter lead-letter letter-p">P</span><span class="opening-rest rest-pro">ro</span>
+        </span>
+      </div>
+      <!-- サブタグライン（ゆっくり消えていく演出） -->
+      <p class="opening-tagline" id="openingTagline">HIGH QUALITY MULTI - PLATFORM ICON STUDIO</p>
+      <div class="opening-badge-tag" id="openingBadgeTag">PRO</div>
+    </div>
+
+    <!-- スタート案内（多言語化対応用テキスト） -->
+    <div class="opening-start-prompt" id="openingStartPrompt">
+      <span class="prompt-sub" id="promptText" data-i18n="prompt_start">キーを押すか、画面をクリック／タップして開始</span>
+    </div>
+
+    <!-- フッタークレジット -->
+    <footer class="opening-footer">
+      <div class="opening-producer">- produce by H.Fukazu -</div>
+      <div class="opening-info" id="openingInfoBtn" title="Information">- Information -</div>
+    </footer>
+  </div>
+</div>
+
+<header class="app-header">
+  <div class="header-top-bar">
+    <button id="headerBackToOpeningBtn" class="header-back-btn" onclick="backToOpeningScreen()" data-i18n="back_to_opening">← 起動画面に戻る</button>
+    <div class="mode-select-header-right">
+      <span style="font-size: 16px;">🌐</span>
+      <select class="lang-selector mode-lang-select header-lang-select" onchange="setLanguage(this.value)">
+        <option value="ja">🇯🇵 JP 日本語</option>
+        <option value="en">🇺🇸 EN English</option>
+        <option value="nl">🇳🇱 NL Nederlands</option>
+        <option value="pt">🇧🇷 PT Português</option>
+        <option value="es">🇪🇸 ES Español</option>
+        <option value="fr">🇫🇷 FR Français</option>
+        <option value="it">🇮🇹 IT Italiano</option>
+        <option value="de">🇩🇪 DE Deutsch</option>
+        <option value="uk">🇺🇦 UK Українська</option>
+        <option value="id">🇮🇩 ID Indonesia</option>
+        <option value="ko">🇰🇷 KO 한국어</option>
+        <option value="tr">🇹🇷 TR Türkçe</option>
+      </select>
+    </div>
+  </div>
+  <div class="logo-container">
+    <h1>IMP – Icon Maker <span class="logo-badge">Pro</span></h1>
+  </div>
+  <p class="app-subtitle" data-i18n="app_subtitle">iOS (iPhone) / Android (PWA) / Windows マルチ対応 アイコン作成ツール</p>
+</header>
+
+<!-- モード切替タブ -->
+<nav class="mode-tabs">
+  <button id="tabCanvas" class="tab-btn active" data-mode="canvas">
+    <span class="tab-icon">🎨</span> <span data-i18n="tab_canvas">A：キャンバスで描く</span>
+  </button>
+  <button id="tabUpload" class="tab-btn" data-mode="upload">
+    <span class="tab-icon">📁</span> <span data-i18n="tab_upload">B：画像をアップロードする</span>
+  </button>
+</nav>
+
+<!-- A：キャンバス描画モード -->
+<section id="canvasMode" class="mode-section neon-box canvas-mode-layout">
+  <!-- 描写枠エリア（縦画面では最上部、横長画面では左端） -->
+  <div class="canvas-stage-col">
+    <div id="canvasWrapper">
+      <div class="canvas-container">
+        <canvas id="canvas" width="256" height="256" class="checkerboard-bg"></canvas>
+        <div class="canvas-info" id="canvasInfo">256 × 256 px</div>
+      </div>
+      <div class="layer-panel-container">
+        <div id="layerPanel"></div>
+        <div class="panel-header">
+          <span data-i18n="layer_panel_title">レイヤー一覧</span>
+          <small data-i18n="layer_drag_hint">ドラッグで順序変更</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 各ツール・設定エリア（縦画面では下部、横長画面では右側） -->
+  <div class="canvas-tools-col">
+    <!-- ツールバー -->
+    <div class="toolbar-group">
+      <!-- ツール選択 -->
+      <div class="toolbar-item">
+        <label for="toolSelect" data-i18n="lbl_tool">ツール</label>
+        <select id="toolSelect">
+          <option value="pen" data-i18n="tool_pen">✏️ ペン</option>
+          <option value="eraser" data-i18n="tool_eraser">🧹 消しゴム</option>
+          <option value="line" data-i18n="tool_line">📏 直線</option>
+          <option value="rect" data-i18n="tool_rect">▢ 四角（枠）</option>
+          <option value="rectFill" data-i18n="tool_rect_fill">■ 四角（塗り）</option>
+          <option value="circle" data-i18n="tool_circle">◯ 円（枠）</option>
+          <option value="circleFill" data-i18n="tool_circle_fill">● 円（塗り）</option>
+          <option value="text" data-i18n="tool_text">🔤 テキスト</option>
+          <option value="fill" data-i18n="tool_fill">🪣 塗りつぶし</option>
+        </select>
+      </div>
+
+      <!-- 色選択 & スポイト -->
+      <div class="toolbar-item">
+        <label for="penColor" data-i18n="lbl_pen_color">描画色</label>
+        <div class="color-picker-wrap">
+          <input type="color" id="penColor" value="#4BEFFF" title="描画色 (#4BEFFF)">
+        </div>
+        <button type="button" id="eyedropperBtn" class="btn-eyedropper" title="スポイト（キャンバスから色を取得）">
+          <svg class="pipette-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m14 7 3 3"/>
+            <path d="m11 10-7.3 7.3a2 2 0 0 0 0 2.8l.1.1a2 2 0 0 0 2.8 0L14 13"/>
+            <path d="m17 7 2-2a2 2 0 0 0-2.8-2.8l-2 2"/>
+            <path d="m2 22 3-3"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- 太さ -->
+      <div class="toolbar-item">
+        <label for="penSize"><span data-i18n="lbl_pen_size">太さ</span>: <span id="penSizeValue">4</span>px</label>
+        <input type="range" id="penSize" min="1" max="64" value="4">
+      </div>
+
+      <!-- 文字サイズ（テキストツール時のみ） -->
+      <div id="fontSizeLabel" class="toolbar-item hidden">
+        <label for="fontSize" data-i18n="lbl_font_size">文字サイズ</label>
+        <input type="number" id="fontSize" min="8" max="128" value="32">
+      </div>
+
+      <!-- フォント選択（テキストツール時のみ） -->
+      <div id="fontSelectGroup" class="toolbar-item hidden">
+        <label for="fontFamilySelect" data-i18n="lbl_font_family">フォント</label>
+        <select id="fontFamilySelect">
+          <option value="'Outfit', 'Noto Sans JP', sans-serif" data-i18n="font_gothic">ゴシック (標準・モダン)</option>
+          <option value="'M PLUS Rounded 1c', sans-serif" data-i18n="font_round">丸ゴシック (ポップ・親しみ)</option>
+          <option value="'Noto Serif JP', serif" data-i18n="font_mincho">明朝体 (優雅・和風)</option>
+          <option value="'HG行書体', 'HGP行書体', 'HGS行書体', 'DF行書体', 'DFP行書体', 'Yuji Mai', 'Yuji Boku', cursive, serif" data-i18n="font_brush">行書体 (流麗・毛筆・和の美)</option>
+          <option value="'Impact', sans-serif" data-i18n="font_impact">インパクト (超太字・力強い)</option>
+          <option value="'Caveat', cursive" data-i18n="font_hand">手書き (スクリプト風)</option>
+          <option value="monospace" data-i18n="font_mono">等幅 (テック・コード風)</option>
+          <option value="'Georgia', serif" data-i18n="font_classic">クラシック (Georgia)</option>
+        </select>
+      </div>
+
+      <!-- 背景色 -->
+      <div class="toolbar-item">
+        <label for="canvasBgColor" data-i18n="lbl_canvas_bg">キャンバス背景</label>
+        <select id="canvasBgColor">
+          <option value="transparent" data-i18n="bg_transparent">透過（チェッカー）</option>
+          <option value="#000000" data-i18n="bg_black">黒 (#000000)</option>
+          <option value="#ffffff" data-i18n="bg_white">白 (#ffffff)</option>
+          <option value="#0a0f1f" data-i18n="bg_navy">テーマ紺 (#0A0F1F)</option>
+        </select>
+      </div>
+
+      <!-- 選択・変形ボタン（キャンバス背景の右横） -->
+      <div class="toolbar-item">
+        <button type="button" id="selectTransformBtn" class="btn-tool" title="レイヤーの選択・変形・移動モード" data-i18n="btn_select_transform">
+          ✋ 選択・変形
+        </button>
+      </div>
+
+      <!-- 履歴操作ボタン -->
+      <div class="toolbar-item history-buttons">
+        <button id="undoButton" class="btn-tool" title="元に戻す (Ctrl+Z)" disabled data-i18n="btn_undo">↩ 戻す</button>
+        <button id="redoButton" class="btn-tool" title="やり直す (Ctrl+Y)" disabled data-i18n="btn_redo">↪ やり直し</button>
+        <button id="clearCanvas" class="btn-tool btn-danger" title="キャンバスをクリア" data-i18n="btn_clear">🗑 クリア</button>
+      </div>
+    </div>
+
+    <!-- エフェクト設定パネル（グラデーション・立体 影・立体 艶） -->
+    <div class="effects-panel">
+      <div class="effects-tabs">
+        <button type="button" class="fx-tab-btn active" data-tab="fx-color" data-i18n="tab_fx_color">🎨 塗り形式 (単色/グラデ)</button>
+        <button type="button" class="fx-tab-btn" data-tab="fx-shadow" data-i18n="tab_fx_shadow">🌑 立体 影 (Shadow)</button>
+        <button type="button" class="fx-tab-btn" data-tab="fx-gloss" data-i18n="tab_fx_gloss">✨ 立体 艶 (Gloss/光沢)</button>
+      </div>
+
+      <!-- 1. 塗り・グラデーション設定 -->
+      <div id="fx-color" class="fx-tab-content active">
+        <div class="fx-row">
+          <div class="fx-item fx-mode-toggle">
+            <label class="fx-radio-label">
+              <input type="radio" name="fillMode" value="solid" id="fillModeSolid" checked>
+              <span data-i18n="lbl_solid">単色</span>
+            </label>
+            <label class="fx-radio-label">
+              <input type="radio" name="fillMode" value="gradient" id="fillModeGradient">
+              <span data-i18n="lbl_gradient">グラデーション</span>
+            </label>
+          </div>
+
+          <div id="gradientControls" class="fx-grad-group hidden">
+            <div class="fx-item">
+              <label for="gradColor1" data-i18n="lbl_grad_c1">開始色</label>
+              <input type="color" id="gradColor1" value="#4BEFFF">
+            </div>
+            <div class="fx-item">
+              <label for="gradColor2" data-i18n="lbl_grad_c2">終了色</label>
+              <input type="color" id="gradColor2" value="#0066FF">
+            </div>
+            <div class="fx-item">
+              <label for="gradDirection" data-i18n="lbl_grad_dir">方向</label>
+              <select id="gradDirection">
+                <option value="toBottom" data-i18n="opt_dir_bottom">上から下 ↓</option>
+                <option value="toRight" data-i18n="opt_dir_right">左から右 →</option>
+                <option value="toBottomRight" data-i18n="opt_dir_bottom_right">斜め ↘</option>
+                <option value="radial" data-i18n="opt_dir_radial">円形放射 ⊙</option>
+              </select>
+            </div>
+            <div class="fx-item fx-presets">
+              <span class="preset-label" data-i18n="lbl_preset">プリセット:</span>
+              <div class="preset-btn-group">
+                <button type="button" class="btn-preset" data-c1="#4BEFFF" data-c2="#0066FF" title="ネオンシアン" style="background: linear-gradient(135deg, #4BEFFF, #0066FF);"></button>
+                <button type="button" class="btn-preset" data-c1="#FF4BD8" data-c2="#FF9900" title="サンセット" style="background: linear-gradient(135deg, #FF4BD8, #FF9900);"></button>
+                <button type="button" class="btn-preset" data-c1="#FFE259" data-c2="#FFA751" title="ゴールド" style="background: linear-gradient(135deg, #FFE259, #FFA751);"></button>
+                <button type="button" class="btn-preset" data-c1="#B000FF" data-c2="#4BEFFF" title="サイバーパープル" style="background: linear-gradient(135deg, #B000FF, #4BEFFF);"></button>
+                <button type="button" class="btn-preset" data-c1="#00F2FE" data-c2="#4FACFE" title="エメラルドオーシャン" style="background: linear-gradient(135deg, #00F2FE, #4FACFE);"></button>
+                <button type="button" class="btn-preset" data-c1="#FF0844" data-c2="#FFB199" title="フレイム" style="background: linear-gradient(135deg, #FF0844, #FFB199);"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. 立体 影 (Shadow) 設定 -->
+      <div id="fx-shadow" class="fx-tab-content">
+        <div class="fx-row">
+          <div class="fx-item">
+            <label class="toggle-label">
+              <input type="checkbox" id="shadowEnable">
+              <span data-i18n="lbl_shadow_enable">影をつける</span>
+            </label>
+          </div>
+          <div class="fx-item">
+            <label for="shadowBlur"><span data-i18n="lbl_shadow_blur">ぼかし</span>: <span id="shadowBlurVal">8</span>px</label>
+            <input type="range" id="shadowBlur" min="0" max="30" value="8">
+          </div>
+          <div class="fx-item">
+            <label for="shadowOffset"><span data-i18n="lbl_shadow_offset">距離/深さ</span>: <span id="shadowOffsetVal">6</span>px</label>
+            <input type="range" id="shadowOffset" min="0" max="25" value="6">
+          </div>
+          <div class="fx-item">
+            <label for="shadowAngle"><span data-i18n="lbl_shadow_angle">角度</span>: <span id="shadowAngleVal">45</span>°</label>
+            <input type="range" id="shadowAngle" min="0" max="360" value="45">
+          </div>
+          <div class="fx-item">
+            <label for="shadowColor" data-i18n="lbl_shadow_color">影色</label>
+            <input type="color" id="shadowColor" value="#000000">
+          </div>
+          <div class="fx-item">
+            <label for="shadowOpacity"><span data-i18n="lbl_shadow_opacity">濃さ</span>: <span id="shadowOpacityVal">60</span>%</label>
+            <input type="range" id="shadowOpacity" min="0" max="100" value="60">
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. 立体 艶 (Gloss / 光沢) 設定 -->
+      <div id="fx-gloss" class="fx-tab-content">
+        <div class="fx-row">
+          <div class="fx-item">
+            <label class="toggle-label">
+              <input type="checkbox" id="glossEnable">
+              <span data-i18n="lbl_gloss_enable">艶・光沢をつける</span>
+            </label>
+          </div>
+          <div class="fx-item">
+            <label for="glossType" data-i18n="lbl_gloss_type">質感スタイル</label>
+            <select id="glossType">
+              <option value="top" data-i18n="opt_gloss_dome">ガラスドーム光沢 (上部ハイライト反射)</option>
+              <option value="bevel" data-i18n="opt_gloss_bevel">3Dベベル (浮き彫り立体エッジ)</option>
+              <option value="glow" data-i18n="opt_gloss_glow">ネオングロー (艶やかインナー発光)</option>
+            </select>
+          </div>
+          <div class="fx-item">
+            <label for="glossIntensity"><span data-i18n="lbl_gloss_intensity">光沢の強さ</span>: <span id="glossIntensityVal">50</span>%</label>
+            <input type="range" id="glossIntensity" min="10" max="100" value="50">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- アイコン保存エリア -->
+    <div class="export-section">
+      <h3><span data-i18n="export_title_a">📥 アイコン保存（キャンバス作成）</span> <span class="save-location-badge" data-i18n="badge_save_location">📁 保存先フォルダを指定可能</span></h3>
+      <div class="export-options">
+        <label class="toggle-label">
+          <input type="checkbox" id="fillBgForIosA" checked>
+          <span data-i18n="lbl_ios_fill_a">iPhone用(iOS)は透明部分を背景色で補完する <small>※iOSホーム画面は透過を黒にする仕様のため推奨</small></span>
+        </label>
+      </div>
+      <div class="export-button-grid">
+        <button id="downloadIosA" class="btn-export btn-ios">
+          <span class="btn-icon">📱</span>
+          <span class="btn-text" data-i18n="btn_export_ios"><strong>iPhone用</strong><small>apple-touch-icon (180×180)</small></span>
+        </button>
+        <button id="downloadAndroid192A" class="btn-export btn-android">
+          <span class="btn-icon">🤖</span>
+          <span class="btn-text" data-i18n="btn_export_android192"><strong>Android用</strong><small>PWA標準 (192×192)</small></span>
+        </button>
+        <button id="downloadAndroid512A" class="btn-export btn-android">
+          <span class="btn-icon">🤖</span>
+          <span class="btn-text" data-i18n="btn_export_android512"><strong>Android用 高精細</strong><small>PWAスプラッシュ (512×512)</small></span>
+        </button>
+        <button id="downloadIcoA" class="btn-export btn-ico">
+          <span class="btn-icon">💻</span>
+          <span class="btn-text" data-i18n="btn_export_ico"><strong>Windows / Web</strong><small>favicon.ico (マルチサイズ)</small></span>
+        </button>
+        <button id="downloadPngA" class="btn-export btn-png">
+          <span class="btn-icon">🖼️</span>
+          <span class="btn-text" data-i18n="btn_export_png_a"><strong>標準PNG</strong><small>imp_canvas.png (256×256)</small></span>
+        </button>
+        <button id="downloadZipA" class="btn-export btn-zip">
+          <span class="btn-icon">📦</span>
+          <span class="btn-text" data-i18n="btn_export_zip"><strong>全サイズ一括ZIP</strong><small>iOS + Android + Favicon + 設定</small></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- B：画像アップロードモード -->
+<section id="uploadMode" class="mode-section neon-box hidden">
+  <div class="upload-container">
+    <!-- ドロップエリア -->
+    <div id="dropZone" class="drop-zone">
+      <div class="drop-zone-icon">📤</div>
+      <p class="drop-zone-title" data-i18n="drop_zone_title">画像をここにドラッグ＆ドロップ</p>
+      <p class="drop-zone-desc" data-i18n="drop_zone_desc">またはクリックして画像を選択（PNG, JPG, WEBP, SVG対応 / スマホ撮影写真OK）</p>
+      <input type="file" id="imageInput" accept="image/*" class="file-input-hidden">
+      <button type="button" id="selectFileBtn" class="btn-accent" data-i18n="btn_select_file">ファイルを選択する</button>
+    </div>
+
+    <!-- 著作権フリー・オリジナルサンプルアイコン集 -->
+    <div class="sample-gallery-section">
+      <div class="sample-gallery-header">
+        <span class="sample-gallery-title" data-i18n="sample_gallery_title">💡 著作権フリー・オリジナルサンプル（クリックで読み込み）</span>
+        <small class="sample-gallery-sub"><span data-i18n="sample_gallery_loc">保存場所</span>: <code>sample_icons/</code></small>
+      </div>
+      <div class="sample-icons-grid" id="sampleIconsGrid">
+        <button type="button" class="sample-icon-card" data-key="01_Folder" data-src="sample_icons/01_Folder.png" data-name="01 フォルダー">
+          <img src="sample_icons/01_Folder.png" alt="フォルダ">
+          <span data-i18n="sample_icon_01">フォルダー</span>
+        </button>
+        <button type="button" class="sample-icon-card" data-key="02_ThisPC" data-src="sample_icons/02_ThisPC.png" data-name="02 PC / ディスプレイ">
+          <img src="sample_icons/02_ThisPC.png" alt="PC">
+          <span data-i18n="sample_icon_02">PC / モニタ</span>
+        </button>
+        <button type="button" class="sample-icon-card" data-key="03_RecycleBin" data-src="sample_icons/03_RecycleBin.png" data-name="03 クリーン / ごみ箱">
+          <img src="sample_icons/03_RecycleBin.png" alt="ごみ箱">
+          <span data-i18n="sample_icon_03">ごみ箱</span>
+        </button>
+        <button type="button" class="sample-icon-card" data-key="04_Document" data-src="sample_icons/04_Document.png" data-name="04 ドキュメント">
+          <img src="sample_icons/04_Document.png" alt="ドキュメント">
+          <span data-i18n="sample_icon_04">文書</span>
+        </button>
+        <button type="button" class="sample-icon-card" data-key="05_Settings" data-src="sample_icons/05_Settings.png" data-name="05 設定・ギア">
+          <img src="sample_icons/05_Settings.png" alt="設定">
+          <span data-i18n="sample_icon_05">設定</span>
+        </button>
+        <button type="button" class="sample-icon-card" data-key="06_AppStore" data-src="sample_icons/06_AppStore.png" data-name="06 アプリパッケージ">
+          <img src="sample_icons/06_AppStore.png" alt="アプリパッケージ">
+          <span data-i18n="sample_icon_06">パッケージ</span>
+        </button>
+        <button type="button" class="sample-icon-card" data-key="07_Browser" data-src="sample_icons/07_Browser.png" data-name="07 ブラウザ / Web">
+          <img src="sample_icons/07_Browser.png" alt="ブラウザ">
+          <span data-i18n="sample_icon_07">ブラウザ</span>
+        </button>
+        <button type="button" class="sample-icon-card" data-key="08_Photos" data-src="sample_icons/08_Photos.png" data-name="08 カメラ / フォト">
+          <img src="sample_icons/08_Photos.png" alt="カメラ">
+          <span data-i18n="sample_icon_08">カメラ</span>
+        </button>
+        <button type="button" class="sample-icon-card" data-key="09_Music" data-src="sample_icons/09_Music.png" data-name="09 ミュージック">
+          <img src="sample_icons/09_Music.png" alt="音楽">
+          <span data-i18n="sample_icon_09">音楽</span>
+        </button>
+        <button type="button" class="sample-icon-card" data-key="10_Terminal" data-src="sample_icons/10_Terminal.png" data-name="10 ターミナル">
+          <img src="sample_icons/10_Terminal.png" alt="ターミナル">
+          <span data-i18n="sample_icon_10">ターミナル</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- アップロード設定 -->
+    <div class="upload-controls">
+      <div class="control-row">
+        <div class="control-item">
+          <label for="fitModeSelect" data-i18n="lbl_fit_mode">フィット形式：</label>
+          <select id="fitModeSelect">
+            <option value="cover" data-i18n="opt_fit_cover">中央トリミング（正方形を埋める・おすすめ）</option>
+            <option value="contain" data-i18n="opt_fit_contain">全体を収める（比率維持・余白あり）</option>
+            <option value="stretch" data-i18n="opt_fit_stretch">引き伸ばし（256×256にストレッチ）</option>
+          </select>
+        </div>
+        <div class="control-item">
+          <label for="uploadBgColor" data-i18n="lbl_upload_bg">余白・背景色：</label>
+          <select id="uploadBgColor">
+            <option value="transparent" data-i18n="bg_transparent">透過（チェッカー）</option>
+            <option value="#000000" data-i18n="bg_black">黒 (#000000)</option>
+            <option value="#ffffff" data-i18n="bg_white">白 (#ffffff)</option>
+            <option value="#0a0f1f" data-i18n="bg_navy">テーマ紺 (#0A0F1F)</option>
+          </select>
+        </div>
+      </div>
+      <div class="control-row">
+        <button id="sendToCanvasBtn" class="btn-tool btn-transfer" title="この画像をキャンバスのレイヤーとして追加して編集します" data-i18n="btn_send_to_canvas">
+          🎨 キャンバスに転送してお絵描き・編集する
+        </button>
+      </div>
+    </div>
+
+    <!-- プレビュー表示 -->
+    <div class="canvas-container">
+      <canvas id="previewCanvas" width="256" height="256" class="checkerboard-bg"></canvas>
+      <div class="canvas-info" id="uploadFileInfo" data-i18n="upload_no_file">未選択（画像を選択してください）</div>
+    </div>
+  </div>
+
+  <!-- アイコン保存エリア（アップロードモード用） -->
+  <div class="export-section">
+    <h3><span data-i18n="export_title_b">📥 アイコン保存（アップロード画像）</span> <span class="save-location-badge" data-i18n="badge_save_location">📁 保存先フォルダを指定可能</span></h3>
+    <div class="export-options">
+      <label class="toggle-label">
+        <input type="checkbox" id="fillBgForIosB" checked>
+        <span data-i18n="lbl_ios_fill_b">iPhone用(iOS)は透明部分を背景色で補完する <small>※iOSホーム画面用推奨</small></span>
+      </label>
+    </div>
+    <div class="export-button-grid">
+      <button id="downloadIosB" class="btn-export btn-ios">
+        <span class="btn-icon">📱</span>
+        <span class="btn-text" data-i18n="btn_export_ios"><strong>iPhone用</strong><small>apple-touch-icon (180×180)</small></span>
+      </button>
+      <button id="downloadAndroid192B" class="btn-export btn-android">
+        <span class="btn-icon">🤖</span>
+        <span class="btn-text" data-i18n="btn_export_android192"><strong>Android用</strong><small>PWA標準 (192×192)</small></span>
+      </button>
+      <button id="downloadAndroid512B" class="btn-export btn-android">
+        <span class="btn-icon">🤖</span>
+        <span class="btn-text" data-i18n="btn_export_android512"><strong>Android用 高精細</strong><small>PWAスプラッシュ (512×512)</small></span>
+      </button>
+      <button id="downloadIcoB" class="btn-export btn-ico">
+        <span class="btn-icon">💻</span>
+        <span class="btn-text" data-i18n="btn_export_ico"><strong>Windows / Web</strong><small>favicon.ico (マルチサイズ)</small></span>
+      </button>
+      <button id="downloadPngB" class="btn-export btn-png">
+        <span class="btn-icon">🖼️</span>
+        <span class="btn-text" data-i18n="btn_export_png_b"><strong>標準PNG</strong><small>imp_image.png (256×256)</small></span>
+      </button>
+      <button id="downloadZipB" class="btn-export btn-zip">
+        <span class="btn-icon">📦</span>
+        <span class="btn-text" data-i18n="btn_export_zip"><strong>全サイズ一括ZIP</strong><small>iOS + Android + Favicon + 設定</small></span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- PWA・Webアプリ用タグスニペット -->
+<section class="code-snippet-section neon-box">
+  <div class="snippet-header">
+    <h3 data-i18n="snippet_title">📋 Webアプリ・PWA組み込み用コード</h3>
+    <button id="copySnippetBtn" class="btn-copy" data-i18n="btn_copy_code">📋 コードをコピー</button>
+  </div>
+  <p class="snippet-desc" data-i18n="snippet_desc">作成したアイコンファイルをWebサイトのルートに配置し、HTMLの <code>&lt;head&gt;</code> 内に以下のタグを貼り付けるだけでiPhone・Android・PCすべてに対応できます。</p>
+  <pre><code id="snippetCode">&lt;!-- Favicon &amp; Mobile Icons (iPhone / Android / PC) --&gt;
+&lt;link rel="icon" type="image/x-icon" href="/favicon.ico"&gt;
+&lt;link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"&gt;
+&lt;link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"&gt;
+&lt;link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"&gt;
+&lt;link rel="manifest" href="/manifest.json"&gt;
+&lt;meta name="apple-mobile-web-app-capable" content="yes"&gt;
+&lt;meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"&gt;
+&lt;meta name="apple-mobile-web-app-title" content="App Title"&gt;
+&lt;meta name="theme-color" content="#0A0F1F"&gt;</code></pre>
+</section>
+
+<!-- ===================================================
+     Information 画面 (モーダル / フルスクリーン)
+     =================================================== -->
+<div id="informationPage" class="information-page" style="display:none;">
+  <!-- "information"の文字以上は固定（sticky / fixed） -->
+  <div class="info-sticky-header">
+    <div class="info-top-bar">
+      <button class="back-btn" onclick="backToLockScreen()" data-i18n="back_to_lock">← 前の画面に戻る</button>
+      <div class="info-lang-wrapper">
+        <span style="font-size: 16px;">🌐</span>
+        <select class="lang-selector info-lang-select" onchange="setLanguage(this.value)">
+          <option value="ja">🇯🇵 JP 日本語</option>
+          <option value="en">🇺🇸 EN English</option>
+          <option value="nl">🇳🇱 NL Nederlands</option>
+          <option value="pt">🇧🇷 PT Português</option>
+          <option value="es">🇪🇸 ES Español</option>
+          <option value="fr">🇫🇷 FR Français</option>
+          <option value="it">🇮🇹 IT Italiano</option>
+          <option value="de">🇩🇪 DE Deutsch</option>
+          <option value="uk">🇺🇦 UK Українська</option>
+          <option value="id">🇮🇩 ID Indonesia</option>
+          <option value="ko">🇰🇷 KO 한국어</option>
+          <option value="tr">🇹🇷 TR Türkçe</option>
+        </select>
+      </div>
+    </div>
+    <h1 class="fkz info-title" data-i18n="info_page_title">Information</h1>
+  </div>
+
+  <!-- スクロールコンテンツエリア -->
+  <div class="info-scroll-body">
+    <div id="informationContent" class="information-content-box">
+      <p id="infoCreatedBy" class="info-created-text">このアプリは、<strong>H.Fukazu</strong>によって制作されました。</p>
+      <p class="info-row"><span data-i18n="info_version">バージョン：</span><strong>v1.0.0</strong> <span data-i18n="info_updated_date">（2026/10/10 更新）</span></p>
+      <p class="info-sub-row"><span data-i18n="info_initial_release">初版リリース：</span><strong>v1.0.0（2026/10/10）</strong></p>
+
+      <!-- 著作権情報ボタン -->
+      <div style="text-align: center; margin: 28px 0 10px;">
+        <button class="action-btn copyright-btn" id="showCopyrightBtn" onclick="showReadmePageFromInfo()" data-i18n="show_copyright">📖 著作権情報を見る</button>
+      </div>
+    </div>
+
+  <!-- 16言語利用規約・著作権情報セクション -->
+  <div id="readmeBodyContainer" class="readme-body-container" style="display:none;">
+    <div id="readmeBody">
+      <section id="sec-ja" class="readme-section" dir="ltr">
+        <div class="readme-flag">🇯🇵</div>
+        <h2 class="readme-lang-title">＜＜ 日本語 ＞＞</h2>
+        <p>このアプリは <strong>H.Fukazu</strong> によって制作されました。</p>
+        <p><strong>著作権および利用規約</strong><br>本作品（ソフトウェア、コード、ドキュメント、および関連する全ての内容を含む）の著作権は、© 2025 H.Fukazu に帰属します。© 2025
+          H.Fukazu. All Rights Reserved.</p>
+        <p><strong>厳禁事項</strong><br>著作者からの書面による事前の明示的な許可なく、以下の行為を固く禁じます。</p>
+        <ul>
+          <li>無断転用、複製、改変、二次利用は禁止</li>
+          <li>ソースコードの全部または一部の無断転載および再配布の禁止</li>
+          <li>商業的な目的での利用禁止（営利・非営利を問わず、対価を得る活動への利用）</li>
+          <li>本作品を基にした派生作品の作成および公開も禁止</li>
+        </ul>
+        <p>本作品は、著作権法によって最大限に保護されています。</p>
+      </section>
+      <section id="sec-en" class="readme-section" dir="ltr">
+        <div class="readme-flag">🇺🇸 🇬🇧</div>
+        <h2 class="readme-lang-title">＜＜ English (英語) ＞＞</h2>
+        <p>This application was created by <strong>H.Fukazu</strong>.</p>
+        <p><strong>Copyright and Usage Policy</strong><br>All rights to this work—including software, code,
+          documentation, and all related content—are reserved by © 2025 H.Fukazu. All Rights Reserved.</p>
+        <p><strong>Strictly Prohibited</strong><br>The following actions are strictly prohibited without prior explicit
+          written permission from the author:</p>
+        <ul>
+          <li>Unauthorized use, reproduction, modification, or secondary use</li>
+          <li>Republishing or redistributing all or part of the source code without permission</li>
+          <li>Use for commercial purposes (including both for-profit and non-profit activities involving compensation)
+          </li>
+          <li>Creation or publication of derivative works based on this work</li>
+        </ul>
+        <p>This work is fully protected under copyright law.</p>
+      </section>
+      <section id="sec-nl" class="readme-section" dir="ltr">
+        <div class="readme-flag">🇳🇱</div>
+        <h2 class="readme-lang-title">◆ Nederlands (オランダ語) ◆</h2>
+        <p>Deze applicatie is gemaakt door <strong>H.Fukazu</strong>.</p>
+        <p><strong>Auteursrecht en gebruiksvoorwaarden</strong><br>Het auteursrecht berust bij © 2025 H.Fukazu. All
+          Rights Reserved.</p>
+        <p><strong>Strikt verboden</strong></p>
+        <ul>
+          <li>Ongeoorloofd gebruik, reproductie, wijziging of hergebruik</li>
+          <li>Ongeoorloofde publicatie of distributie van de broncode</li>
+          <li>Commercieel gebruik verboden</li>
+          <li>Creatie en publicatie van afgeleide werken verboden</li>
+        </ul>
+        <p>Dit werk is maximaal beschermd onder de auteurswet.</p>
+      </section>
+      <section id="sec-pt" class="readme-section" dir="ltr">
+        <div class="readme-flag">🇵🇹 🇧🇷</div>
+        <h2 class="readme-lang-title">＜＜ Português (ポルトガル語) ＞＞</h2>
+        <p>Este aplicativo foi criado por <strong>H.Fukazu</strong>.</p>
+        <p><strong>Direitos autorais e política de uso</strong><br>Os direitos autorais pertencem a © 2025 H.Fukazu. All
+          Rights Reserved.</p>
+        <p><strong>Proibições estritas</strong></p>
+        <ul>
+          <li>Uso, cópia, modificação ou reutilização não autorizados</li>
+          <li>Reprodução ou redistribuição não autorizada do código-fonte</li>
+          <li>Uso para fins comerciais proibido</li>
+          <li>Criação e publicação de obras derivadas proibidas</li>
+        </ul>
+        <p>Esta obra está protegida ao máximo pela lei de direitos autorais.</p>
+      </section>
+      <section id="sec-es" class="readme-section" dir="ltr">
+        <div class="readme-flag">🇪🇸 🇲🇽</div>
+        <h2 class="readme-lang-title">＜＜ Español (スペイン語) ＞＞</h2>
+        <p>Esta aplicación fue creada por <strong>H.Fukazu</strong>.</p>
+        <p><strong>Derechos de autor y política de uso</strong><br>Los derechos de autor pertenecen a © 2025 H.Fukazu.
+          All Rights Reserved.</p>
+        <p><strong>Prohibiciones estrictas</strong></p>
+        <ul>
+          <li>Uso, copia, modificación o reutilización sin autorización</li>
+          <li>Reproducción o redistribución no autorizada del código fuente</li>
+          <li>Uso con fines comerciales prohibido</li>
+          <li>Creación y publicación de obras derivadas prohibidas</li>
+        </ul>
+        <p>Esta obra está protegida al máximo por la ley de derechos de autor.</p>
+      </section>
+      <section id="sec-fr" class="readme-section" dir="ltr">
+        <div class="readme-flag">🇫🇷</div>
+        <h2 class="readme-lang-title">＜＜ Français (フランス語) ＞＞</h2>
+        <p>Cette application a été créée par <strong>H.Fukazu</strong>.</p>
+        <p><strong>Politique de droits d'auteur</strong><br>Tous les droits relatifs à cette œuvre sont réservés à ©
+          2025 H.Fukazu. Tous droits réservés.</p>
+        <p><strong>Strictement interdit</strong></p>
+        <ul>
+          <li>Utilisation, reproduction, modification ou réutilisation non autorisée</li>
+          <li>Républication ou redistribution partielle ou totale du code source</li>
+          <li>Utilisation à des fins commerciales</li>
+          <li>Création ou publication d'œuvres dérivées</li>
+        </ul>
+        <p>Cette œuvre est pleinement protégée par la législation sur le droit d'auteur.</p>
+      </section>
+      <section id="sec-it" class="readme-section" dir="ltr">
+        <div class="readme-flag">🇮🇹</div>
+        <h2 class="readme-lang-title">＜＜ Italiano (イタリア語) ＞＞</h2>
+        <p>Questa app è stata creata da <strong>H.Fukazu</strong>.</p>
+        <p><strong>Copyright e condizioni d'uso</strong><br>Il copyright di quest'opera appartiene a © 2025 H.Fukazu.
+          All Rights Reserved.</p>
+        <p><strong>Divieti assoluti</strong></p>
+        <ul>
+          <li>Uso, copia, modifica o riutilizzo non autorizzati</li>
+          <li>Ripubblicazione o ridistribuzione non autorizzata del codice sorgente</li>
+          <li>Uso a scopo commerciale vietato</li>
+          <li>Creazione e pubblicazione di opere derivate vietate</li>
+        </ul>
+        <p>Quest'opera è protetta al massimo dalla legge sul copyright.</p>
+      </section>
+      <section id="sec-de" class="readme-section" dir="ltr">
+        <div class="readme-flag">🇩🇪</div>
+        <h2 class="readme-lang-title">＜＜ Deutsch (ドイツ語) ＞＞</h2>
+        <p>Diese App wurde von <strong>H.Fukazu</strong> entwickelt.</p>
+        <p><strong>Urheberrecht und Nutzungsbedingungen</strong><br>Das Urheberrecht liegt bei © 2025 H.Fukazu. All
+          Rights Reserved.</p>
+        <p><strong>Streng verboten</strong></p>
+        <ul>
+          <li>Unerlaubte Verwendung, Vervielfältigung, Änderung oder Weiterverwendung</li>
+          <li>Unerlaubte Veröffentlichung oder Weitergabe des Quellcodes</li>
+          <li>Kommerzielle Nutzung verboten</li>
+          <li>Erstellung und Veröffentlichung abgeleiteter Werke verboten</li>
+        </ul>
+        <p>Dieses Werk ist durch das Urheberrecht maximal geschützt.</p>
+      </section>
+      <section id="sec-uk" class="readme-section" dir="ltr">
+        <div class="readme-flag">🇺🇦</div>
+        <h2 class="readme-lang-title">＜＜ Українська (ウクライナ語) ＞＞</h2>
+        <p>Цей додаток створено <strong>H.Fukazu</strong>.</p>
+        <p><strong>Авторське право та умови використання</strong><br>Авторські права належать © 2025 H.Fukazu. All
+          Rights Reserved.</p>
+        <p><strong>Строго заборонено</strong></p>
+        <ul>
+          <li>Несанкціоноване використання, копіювання, модифікацію або повторне використання</li>
+          <li>Публікацію або повторне розповсюдження вихідного коду без дозволу</li>
+          <li>Використання з комерційною метою заборонено</li>
+          <li>Створення та публікація похідних творів також заборонені</li>
+        </ul>
+        <p>Цей твір максимально захищено законом про авторське право.</p>
+      </section>
+      <section id="sec-hi" class="readme-section" dir="ltr">
+        <div class="readme-flag">🇮🇳</div>
+        <h2 class="readme-lang-title">＜＜ हिन्दी (ヒンディー語) ＞＞</h2>
+        <p>यह ऐप <strong>H.Fukazu</strong> द्वारा बनाया गया है।</p>
+        <p><strong>कॉपीराइट और उपयोग की शर्तें</strong><br>इस रचना का कॉपीराइट © 2025 H.Fukazu के पास है। All Rights
+          Reserved.</p>
+        <p><strong>कड़ाई से निषिद्ध</strong></p>
+        <ul>
+          <li>अनधिकृत उपयोग, प्रतिलिपि, संशोधन या पुनः उपयोग</li>
+          <li>स्रोत कोड का अनधिकृत पुनः प्रकाशन या पुनः वितरण</li>
+          <li>व्यावसायिक उद्देश्य के लिए उपयोग निषिद्ध</li>
+          <li>व्युत्पन्न कार्यों का निर्माण और प्रकाशन निषिद्ध</li>
+        </ul>
+        <p>यह रचना कॉपीराइट कानून द्वारा पूरी तरह से संरक्षित है।</p>
+      </section>
+      <section id="sec-ar" class="readme-section" dir="rtl">
+        <div class="readme-flag">🇸🇦</div>
+        <h2 class="readme-lang-title">＜＜ العربية (アラビア語) ＞＞</h2>
+        <p>تم إنشاء هذا التطبيق بواسطة <strong>H.Fukazu</strong>.</p>
+        <p><strong>حقوق النشر وشروط الاستخدام</strong><br>حقوق النشر لهذا العمل تعود إلى © 2025 H.Fukazu. All Rights
+          Reserved.</p>
+        <p><strong>المحظورات الصارمة</strong></p>
+        <ul>
+          <li>الاستخدام أو النسخ أو التعديل أو إعادة الاستخدام بدون إذن</li>
+          <li>إعادة نشر أو توزيع الشيفرة المصدرية بدون إذن</li>
+          <li>الاستخدام لأغراض تجارية ممنوع</li>
+          <li>إنشاء ونشر أعمال مشتقة ممنوع</li>
+        </ul>
+        <p>هذا العمل محمي بأقصى درجة بموجب قانون حقوق النشر.</p>
+      </section>
+      <section id="sec-ru" class="readme-section" dir="ltr">
+        <div class="readme-flag">🇷🇺</div>
+        <h2 class="readme-lang-title">＜＜ Русский (ロシア語) ＞＞</h2>
+        <p>Это приложение было создано <strong>H.Fukazu</strong>.</p>
+        <p><strong>Авторские права и условия использования</strong><br>Авторские права принадлежат © 2025 H.Fukazu. All
+          Rights Reserved.</p>
+        <p><strong>Строго запрещено</strong></p>
+        <ul>
+          <li>Несанкционированное использование, копирование, изменение или повторное использование</li>
+          <li>Публикация или распространение исходного кода без разрешения</li>
+          <li>Использование в коммерческих целях запрещено</li>
+          <li>Создание и публикация производных работ запрещены</li>
+        </ul>
+        <p>Данная работа максимально защищена законом об авторском праве.</p>
+      </section>
+      <section id="sec-id" class="readme-section" dir="ltr">
+        <div class="readme-flag">🇮🇩</div>
+        <h2 class="readme-lang-title">＜＜ Bahasa Indonesia (インドネシア語) ＞＞</h2>
+        <p>Aplikasi ini dibuat oleh <strong>H.Fukazu</strong>.</p>
+        <p><strong>Hak Cipta dan Ketentuan Penggunaan</strong><br>Hak cipta dimiliki oleh © 2025 H.Fukazu. All Rights
+          Reserved.</p>
+        <p><strong>Larangan Keras</strong></p>
+        <ul>
+          <li>Penggunaan, penyalinan, modifikasi, atau penggunaan ulang tanpa izin</li>
+          <li>Publikasi atau distribusi ulang kode sumber tanpa izin</li>
+          <li>Penggunaan untuk tujuan komersial dilarang</li>
+          <li>Pembuatan dan publikasi karya turunan juga dilarang</li>
+        </ul>
+        <p>Karya ini dilindungi secara maksimal oleh undang-undang hak cipta.</p>
+      </section>
+      <section id="sec-zh" class="readme-section" dir="ltr">
+        <div class="readme-flag">🇨🇳</div>
+        <h2 class="readme-lang-title">＜＜ 中文 (中国語) ＞＞</h2>
+        <p>本应用由 <strong>H.Fukazu</strong> 制作。</p>
+        <p><strong>版权与使用条款</strong><br>本作品的版权归 © 2025 H.Fukazu 所有。All Rights Reserved.</p>
+        <p><strong>严禁事项</strong></p>
+        <ul>
+          <li>禁止擅自转载、複製、修改、二次使用</li>
+          <li>禁止未经授权转载或再分发源代码</li>
+          <li>禁止用于商业目的</li>
+          <li>禁止基于本作品创作并发布衍生作品</li>
+        </ul>
+        <p>本作品受到版权法的最大保護。</p>
+      </section>
+      <section id="sec-ko" class="readme-section" dir="ltr">
+        <div class="readme-flag">🇰🇷</div>
+        <h2 class="readme-lang-title">＜＜ 한국어 (韓国語) ＞＞</h2>
+        <p>이 앱은 <strong>H.Fukazu</strong>에 의해 제작되었습니다.</p>
+        <p><strong>저작권 및 이용 약관</strong><br>본 작품의 저작권은 © 2025 H.Fukazu에게 있습니다. All Rights Reserved.</p>
+        <p><strong>금지 사항</strong></p>
+        <ul>
+          <li>무단 전용, 복제, 수정, 2차 사용 금지</li>
+          <li>소스 코드의 무단 게시 및 재배포 금지</li>
+          <li>상업적 목적의 사용 금지</li>
+          <li>본 작품을 기반으로 한 2차 창작 및 공개 금지</li>
+        </ul>
+        <p>본 작품은 저작권법에 의해 최대한 보호받습니다.</p>
+      </section>
+      <section id="sec-tr" class="readme-section" dir="ltr">
+        <div class="readme-flag">🇹🇷</div>
+        <h2 class="readme-lang-title">＜＜ Türkçe (トルコ語) ＞＞</h2>
+        <p>Bu uygulama <strong>H.Fukazu</strong> tarafından oluşturulmuştur.</p>
+        <p><strong>Telif Hakkı ve Kullanım Koşulları</strong><br>Bu eserin telif hakkı © 2025 H.Fukazu'ya aittir. Tüm
+          Hakları Saklıdır.</p>
+        <p><strong>Kesinlikle Yasaktır</strong></p>
+        <ul>
+          <li>İzinsiz kullanım, kopyalama, değiştirme veya ikincil kullanım</li>
+          <li>Kaynak kodunun izinsiz olarak yeniden yayımlanması veya dağıtılması</li>
+          <li>Ticari amaçlarla kullanılması yasaktır</li>
+          <li>Türev eserlerin oluşturulması ve yayımlanması yasaktır</li>
+        </ul>
+        <p>Bu eser telif hakkı yasaları ile maksimum düzeyde korunmaktadır.</p>
+      </section>
+    </div>
+  </div><!-- end readmeBodyContainer -->
+</div><!-- end info-scroll-body -->
+
+  <!-- 画面が下に下がったら左下にフッと現れる固定TOPボタン -->
+  <button type="button" id="readmeScrollToTopBtn" class="scroll-to-top-btn floating-left-top-btn" onclick="scrollToTopReadme()"
+    data-i18n="back_to_top">↑ TOP</button>
+</div>
+
+<!-- トースト通知 -->
+<div id="toast" class="toast hidden"></div>
+
+<!-- ライブラリ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="sample_icons_data.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>

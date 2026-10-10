@@ -1,0 +1,31 @@
+{
+  "name": "IMP – Icon Maker Pro",
+  "short_name": "IMP",
+  "description": "iOS (iPhone) / Android (PWA) / Windows マルチ対応 アイコン作成ツール",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0A0F1F",
+  "theme_color": "#0A0F1F",
+  "icons": [
+    {
+      "src": "IMP_192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "IMP_512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
