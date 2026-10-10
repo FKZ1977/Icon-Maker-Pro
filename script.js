@@ -131,7 +131,14 @@ const i18nData = {
     snippet_title: "📋 Webアプリ・PWA組み込み用コード",
     btn_copy_code: "📋 コードをコピー",
     btn_copied_code: "✅ コピー完了！",
-    snippet_desc: "作成したアイコンファイルをWebサイトのルートに配置し、HTMLの <code>&lt;head&gt;</code> 内に以下のタグを貼り付けるだけでiPhone・Android・PCすべてに対応できます。"
+    snippet_desc: "作成したアイコンファイルをWebサイトのルートに配置し、HTMLの <code>&lt;head&gt;</code> 内に以下のタグを貼り付けるだけでiPhone・Android・PCすべてに対応できます。",
+    btn_refresh_tip: "最新版を読み込む",
+    btn_check_update: "🔄 最新版を確認",
+    update_available: "新しいバージョンが利用可能です！",
+    btn_update_now: "今すぐ更新",
+    toast_checking_update: "🔄 最新版を確認中...",
+    toast_latest_version: "✅ 現在最新のバージョンです",
+    toast_updating: "🚀 最新版に更新して再読み込みします..."
   },
   en: {
     prompt_start: "Press any key or click / tap screen to start",
@@ -256,7 +263,14 @@ const i18nData = {
     snippet_title: "📋 Code Snippet for Web App & PWA",
     btn_copy_code: "📋 Copy Code",
     btn_copied_code: "✅ Copied!",
-    snippet_desc: "Place the generated icon files in your website root and paste the following tags inside HTML <code>&lt;head&gt;</code> to support iPhone, Android, and PC."
+    snippet_desc: "Place the generated icon files in your website root and paste the following tags inside HTML <code>&lt;head&gt;</code> to support iPhone, Android, and PC.",
+    btn_refresh_tip: "Reload latest version",
+    btn_check_update: "🔄 Check for Updates",
+    update_available: "A new version is available!",
+    btn_update_now: "Update Now",
+    toast_checking_update: "🔄 Checking for updates...",
+    toast_latest_version: "✅ You are using the latest version",
+    toast_updating: "🚀 Updating to latest version and reloading..."
   },
   nl: {
     prompt_start: "Druk op een toets of klik / tik om te starten",
@@ -381,7 +395,14 @@ const i18nData = {
     snippet_title: "📋 Code voor Web-app & PWA",
     btn_copy_code: "📋 Code kopiëren",
     btn_copied_code: "✅ Gekopieerd!",
-    snippet_desc: "Plaats de gegenereerde pictogrambestanden in de hoofdmap van uw site en plak de tags in de HTML <code>&lt;head&gt;</code>."
+    snippet_desc: "Plaats de gegenereerde pictogrambestanden in de hoofdmap van uw site en plak de tags in de HTML <code>&lt;head&gt;</code>.",
+    btn_refresh_tip: "Laad de nieuwste versie",
+    btn_check_update: "🔄 Controleer op updates",
+    update_available: "Er is een nieuwe versie beschikbaar!",
+    btn_update_now: "Nu bijwerken",
+    toast_checking_update: "🔄 Controleren op updates...",
+    toast_latest_version: "✅ U gebruikt de nieuwste versie",
+    toast_updating: "🚀 Bijwerken naar nieuwste versie..."
   },
   pt: {
     prompt_start: "Pressione qualquer tecla ou toque para iniciar",
@@ -506,7 +527,14 @@ const i18nData = {
     snippet_title: "📋 Código para Web App e PWA",
     btn_copy_code: "📋 Copiar Código",
     btn_copied_code: "✅ Copiado!",
-    snippet_desc: "Coloque os arquivos gerados na raiz do seu site e cole as tags dentro do <code>&lt;head&gt;</code> do HTML."
+    snippet_desc: "Coloque os arquivos gerados na raiz do seu site e cole as tags dentro do <code>&lt;head&gt;</code> do HTML.",
+    btn_refresh_tip: "Carregar versão mais recente",
+    btn_check_update: "🔄 Verificar atualizações",
+    update_available: "Uma nova versão está disponível!",
+    btn_update_now: "Atualizar Agora",
+    toast_checking_update: "🔄 Verificando atualizações...",
+    toast_latest_version: "✅ Você está usando a versão mais recente",
+    toast_updating: "🚀 Atualizando para a versão mais recente..."
   },
   es: {
     prompt_start: "Presione cualquier tecla o toque para comenzar",
@@ -631,7 +659,14 @@ const i18nData = {
     snippet_title: "📋 Código para Web App y PWA",
     btn_copy_code: "📋 Copiar Código",
     btn_copied_code: "✅ ¡Copiado!",
-    snippet_desc: "Coloca los iconos en la raíz de tu sitio y pega estas etiquetas en el <code>&lt;head&gt;</code> de tu HTML."
+    snippet_desc: "Coloca los iconos en la raíz de tu sitio y pega estas etiquetas en el <code>&lt;head&gt;</code> de tu HTML.",
+    btn_refresh_tip: "Cargar última versión",
+    btn_check_update: "🔄 Buscar actualizaciones",
+    update_available: "¡Hay una nueva versión disponible!",
+    btn_update_now: "Actualizar Ahora",
+    toast_checking_update: "🔄 Buscando actualizaciones...",
+    toast_latest_version: "✅ Estás utilizando la versión más reciente",
+    toast_updating: "🚀 Actualizando a la última versión..."
   },
   fr: {
     prompt_start: "Appuyez sur une touche ou touchez pour démarrer",
@@ -756,7 +791,14 @@ const i18nData = {
     snippet_title: "📋 Code pour application Web et PWA",
     btn_copy_code: "📋 Copier le code",
     btn_copied_code: "✅ Copié !",
-    snippet_desc: "Placez les fichiers à la racine de votre site et collez les balises dans le <code>&lt;head&gt;</code> HTML."
+    snippet_desc: "Placez les fichiers à la racine de votre site et collez les balises dans le <code>&lt;head&gt;</code> HTML.",
+    btn_refresh_tip: "Charger la dernière version",
+    btn_check_update: "🔄 Vérifier les mises à jour",
+    update_available: "Une nouvelle version est disponible !",
+    btn_update_now: "Mettre à jour",
+    toast_checking_update: "🔄 Recherche de mises à jour...",
+    toast_latest_version: "✅ Vous utilisez la dernière version",
+    toast_updating: "🚀 Mise à jour vers la dernière version..."
   },
   it: {
     prompt_start: "Premi un tasto o tocca per iniziare",
@@ -881,7 +923,14 @@ const i18nData = {
     snippet_title: "📋 Codice per Web App e PWA",
     btn_copy_code: "📋 Copia Codice",
     btn_copied_code: "✅ Copiato!",
-    snippet_desc: "Posiziona i file nella radice del tuo sito e incolla i tag all'interno di <code>&lt;head&gt;</code> HTML."
+    snippet_desc: "Posiziona i file nella radice del tuo sito e incolla i tag all'interno di <code>&lt;head&gt;</code> HTML.",
+    btn_refresh_tip: "Carica l'ultima versione",
+    btn_check_update: "🔄 Controlla aggiornamenti",
+    update_available: "È disponibile una nuova versione!",
+    btn_update_now: "Aggiorna ora",
+    toast_checking_update: "🔄 Ricerca aggiornamenti...",
+    toast_latest_version: "✅ Stai utilizzando l'ultima versione",
+    toast_updating: "🚀 Aggiornamento alla versione più recente..."
   },
   de: {
     prompt_start: "Taste drücken oder tippen zum Starten",
@@ -1006,7 +1055,14 @@ const i18nData = {
     snippet_title: "📋 Code für Web-App & PWA",
     btn_copy_code: "📋 Code kopieren",
     btn_copied_code: "✅ Kopiert!",
-    snippet_desc: "Platzieren Sie die Symboldateien im Stammverzeichnis Ihrer Website und fügen Sie diese Tags in <code>&lt;head&gt;</code> ein."
+    snippet_desc: "Platzieren Sie die Symboldateien im Stammverzeichnis Ihrer Website und fügen Sie diese Tags in <code>&lt;head&gt;</code> ein.",
+    btn_refresh_tip: "Neueste Version laden",
+    btn_check_update: "🔄 Nach Updates suchen",
+    update_available: "Eine neue Version ist verfügbar!",
+    btn_update_now: "Jetzt aktualisieren",
+    toast_checking_update: "🔄 Nach Updates wird gesucht...",
+    toast_latest_version: "✅ Sie verwenden die neueste Version",
+    toast_updating: "🚀 Auf neueste Version aktualisieren..."
   },
   uk: {
     prompt_start: "Натисніть клавішу або торкніться екрана",
@@ -1131,7 +1187,14 @@ const i18nData = {
     snippet_title: "📋 Код для вебдодатка та PWA",
     btn_copy_code: "📋 Копіювати код",
     btn_copied_code: "✅ Скопійовано!",
-    snippet_desc: "Розмістіть файли іконок у корені сайту та вставте ці теги в <code>&lt;head&gt;</code> вашого HTML."
+    snippet_desc: "Розмістіть файли іконок у корені сайту та вставте ці теги в <code>&lt;head&gt;</code> вашого HTML.",
+    btn_refresh_tip: "Завантажити останню версію",
+    btn_check_update: "🔄 Перевірити оновлення",
+    update_available: "Доступна нова версія!",
+    btn_update_now: "Оновити зараз",
+    toast_checking_update: "🔄 Перевірка оновлень...",
+    toast_latest_version: "✅ Ви використовуєте найновішу версію",
+    toast_updating: "🚀 Оновлення до останньої версії..."
   },
   id: {
     prompt_start: "Tekan sembarang tombol atau ketuk untuk mulai",
@@ -1256,7 +1319,14 @@ const i18nData = {
     snippet_title: "📋 Kode untuk Aplikasi Web & PWA",
     btn_copy_code: "📋 Salin Kode",
     btn_copied_code: "✅ Tersalin!",
-    snippet_desc: "Tempatkan file ikon di folder utama situs dan tempel tag ini di dalam <code>&lt;head&gt;</code> HTML."
+    snippet_desc: "Tempatkan file ikon di folder utama situs dan tempel tag ini di dalam <code>&lt;head&gt;</code> HTML.",
+    btn_refresh_tip: "Muat versi terbaru",
+    btn_check_update: "🔄 Periksa Pembaruan",
+    update_available: "Versi baru telah tersedia!",
+    btn_update_now: "Perbarui Sekarang",
+    toast_checking_update: "🔄 Memeriksa pembaruan...",
+    toast_latest_version: "✅ Anda menggunakan versi terbaru",
+    toast_updating: "🚀 Memperbarui ke versi terbaru..."
   },
   ko: {
     prompt_start: "키를 누르거나 화면을 탭하여 시작",
@@ -1381,7 +1451,14 @@ const i18nData = {
     snippet_title: "📋 웹 앱 및 PWA 삽입용 코드",
     btn_copy_code: "📋 코드 복사",
     btn_copied_code: "✅ 복사 완료!",
-    snippet_desc: "생성된 아이콘 파일을 사이트 루트에 두고 HTML <code>&lt;head&gt;</code> 안에 태그를 붙여넣기만 하면 됩니다."
+    snippet_desc: "생성된 아이콘 파일을 사이트 루트에 두고 HTML <code>&lt;head&gt;</code> 안에 태그를 붙여넣기만 하면 됩니다.",
+    btn_refresh_tip: "최신 버전 불러오기",
+    btn_check_update: "🔄 최신 버전 확인",
+    update_available: "새로운 버전이 출시되었습니다!",
+    btn_update_now: "지금 업데이트",
+    toast_checking_update: "🔄 최신 버전 확인 중...",
+    toast_latest_version: "✅ 현재 최신 버전을 사용 중입니다",
+    toast_updating: "🚀 최신 버전으로 업데이트 중..."
   },
   tr: {
     prompt_start: "Başlamak için bir tuşa basın veya dokunun",
@@ -1506,7 +1583,14 @@ const i18nData = {
     snippet_title: "📋 Web Uygulaması ve PWA Kodu",
     btn_copy_code: "📋 Kodu Kopyala",
     btn_copied_code: "✅ Kopyalandı!",
-    snippet_desc: "Simge dosyalarını sitenizin kök dizinine yerleştirin ve HTML <code>&lt;head&gt;</code> içine yapıştırın."
+    snippet_desc: "Simge dosyalarını sitenizin kök dizinine yerleştirin ve HTML <code>&lt;head&gt;</code> içine yapıştırın.",
+    btn_refresh_tip: "En son sürümü yükle",
+    btn_check_update: "🔄 Güncellemeleri Denetle",
+    update_available: "Yeni bir sürüm mevcut!",
+    btn_update_now: "Şimdi Güncelle",
+    toast_checking_update: "🔄 Güncellemeler denetleniyor...",
+    toast_latest_version: "✅ En son sürümü kullanıyorsunuz",
+    toast_updating: "🚀 En son sürüme güncelleniyor..."
   }
 };
 
@@ -1537,6 +1621,14 @@ function setLanguage(lang) {
     const key = el.getAttribute('data-i18n');
     if (dict && dict[key] !== undefined) {
       el.innerHTML = dict[key];
+    }
+  });
+
+  // data-i18n-title 属性の要素（ツールチップ）を更新
+  document.querySelectorAll('[data-i18n-title]').forEach(el => {
+    const key = el.getAttribute('data-i18n-title');
+    if (dict && dict[key] !== undefined) {
+      el.title = dict[key];
     }
   });
 
@@ -4147,7 +4239,162 @@ function showToast(message) {
   }, 2600);
 }
 
+// ==========================================
+// 8. PWA & Service Worker 更新制御 (オフライン対応 & 最新版自動取得)
+// ==========================================
+let swRegistration = null;
+let newWorkerWaiting = null;
+
+function registerServiceWorker() {
+  if (!('serviceWorker' in navigator)) return;
+
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js?v=1.0.1')
+      .then((reg) => {
+        swRegistration = reg;
+
+        // すでに待機中の新しいWorkerがある場合
+        if (reg.waiting) {
+          newWorkerWaiting = reg.waiting;
+          showPwaUpdateBar();
+        }
+
+        // 新しいWorkerのインストールを監視
+        reg.addEventListener('updatefound', () => {
+          const newWorker = reg.installing;
+          if (!newWorker) return;
+
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              newWorkerWaiting = newWorker;
+              showPwaUpdateBar();
+            }
+          });
+        });
+
+        // 定期的にバックグラウンドで更新チェック (30分ごと)
+        setInterval(() => {
+          reg.update().catch(() => {});
+        }, 30 * 60 * 1000);
+      })
+      .catch((err) => {
+        console.warn('ServiceWorker registration error:', err);
+      });
+
+    // iOS Safari ホーム画面 (WebClip) や Android PWA のフォアグラウンド復帰時に即座に最新チェック
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible' && swRegistration) {
+        swRegistration.update().catch(() => {});
+      }
+    });
+
+    // オンラインに復帰した時も最新をチェック
+    window.addEventListener('online', () => {
+      if (swRegistration) {
+        swRegistration.update().catch(() => {});
+      }
+    });
+
+    // コントローラーが新しいSWに切り替わったら自動的に最新リロード
+    let isReloading = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (!isReloading) {
+        isReloading = true;
+        window.location.reload();
+      }
+    });
+  });
+}
+
+function showPwaUpdateBar() {
+  const bar = document.getElementById('pwaUpdateBar');
+  if (bar) bar.classList.remove('hidden');
+}
+
+function dismissUpdateBar() {
+  const bar = document.getElementById('pwaUpdateBar');
+  if (bar) bar.classList.add('hidden');
+}
+window.dismissUpdateBar = dismissUpdateBar;
+
+function applyAppUpdate() {
+  const dict = i18nData[currentLanguage] || i18nData.ja;
+  showToast(dict.toast_updating || "🚀 最新版に更新して再読み込みします...");
+
+  if (newWorkerWaiting) {
+    newWorkerWaiting.postMessage({ type: 'SKIP_WAITING' });
+  } else {
+    // キャッシュを全破棄してハードリロード
+    if ('caches' in window) {
+      caches.keys().then((names) => {
+        return Promise.all(names.map(name => caches.delete(name)));
+      }).then(() => {
+        window.location.reload(true);
+      }).catch(() => {
+        window.location.reload(true);
+      });
+    } else {
+      window.location.reload(true);
+    }
+  }
+}
+window.applyAppUpdate = applyAppUpdate;
+
+// ユーザーが手動で「🔄 最新版を確認」をクリックした時の強制チェック処理
+async function checkAppUpdate(isUserAction = false) {
+  const dict = i18nData[currentLanguage] || i18nData.ja;
+
+  // 🔄 ボタンのスピン回転演出
+  const refreshBtns = document.querySelectorAll('.header-refresh-btn');
+  refreshBtns.forEach(b => b.classList.add('spinning'));
+  setTimeout(() => refreshBtns.forEach(b => b.classList.remove('spinning')), 1000);
+
+  if (isUserAction) {
+    showToast(dict.toast_checking_update || "🔄 最新版を確認中...");
+  }
+
+  if (!navigator.onLine) {
+    showToast("⚠️ オフラインです。キャッシュから動作しています");
+    return;
+  }
+
+  let updateFound = false;
+
+  if ('serviceWorker' in navigator && swRegistration) {
+    try {
+      await swRegistration.update();
+      if (swRegistration.waiting) {
+        newWorkerWaiting = swRegistration.waiting;
+        showPwaUpdateBar();
+        updateFound = true;
+        return;
+      }
+    } catch (e) {}
+  }
+
+  // サーバー上の最新HTMLヘッダーまたはタイムスタンプを確認して最新状態を判定
+  try {
+    const resp = await fetch('./index.html?check=' + Date.now(), {
+      method: 'HEAD',
+      cache: 'no-store',
+      headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' }
+    });
+
+    if (resp.ok && isUserAction && !updateFound) {
+      setTimeout(() => {
+        showToast(dict.toast_latest_version || "✅ 現在最新のバージョンです");
+      }, 500);
+    }
+  } catch (err) {
+    if (isUserAction && !updateFound) {
+      showToast(dict.toast_latest_version || "✅ 現在最新のバージョンです");
+    }
+  }
+}
+window.checkAppUpdate = checkAppUpdate;
+
 // 初期化
 setLanguage(currentLanguage);
 updateHistoryButtons();
 redraw();
+registerServiceWorker();
