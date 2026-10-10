@@ -19,7 +19,7 @@ This work is fully protected under copyright law.
 ## 著作権および利用規約 (Copyright and Usage Policy)
 
 本作品（ソフトウェア、コード、ドキュメント、および関連する全ての内容を含む）の著作権は、
-© 2025 H.Fukazu に帰属します。**© 2025 H.Fukazu. All Rights Reserved.**
+© 2025 H.Fukazu に帰属します。**© 2026 H.Fukazu. All Rights Reserved.**
  厳禁事項 (Strictly Prohibited)
  著作者からの書面による事前の明示的な許可なく、以下の行為を固く禁じます。
    ・無断転用、複製、改変、二次利用は禁止
