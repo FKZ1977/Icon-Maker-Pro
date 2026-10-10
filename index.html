@@ -247,14 +247,15 @@
     <!-- エフェクト設定パネル（グラデーション・立体 影・立体 艶） -->
     <div class="effects-panel">
       <div class="effects-tabs">
-        <button type="button" class="fx-tab-btn active" data-tab="fx-color" data-i18n="tab_fx_color">🎨 塗り形式 (単色/グラデ)</button>
-        <button type="button" class="fx-tab-btn" data-tab="fx-shadow" data-i18n="tab_fx_shadow">🌑 立体 影 (Shadow)</button>
-        <button type="button" class="fx-tab-btn" data-tab="fx-gloss" data-i18n="tab_fx_gloss">✨ 立体 艶 (Gloss/光沢)</button>
-        <button type="button" class="fx-tab-btn" data-tab="fx-filter" data-i18n="tab_fx_filter">🧪 フィルター (透明/ぼかし/尖鋭)</button>
+        <button type="button" class="fx-tab-btn active" data-tab="fx-color" data-i18n="tab_fx_color">🎨 塗り</button>
+        <button type="button" class="fx-tab-btn" data-tab="fx-shadow" data-i18n="tab_fx_shadow">🌑 影</button>
+        <button type="button" class="fx-tab-btn" data-tab="fx-gloss" data-i18n="tab_fx_gloss">✨ 艶</button>
+        <button type="button" class="fx-tab-btn" data-tab="fx-filter" data-i18n="tab_fx_filter">🧪 フィルタ</button>
       </div>
 
       <!-- 1. 塗り・グラデーション設定 -->
       <div id="fx-color" class="fx-tab-content active">
+        <div class="fx-section-header" data-i18n="fx_title_color">🎨 塗り形式 (単色/グラデーション)</div>
         <div class="fx-row">
           <div class="fx-item fx-mode-toggle">
             <label class="fx-radio-label">
@@ -302,6 +303,7 @@
 
       <!-- 2. 立体 影 (Shadow) 設定 -->
       <div id="fx-shadow" class="fx-tab-content">
+        <div class="fx-section-header" data-i18n="fx_title_shadow">🌑 立体 影 (3D Shadow)</div>
         <div class="fx-row">
           <div class="fx-item">
             <label class="toggle-label">
@@ -334,6 +336,7 @@
 
       <!-- 3. 立体 艶 (Gloss / 光沢) 設定 -->
       <div id="fx-gloss" class="fx-tab-content">
+        <div class="fx-section-header" data-i18n="fx_title_gloss">✨ 立体 艶 (Gloss/光沢)</div>
         <div class="fx-row">
           <div class="fx-item">
             <label class="toggle-label">
@@ -358,6 +361,7 @@
 
       <!-- 4. フィルター (透明度 / ぼかし / 尖鋭化) 設定 -->
       <div id="fx-filter" class="fx-tab-content">
+        <div class="fx-section-header" data-i18n="fx_title_filter">🧪 フィルター (透明度/ぼかし/尖鋭化)</div>
         <div class="fx-row">
           <div class="fx-item">
             <label for="layerOpacity"><span data-i18n="lbl_layer_opacity">透明度 (不透明度)</span>: <span id="layerOpacityVal">100</span>%</label>

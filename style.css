@@ -361,20 +361,22 @@ input[type="color"]::-webkit-color-swatch {
   display: flex;
   background: rgba(0, 0, 0, 0.25);
   border-bottom: 1px solid rgba(75, 239, 255, 0.15);
-  overflow-x: auto;
 }
 
 .fx-tab-btn {
+  flex: 1;
+  min-width: 0;
   background: none;
   border: none;
   border-bottom: 2px solid transparent;
   color: var(--text-muted);
-  padding: 8px 16px;
+  padding: 8px 6px;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.2s ease;
+  text-align: center;
 }
 
 .fx-tab-btn:hover {
@@ -1279,18 +1281,17 @@ pre code {
   display: flex;
   background: rgba(10, 15, 31, 0.6);
   border-bottom: 1px solid var(--border-neon-soft);
-  overflow-x: auto;
   gap: 2px;
 }
 
 .fx-tab-btn {
   flex: 1;
-  min-width: 140px;
+  min-width: 0;
   background: transparent;
   border: none;
   border-bottom: 2px solid transparent;
   color: var(--text-muted);
-  padding: 10px 14px;
+  padding: 9px 4px;
   font-family: inherit;
   font-size: 13px;
   font-weight: 600;
@@ -1300,7 +1301,8 @@ pre code {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 4px;
+  text-align: center;
 }
 
 .fx-tab-btn:hover {
@@ -1313,6 +1315,19 @@ pre code {
   border-bottom-color: var(--accent-cyan);
   background: rgba(75, 239, 255, 0.1);
   text-shadow: 0 0 10px rgba(75, 239, 255, 0.4);
+}
+
+.fx-section-header {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  background: rgba(75, 239, 255, 0.08);
+  border-left: 3px solid var(--accent-cyan);
+  padding: 4px 10px;
+  border-radius: 0 4px 4px 0;
+  margin-bottom: 10px;
+  letter-spacing: 0.3px;
 }
 
 .fx-tab-content {
@@ -1471,12 +1486,19 @@ pre code {
 @media (max-width: 640px) {
   .effects-tabs {
     flex-wrap: nowrap;
-    overflow-x: auto;
+    overflow-x: hidden;
+    gap: 1px;
   }
   .fx-tab-btn {
     font-size: 11px;
-    padding: 8px 10px;
-    min-width: 120px;
+    padding: 8px 2px;
+    min-width: 0;
+    gap: 2px;
+  }
+  .fx-section-header {
+    font-size: 11px;
+    padding: 3px 8px;
+    margin-bottom: 8px;
   }
   .fx-row {
     gap: 10px;
