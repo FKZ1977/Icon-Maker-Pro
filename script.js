@@ -29,7 +29,7 @@ const i18nData = {
     back_to_opening: "← 起動画面に戻る",
     back_to_lock: "← 前の画面に戻る",
     info_page_title: "Information",
-    info_created_by: "このアプリは、<strong>H.Fukazu</strong>によって制作されました。",
+    info_created_by: "Ｉ’Ｍ（アイム）は、<strong>H.Fukazu</strong>によって製作されました。",
     info_version: "バージョン：",
     info_updated_date: "（2026/10/10 更新）",
     info_initial_release: "初版リリース：",
@@ -38,8 +38,12 @@ const i18nData = {
     back_to_top: "↑ TOP",
     layer_panel_title: "レイヤー一覧",
     layer_drag_hint: "ドラッグで順序変更",
+    layer_move_up: "前面へ移動 (▲)",
+    layer_move_down: "背面へ移動 (▼)",
     layer_empty_msg: "レイヤーはありません<br>描画すると追加されます",
     layer_delete_tip: "このレイヤーを削除",
+    layer_hide_tip: "非表示にする (👁)",
+    layer_show_tip: "表示する (🙈)",
     layer_rect: "四角",
     layer_circle: "円",
     layer_line: "直線",
@@ -61,6 +65,7 @@ const i18nData = {
     tool_circle_fill: "● 円（塗り）",
     tool_text: "🔤 テキスト",
     tool_fill: "🪣 塗りつぶし",
+    tool_crop: "「」 範囲選択・トリミング",
     lbl_pen_color: "描画色",
     lbl_pen_size: "太さ",
     lbl_font_size: "文字サイズ",
@@ -81,6 +86,20 @@ const i18nData = {
     btn_select_transform: "✋ 選択・変形",
     btn_rotate_90: "90°",
     btn_rotate_90_tip: "時計回りに90度回転",
+    btn_crop_select: "範囲選択",
+    btn_crop_select_tip: "「」範囲選択・トリミング（ドラッグで範囲指定）",
+    btn_execute_crop: "✂️ 切り抜き",
+    btn_execute_crop_tip: "選択範囲でキャンバスを切り抜く",
+    btn_copy: "📋 コピー",
+    btn_copy_tip: "選択中のレイヤーまたは範囲をコピー (Ctrl+C)",
+    btn_paste: "📥 貼付け",
+    btn_paste_tip: "クリップボードから貼り付け (Ctrl+V)",
+    toast_copied_area: "📋 選択範囲をコピーしました",
+    toast_copied_layer: "📋 レイヤーをコピーしました",
+    toast_pasted: "📥 貼り付けました",
+    toast_cropped: "✂️ 選択範囲でトリミングしました（「戻す」で復元可能）",
+    toast_nothing_to_copy: "ℹ️ コピーするレイヤーまたは範囲を選択してください",
+    toast_clipboard_empty: "ℹ️ クリップボードにデータがありません",
     btn_undo: "↩ 戻す",
     btn_redo: "↪ やり直し",
     btn_clear: "🗑 クリア",
@@ -181,8 +200,12 @@ const i18nData = {
     back_to_top: "↑ TOP",
     layer_panel_title: "Layer List",
     layer_drag_hint: "Drag to reorder",
+    layer_move_up: "Move Forward (▲)",
+    layer_move_down: "Move Backward (▼)",
     layer_empty_msg: "No layers yet<br>Draw on canvas to add one",
     layer_delete_tip: "Delete this layer",
+    layer_hide_tip: "Hide layer (👁)",
+    layer_show_tip: "Show layer (🙈)",
     layer_rect: "Rectangle",
     layer_circle: "Circle",
     layer_line: "Line",
@@ -204,6 +227,7 @@ const i18nData = {
     tool_circle_fill: "● Circle (Fill)",
     tool_text: "🔤 Text",
     tool_fill: "🪣 Bucket Fill",
+    tool_crop: "「」 Area Select / Crop",
     lbl_pen_color: "Draw Color",
     lbl_pen_size: "Stroke Size",
     lbl_font_size: "Font Size",
@@ -224,6 +248,20 @@ const i18nData = {
     btn_select_transform: "✋ Select / Transform",
     btn_rotate_90: "90°",
     btn_rotate_90_tip: "Rotate 90° Clockwise",
+    btn_crop_select: "Select Area",
+    btn_crop_select_tip: "Area Selection & Crop (Drag to specify area)",
+    btn_execute_crop: "✂️ Crop",
+    btn_execute_crop_tip: "Crop canvas to selected area",
+    btn_copy: "📋 Copy",
+    btn_copy_tip: "Copy selected layer or area (Ctrl+C)",
+    btn_paste: "📥 Paste",
+    btn_paste_tip: "Paste from clipboard (Ctrl+V)",
+    toast_copied_area: "📋 Area copied to clipboard",
+    toast_copied_layer: "📋 Layer copied to clipboard",
+    toast_pasted: "📥 Pasted layer from clipboard",
+    toast_cropped: "✂️ Canvas cropped to selection (Undoable)",
+    toast_nothing_to_copy: "ℹ️ Please select a layer or area to copy",
+    toast_clipboard_empty: "ℹ️ No data in clipboard",
     btn_undo: "↩ Undo",
     btn_redo: "↪ Redo",
     btn_clear: "🗑 Clear",
@@ -1728,6 +1766,59 @@ const i18nData = {
   }
 };
 
+// 追加言語（著作権情報・Information画面対応: hi, ar, ru, zh）
+i18nData.hi = {
+  ...i18nData.en,
+  back_to_lock: "← पिछली स्क्रीन पर वापस जाएं",
+  info_page_title: "Information",
+  info_created_by: "यह ऐप <strong>H.Fukazu</strong> द्वारा बनाया गया है।",
+  info_version: "संस्करण: ",
+  info_updated_date: "（2026/10/10 अपडेट किया गया）",
+  info_initial_release: "प्रारंभिक रिलीज: ",
+  show_copyright: "📖 कॉपीराइट जानकारी देखें",
+  hide_copyright: "📖 कॉपीराइट जानकारी बंद करें",
+  back_to_top: "↑ शीर्ष"
+};
+
+i18nData.ar = {
+  ...i18nData.en,
+  back_to_lock: "← العودة إلى الشاشة السابقة",
+  info_page_title: "Information",
+  info_created_by: "تم إنشاء هذا التطبيق بواسطة <strong>H.Fukazu</strong>.",
+  info_version: "الإصدار: ",
+  info_updated_date: "（تم التحديث: 2026/10/10）",
+  info_initial_release: "الإصدار الأول: ",
+  show_copyright: "📖 عرض معلومات حقوق النشر",
+  hide_copyright: "📖 إخفاء معلومات حقوق النشر",
+  back_to_top: "↑ إلى الأعلى"
+};
+
+i18nData.ru = {
+  ...i18nData.en,
+  back_to_lock: "← Назад к предыдущему экрану",
+  info_page_title: "Information",
+  info_created_by: "Это приложение было создано <strong>H.Fukazu</strong>.",
+  info_version: "Версия: ",
+  info_updated_date: "（Обновлено: 2026/10/10）",
+  info_initial_release: "Первый выпуск: ",
+  show_copyright: "📖 Посмотреть информацию об авторских правах",
+  hide_copyright: "📖 Скрыть информацию об авторских правах",
+  back_to_top: "↑ ВВЕРХ"
+};
+
+i18nData.zh = {
+  ...i18nData.en,
+  back_to_lock: "← 返回上一屏幕",
+  info_page_title: "Information",
+  info_created_by: "本应用由 <strong>H.Fukazu</strong> 制作。",
+  info_version: "版本：",
+  info_updated_date: "（2026/10/10 更新）",
+  info_initial_release: "首发版本：",
+  show_copyright: "📖 查看版权信息",
+  hide_copyright: "📖 关闭版权信息",
+  back_to_top: "↑ 顶部"
+};
+
 let currentLanguage = 'ja';
 try {
   const saved = localStorage.getItem('imp_language');
@@ -1745,10 +1836,13 @@ function setLanguage(lang) {
 
   trackEvent('change_language', { language: lang });
 
-  // すべての言語セレクターの値を同期
+  // すべての言語セレクターの値を同期（該当optionが存在する場合のみ）
   const selectors = document.querySelectorAll('.lang-selector');
   selectors.forEach(sel => {
-    sel.value = lang;
+    const hasOption = Array.from(sel.options).some(opt => opt.value === lang);
+    if (hasOption) {
+      sel.value = lang;
+    }
   });
 
   // data-i18n 要素を更新
@@ -1771,6 +1865,23 @@ function setLanguage(lang) {
   // レイヤー一覧の動的ラベルも即座に再描画
   if (typeof updateLayerPanel === 'function') {
     updateLayerPanel();
+  }
+
+  // 著作権情報（README）が表示中の場合、選択言語のセクションへ自動スクロール＆ボタン文言の維持
+  if (typeof isReadmeVisible !== 'undefined' && isReadmeVisible) {
+    const targetSecId = 'sec-' + lang;
+    document.querySelectorAll('.readme-section').forEach(sec => sec.classList.remove('active-lang-section'));
+    const targetSec = document.getElementById(targetSecId);
+    if (targetSec) {
+      targetSec.classList.add('active-lang-section');
+      setTimeout(() => {
+        targetSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
+    const btn = document.getElementById('showCopyrightBtn');
+    if (btn && dict && dict.hide_copyright) {
+      btn.innerHTML = dict.hide_copyright;
+    }
   }
 
   // HTML lang 属性更新
@@ -1801,7 +1912,7 @@ function closeOpeningScreen() {
   if (!isOpeningActive || !openingScreen) return;
   isOpeningActive = false;
   openingScreen.classList.add('hidden');
-  const welcomeMsg = currentLanguage === 'ja' ? "🚀 IMP (Icon Maker Pro) へようこそ！" : "🚀 Welcome to IMP (Icon Maker Pro)!";
+  const welcomeMsg = currentLanguage === 'ja' ? "🚀 I'M (Icon Maker Pro) へようこそ！" : "🚀 Welcome to I'M (Icon Maker Pro)!";
   showToast(welcomeMsg);
   trackEvent('app_start', { language: currentLanguage });
 }
@@ -1995,10 +2106,236 @@ let objects = [];
 let undoStack = [];
 let redoStack = [];
 let selectedObject = null;
+let selectedObjects = []; // 複数同時選択中のレイヤー配列
+
+// 複数選択と単一選択・変形ボタンの同期
+function syncSelectedObjects() {
+  // 存在しないオブジェクトをフィルタリング
+  selectedObjects = selectedObjects.filter(o => objects.includes(o));
+  selectedObject = selectedObjects.length > 0 ? selectedObjects[selectedObjects.length - 1] : null;
+  if (selectedObjects.length > 0) {
+    isSelectModeActive = true;
+    if (selectTransformBtn) selectTransformBtn.classList.add('active');
+    if (selectedObject) syncEffectControlsWithObject(selectedObject);
+  } else {
+    isSelectModeActive = false;
+    if (selectTransformBtn) selectTransformBtn.classList.remove('active');
+  }
+}
+
+function clearObjectSelection() {
+  selectedObjects = [];
+  selectedObject = null;
+  isSelectModeActive = false;
+  if (selectTransformBtn) selectTransformBtn.classList.remove('active');
+}
+
+function toggleObjectSelection(obj) {
+  const idx = selectedObjects.indexOf(obj);
+  if (idx !== -1) {
+    selectedObjects.splice(idx, 1);
+  } else {
+    selectedObjects.push(obj);
+  }
+  syncSelectedObjects();
+}
+
+// レイヤー作成順の固定通し番号管理
+let nextCreationOrder = 1;
+
+// 丸数字の取得ヘルパー (①〜⑳: U+2460〜、㉑〜㉟: U+3251〜、㊱〜㊿: U+32B1〜、それ以上は (n))
+function getCircledNumber(n) {
+  if (!n || n < 1) return "";
+  if (n <= 20) return String.fromCharCode(0x2460 + n - 1);
+  if (n <= 35) return String.fromCharCode(0x3251 + n - 21);
+  if (n <= 50) return String.fromCharCode(0x32B1 + n - 36);
+  return `(${n})`;
+}
+
+// すべてのオブジェクトに作成順番号（固定ID）を漏れなく割り当てる
+function ensureCreationOrders() {
+  if (!objects || objects.length === 0) {
+    nextCreationOrder = 1;
+    return;
+  }
+  let maxOrder = 0;
+  objects.forEach(obj => {
+    if (obj.creationOrder && typeof obj.creationOrder === 'number') {
+      if (obj.creationOrder > maxOrder) maxOrder = obj.creationOrder;
+    }
+  });
+  if (nextCreationOrder <= maxOrder) {
+    nextCreationOrder = maxOrder + 1;
+  }
+  objects.forEach(obj => {
+    if (!obj.creationOrder) {
+      obj.creationOrder = nextCreationOrder++;
+    }
+  });
+}
+
+// 範囲選択スタジオ（矩形、手でなぞる、多角形、色選択、階調選択、合成、ぼかし）& クリップボード管理
+let isCropModeActive = false;
+let cropSelectMode = 'rect'; // 'rect' | 'freehand' | 'polygon' | 'color' | 'luma'
+let cropSelection = null; // { type, x, y, w, h, points? }
+let cropDragStart = null;
+let cropPathPoints = [];
+let isDraggingCrop = false;
+let isMovingCropBox = false;
+let cropBoxMoveOffset = null;
+let activeCropHandle = null; // 'tl' | 'tr' | 'bl' | 'br' | 'tc' | 'bc' | 'ml' | 'mr'
+let cropInitialBounds = null; // リサイズ開始時の境界 { x, y, w, h }
+let cropInitialPoints = null; // リサイズ開始時のパス頂点
+let appClipboard = null; // { type: 'object', object } または { type: 'image', dataUrl, w, h }
+
+// 高度な範囲選択スタジオ管理
+let cropMaskCanvas = null;
+let cropMaskCtx = null;
+let cropComposeMode = 'new'; // 'new' (新規) | 'add' (追加) | 'sub' (削除)
+let cropFeather = 0; // 境界ぼかし量 (0〜20px)
+let cropPolyPoints = []; // 多角形選択時の頂点リスト
+let cropColorTolerance = 32; // 色選択の許容度 (1〜100)
+let cropLumaType = 'highlights'; // 明るさ階調 ('highlights' | 'midtones' | 'shadows')
+
+function ensureCropMaskCanvas() {
+  if (!cropMaskCanvas) {
+    cropMaskCanvas = document.createElement('canvas');
+  }
+  if (cropMaskCanvas.width !== canvas.width || cropMaskCanvas.height !== canvas.height) {
+    cropMaskCanvas.width = canvas.width;
+    cropMaskCanvas.height = canvas.height;
+    cropMaskCtx = cropMaskCanvas.getContext('2d');
+  }
+  return cropMaskCanvas;
+}
+
+function clearCropMask() {
+  if (cropMaskCanvas && cropMaskCtx) {
+    cropMaskCtx.clearRect(0, 0, cropMaskCanvas.width, cropMaskCanvas.height);
+  }
+  cropSelection = null;
+  cropPathPoints = [];
+  cropPolyPoints = [];
+}
+
+function hasActiveCropMask() {
+  if (!cropMaskCanvas || !cropMaskCtx) return false;
+  return !!(cropSelection && cropSelection.w >= 4 && cropSelection.h >= 4);
+}
+
+// マスク内の白ピクセルのバウンディングボックスを走査・更新
+function recalculateCropBoundsFromMask() {
+  ensureCropMaskCanvas();
+  const imgData = cropMaskCtx.getImageData(0, 0, canvas.width, canvas.height);
+  const data = imgData.data;
+  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+  let hasPixels = false;
+
+  for (let y = 0; y < canvas.height; y++) {
+    for (let x = 0; x < canvas.width; x++) {
+      const idx = (y * canvas.width + x) * 4;
+      if (data[idx + 3] > 20) {
+        hasPixels = true;
+        if (x < minX) minX = x;
+        if (x > maxX) maxX = x;
+        if (y < minY) minY = y;
+        if (y > maxY) maxY = y;
+      }
+    }
+  }
+
+  if (hasPixels) {
+    cropSelection = {
+      type: cropSelectMode,
+      x: minX,
+      y: minY,
+      w: Math.max(4, maxX - minX + 1),
+      h: Math.max(4, maxY - minY + 1)
+    };
+  } else {
+    cropSelection = null;
+  }
+  updateCropUI();
+}
+
+// 合成モード（新規 / 追加 / 削除）に従ってマスクへ描画適用
+function applyShapeToCropMask(drawFn) {
+  ensureCropMaskCanvas();
+  cropMaskCtx.save();
+  if (cropComposeMode === 'new') {
+    cropMaskCtx.clearRect(0, 0, canvas.width, canvas.height);
+    cropMaskCtx.globalCompositeOperation = 'source-over';
+    cropMaskCtx.fillStyle = '#FFFFFF';
+    cropMaskCtx.strokeStyle = '#FFFFFF';
+    drawFn(cropMaskCtx);
+  } else if (cropComposeMode === 'add') {
+    cropMaskCtx.globalCompositeOperation = 'source-over';
+    cropMaskCtx.fillStyle = '#FFFFFF';
+    cropMaskCtx.strokeStyle = '#FFFFFF';
+    drawFn(cropMaskCtx);
+  } else if (cropComposeMode === 'sub') {
+    cropMaskCtx.globalCompositeOperation = 'destination-out';
+    cropMaskCtx.fillStyle = '#FFFFFF';
+    cropMaskCtx.strokeStyle = '#FFFFFF';
+    drawFn(cropMaskCtx);
+  }
+  cropMaskCtx.restore();
+  recalculateCropBoundsFromMask();
+  redraw();
+}
+
+// 多角形（手でなぞる・投げ縄）の内外判定（Ray Casting法）
+function isPointInCropPath(p, points) {
+  if (!points || points.length < 3) return false;
+  let inside = false;
+  for (let i = 0, j = points.length - 1; i < points.length; j = i++) {
+    const xi = points[i].x, yi = points[i].y;
+    const xj = points[j].x, yj = points[j].y;
+    const intersect = ((yi > p.y) !== (yj > p.y)) && (p.x < (xj - xi) * (p.y - yi) / (yj - yi) + xi);
+    if (intersect) inside = !inside;
+  }
+  return inside;
+}
 
 const undoButton = document.getElementById('undoButton');
 const redoButton = document.getElementById('redoButton');
 const clearCanvasBtn = document.getElementById('clearCanvas');
+const cropTypeSelect = document.getElementById('cropTypeSelect');
+const cropSelectBtn = document.getElementById('cropSelectBtn');
+const executeCropBtn = document.getElementById('executeCropBtn');
+const copyBtn = document.getElementById('copyBtn');
+const pasteBtn = document.getElementById('pasteBtn');
+
+// 範囲選択オプションバー要素
+const cropOptionsBar = document.getElementById('cropOptionsBar');
+const cropOpNew = document.getElementById('cropOpNew');
+const cropOpAdd = document.getElementById('cropOpAdd');
+const cropOpSub = document.getElementById('cropOpSub');
+const cropFeatherInput = document.getElementById('cropFeatherInput');
+const cropFeatherVal = document.getElementById('cropFeatherVal');
+const cropPolyControls = document.getElementById('cropPolyControls');
+const cropPolyFinishBtn = document.getElementById('cropPolyFinishBtn');
+const cropPolyCancelBtn = document.getElementById('cropPolyCancelBtn');
+const cropColorControls = document.getElementById('cropColorControls');
+const cropColorToleranceInput = document.getElementById('cropColorTolerance');
+const cropColorTolVal = document.getElementById('cropColorTolVal');
+const cropLumaControls = document.getElementById('cropLumaControls');
+const cropLumaTypeSelect = document.getElementById('cropLumaType');
+const cropLumaApplyBtn = document.getElementById('cropLumaApplyBtn');
+
+function updateCropOptionsBar() {
+  if (!cropOptionsBar) return;
+  if (!isCropModeActive) {
+    cropOptionsBar.classList.add('hidden');
+    return;
+  }
+  cropOptionsBar.classList.remove('hidden');
+
+  // モード別サブグループの表示制御
+  if (cropPolyControls) cropPolyControls.classList.toggle('hidden', cropSelectMode !== 'polygon');
+  if (cropColorControls) cropColorControls.classList.toggle('hidden', cropSelectMode !== 'color');
+  if (cropLumaControls) cropLumaControls.classList.toggle('hidden', cropSelectMode !== 'luma');
+}
 
 function updateHistoryButtons() {
   if (undoButton) undoButton.disabled = (undoStack.length === 0);
@@ -2030,6 +2367,7 @@ function deserializeObjects(jsonString) {
 }
 
 function saveState() {
+  ensureCreationOrders();
   undoStack.push(serializeObjects(objects));
   redoStack = [];
   // 履歴スタック上限（メモリ保護）
@@ -2075,26 +2413,393 @@ undoButton.addEventListener('click', undo);
 redoButton.addEventListener('click', redo);
 clearCanvasBtn.addEventListener('click', clearAll);
 
-// ショートカットキー対応 (Ctrl+Z, Ctrl+Y / Cmd+Z, Cmd+Shift+Z)
+// ショートカットキー対応 (Ctrl+Z, Ctrl+Y, Ctrl+C, Ctrl+V, Delete, Esc)
 window.addEventListener('keydown', (e) => {
-  // テキスト入力中は除外
+  // テキスト入力中・選択セレクト中は除外
   if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) return;
 
   const isCmdOrCtrl = e.ctrlKey || e.metaKey;
-  if (!isCmdOrCtrl) return;
 
-  if (e.key === 'z' || e.key === 'Z') {
-    e.preventDefault();
-    if (e.shiftKey) {
+  if (isCmdOrCtrl) {
+    if (e.key === 'z' || e.key === 'Z') {
+      e.preventDefault();
+      if (e.shiftKey) {
+        redo();
+      } else {
+        undo();
+      }
+    } else if (e.key === 'y' || e.key === 'Y') {
+      e.preventDefault();
       redo();
-    } else {
-      undo();
+    } else if (e.key === 'c' || e.key === 'C') {
+      e.preventDefault();
+      copySelected();
+    } else if (e.key === 'v' || e.key === 'V') {
+      e.preventDefault();
+      pasteClipboard();
     }
-  } else if (e.key === 'y' || e.key === 'Y') {
-    e.preventDefault();
-    redo();
+  } else {
+    if (e.key === 'Delete' || e.key === 'Backspace') {
+      if (selectedObjects.length > 0 || selectedObject) {
+        e.preventDefault();
+        deleteSelectedObject();
+      }
+    } else if (e.key === 'Escape') {
+      if (cropSelection || isCropModeActive) {
+        e.preventDefault();
+        toggleCropMode(false);
+      }
+    }
   }
 });
+
+// ==========================================
+// 範囲選択・「」トリミング & コピー・ペースト制御関数
+// ==========================================
+function updateCropUI() {
+  if (executeCropBtn) {
+    if (cropSelection && cropSelection.w >= 4 && cropSelection.h >= 4) {
+      executeCropBtn.classList.remove('hidden');
+    } else {
+      executeCropBtn.classList.add('hidden');
+    }
+  }
+}
+
+function toggleCropMode(enable, mode = null) {
+  if (mode) cropSelectMode = mode;
+  isCropModeActive = (enable !== undefined) ? enable : !isCropModeActive;
+  if (isCropModeActive) {
+    if (cropTypeSelect) {
+      cropTypeSelect.value = cropSelectMode || 'rect';
+      cropTypeSelect.classList.add('active');
+    }
+    if (cropSelectBtn) cropSelectBtn.classList.add('active');
+    selectedObject = null;
+    isSelectModeActive = false;
+    if (selectTransformBtn) selectTransformBtn.classList.remove('active');
+    trackEvent('crop_select_toggle', { active: true, mode: cropSelectMode });
+    const toastMsgs = {
+      rect: '「」 矩形選択：キャンバス上をドラッグして四角い範囲を指定してください',
+      freehand: '✏️ 手でなぞる：指やペンで自由になぞって囲んでください',
+      polygon: '📍 多角形選択：タップして点を打ち、始点をタップまたは「確定」で囲みます',
+      color: '🪄 色選択：キャンバス上の色をタップすると同系色が一括選択されます',
+      luma: '☀️ 明るさ階調：階調（明部・中間部・暗部）を選んで「選択」を押してください'
+    };
+    showToast(toastMsgs[cropSelectMode] || '範囲を指定してください');
+  } else {
+    if (cropTypeSelect) {
+      cropTypeSelect.value = "";
+      cropTypeSelect.classList.remove('active');
+    }
+    if (cropSelectBtn) cropSelectBtn.classList.remove('active');
+    clearCropMask();
+    activeCropHandle = null;
+    cropInitialBounds = null;
+    cropInitialPoints = null;
+    updateCropUI();
+  }
+  updateCropOptionsBar();
+  redraw();
+}
+
+function deleteSelectedObject() {
+  const currentSelected = selectedObjects.length > 0 ? [...selectedObjects] : (selectedObject ? [selectedObject] : []);
+  if (currentSelected.length === 0) return;
+
+  saveState();
+  let deletedCount = 0;
+  currentSelected.forEach(obj => {
+    const idx = objects.indexOf(obj);
+    if (idx !== -1) {
+      objects.splice(idx, 1);
+      deletedCount++;
+    }
+  });
+
+  clearObjectSelection();
+  redraw();
+  const dict = i18nData[currentLanguage] || i18nData.ja;
+  if (deletedCount > 1) {
+    showToast(`🗑 ${deletedCount}個のレイヤーを削除しました`);
+  } else {
+    showToast(dict.toast_layer_deleted || "🗑 レイヤーを削除しました");
+  }
+}
+
+// クリーンなキャンバススナップショット取得（選択枠・トリミング枠を除外した純粋な描画）
+function getCleanCanvasSnapshot() {
+  const prevSelectedList = [...selectedObjects];
+  const prevSelected = selectedObject;
+  const prevCrop = cropSelection;
+  clearObjectSelection();
+  cropSelection = null;
+  redraw();
+
+  const snapCanvas = document.createElement('canvas');
+  snapCanvas.width = canvas.width;
+  snapCanvas.height = canvas.height;
+  const snapCtx = snapCanvas.getContext('2d');
+
+  // 背景色を描画（透過以外）
+  const bgColorSelect = document.getElementById('canvasBgColor');
+  const bg = bgColorSelect ? bgColorSelect.value : 'transparent';
+  if (bg && bg !== 'transparent') {
+    snapCtx.fillStyle = bg;
+    snapCtx.fillRect(0, 0, snapCanvas.width, snapCanvas.height);
+  }
+  snapCtx.drawImage(canvas, 0, 0);
+
+  selectedObjects = prevSelectedList;
+  selectedObject = prevSelected;
+  cropSelection = prevCrop;
+  redraw();
+  return snapCanvas;
+}
+
+// 選択領域を透過PNG画像Canvasとして抽出（フェザー境界ぼかし対応）
+function extractCroppedCanvas(snapCanvas) {
+  if (!cropSelection || cropSelection.w < 4 || cropSelection.h < 4) return null;
+  const { x, y, w, h } = cropSelection;
+  const cropCanvas = document.createElement('canvas');
+  cropCanvas.width = Math.round(w);
+  cropCanvas.height = Math.round(h);
+  const cropCtx = cropCanvas.getContext('2d');
+
+  if (cropMaskCanvas && hasActiveCropMask()) {
+    // 1. スナップショットをバウンディングボックス位置で描画
+    cropCtx.drawImage(snapCanvas, x, y, w, h, 0, 0, cropCanvas.width, cropCanvas.height);
+
+    // 2. マスク切り抜き（フェザーぼかし対応）
+    const maskSub = document.createElement('canvas');
+    maskSub.width = cropCanvas.width;
+    maskSub.height = cropCanvas.height;
+    const mCtx = maskSub.getContext('2d');
+    if (cropFeather > 0) {
+      mCtx.filter = `blur(${cropFeather}px)`;
+    }
+    mCtx.drawImage(cropMaskCanvas, x, y, w, h, 0, 0, cropCanvas.width, cropCanvas.height);
+
+    // 3. マスクによる型抜き
+    cropCtx.globalCompositeOperation = 'destination-in';
+    cropCtx.drawImage(maskSub, 0, 0);
+    cropCtx.globalCompositeOperation = 'source-over';
+  } else if ((cropSelection.type === 'freehand' || cropSelection.type === 'lasso') && cropSelection.points && cropSelection.points.length >= 3) {
+    cropCtx.save();
+    cropCtx.beginPath();
+    cropCtx.moveTo(cropSelection.points[0].x - x, cropSelection.points[0].y - y);
+    for (let i = 1; i < cropSelection.points.length; i++) {
+      cropCtx.lineTo(cropSelection.points[i].x - x, cropSelection.points[i].y - y);
+    }
+    cropCtx.closePath();
+    cropCtx.clip();
+    cropCtx.drawImage(snapCanvas, x, y, w, h, 0, 0, cropCanvas.width, cropCanvas.height);
+    cropCtx.restore();
+  } else {
+    cropCtx.drawImage(snapCanvas, x, y, w, h, 0, 0, cropCanvas.width, cropCanvas.height);
+  }
+
+  return cropCanvas;
+}
+
+// コピー実行
+function copySelected() {
+  const dict = i18nData[currentLanguage] || i18nData.ja;
+
+  // A. 範囲選択がある場合：選択領域の画像をコピー
+  if (isCropModeActive && cropSelection && cropSelection.w >= 4 && cropSelection.h >= 4) {
+    const snapCanvas = getCleanCanvasSnapshot();
+    const cropCanvas = extractCroppedCanvas(snapCanvas);
+    if (!cropCanvas) return;
+
+    const dataUrl = cropCanvas.toDataURL('image/png');
+    appClipboard = {
+      type: 'image',
+      dataUrl: dataUrl,
+      w: cropCanvas.width,
+      h: cropCanvas.height
+    };
+
+    // システムクリップボードにもPNG画像として書き込み試行
+    if (cropCanvas.toBlob && navigator.clipboard && window.ClipboardItem) {
+      cropCanvas.toBlob(blob => {
+        if (blob) {
+          try {
+            navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]).catch(() => {});
+          } catch (e) {}
+        }
+      });
+    }
+
+    trackEvent('copy_action', { target: 'selection' });
+    showToast(dict.toast_copied_area || '📋 選択範囲をコピーしました');
+    return;
+  }
+
+  // B. レイヤーが選択されている場合：オブジェクトをコピー（複数選択対応）
+  const targets = selectedObjects.length > 0 ? selectedObjects : (selectedObject ? [selectedObject] : []);
+  if (targets.length > 0) {
+    appClipboard = {
+      type: 'objects',
+      objects: targets.map(o => cloneObject(o))
+    };
+    trackEvent('copy_action', { target: 'objects', count: targets.length });
+    if (targets.length > 1) {
+      showToast(`📋 ${targets.length}個のレイヤーをコピーしました`);
+    } else {
+      showToast(dict.toast_copied_layer || '📋 レイヤーをコピーしました');
+    }
+    return;
+  }
+
+  // C. 何も選択されていない場合
+  showToast(dict.toast_nothing_to_copy || 'ℹ️ コピーするレイヤーまたは範囲を選択してください');
+}
+
+// ペースト実行
+function pasteClipboard() {
+  const dict = i18nData[currentLanguage] || i18nData.ja;
+
+  if (!appClipboard) {
+    showToast(dict.toast_clipboard_empty || 'ℹ️ クリップボードにデータがありません');
+    return;
+  }
+
+  // A. オブジェクトのペースト（単数・複数対応）
+  if (appClipboard.type === 'objects' || appClipboard.type === 'object') {
+    saveState();
+    const sourceList = appClipboard.objects ? appClipboard.objects : [appClipboard.object];
+    clearObjectSelection();
+
+    sourceList.forEach(src => {
+      const newObj = cloneObject(src);
+      newObj.creationOrder = null; // 貼り付けられた複製には新規の通し番号を付与
+      moveObject(newObj, 15, 15);
+      const bounds = getObjectBounds(newObj);
+      if (bounds) {
+        if (bounds.x > canvas.width - 20) moveObject(newObj, -canvas.width / 2, 0);
+        if (bounds.y > canvas.height - 20) moveObject(newObj, 0, -canvas.height / 2);
+      }
+      objects.push(newObj);
+      selectedObjects.push(newObj);
+    });
+
+    syncSelectedObjects();
+    redraw();
+    trackEvent('paste_action', { target: 'objects', count: sourceList.length });
+    if (sourceList.length > 1) {
+      showToast(`📥 ${sourceList.length}個のレイヤーを貼り付けました`);
+    } else {
+      showToast(dict.toast_pasted || '📥 レイヤーを貼り付けました');
+    }
+    return;
+  }
+
+  // B. 切り抜き画像のペースト
+  if (appClipboard.type === 'image') {
+    pasteImageDataUrl(appClipboard.dataUrl, appClipboard.w, appClipboard.h);
+  }
+}
+
+// 画像DataURLを新しいレイヤーとして貼り付け
+function pasteImageDataUrl(dataUrl, targetW = null, targetH = null) {
+  const dict = i18nData[currentLanguage] || i18nData.ja;
+  const img = new Image();
+  img.onload = () => {
+    saveState();
+    let w = targetW || img.width;
+    let h = targetH || img.height;
+    if (w > canvas.width || h > canvas.height) {
+      const scale = Math.min(canvas.width / w, canvas.height / h) * 0.8;
+      w = Math.round(w * scale);
+      h = Math.round(h * scale);
+    }
+    const posX = Math.round((canvas.width - w) / 2);
+    const posY = Math.round((canvas.height - h) / 2);
+
+    const eff = getCurrentEffectSettings();
+    const newImageObj = {
+      type: 'image',
+      x: posX,
+      y: posY,
+      w: w,
+      h: h,
+      dataUrl: dataUrl,
+      imgElement: img,
+      rotation: 0,
+      ...eff
+    };
+    objects.push(newImageObj);
+    selectedObject = newImageObj;
+    isSelectModeActive = true;
+    if (selectTransformBtn) selectTransformBtn.classList.add('active');
+    syncEffectControlsWithObject(selectedObject);
+    redraw();
+    trackEvent('paste_action', { target: 'image' });
+    showToast(dict.toast_pasted || '📥 画像レイヤーを貼り付けました');
+  };
+  img.src = dataUrl;
+}
+
+// ✂️ トリミング実行
+function executeCrop() {
+  if (!cropSelection || cropSelection.w < 4 || cropSelection.h < 4) {
+    showToast('⚠️ トリミングする範囲をドラッグで指定してください');
+    return;
+  }
+
+  const snapCanvas = getCleanCanvasSnapshot();
+  const cropCanvas = extractCroppedCanvas(snapCanvas);
+  if (!cropCanvas) return;
+
+  // 256x256 のキャンバス枠にアスペクト比維持で最大化フィット
+  const finalCanvas = document.createElement('canvas');
+  finalCanvas.width = 256;
+  finalCanvas.height = 256;
+  const finalCtx = finalCanvas.getContext('2d');
+
+  const scale = Math.min(256 / cropCanvas.width, 256 / cropCanvas.height);
+  const destW = Math.round(cropCanvas.width * scale);
+  const destH = Math.round(cropCanvas.height * scale);
+  const destX = Math.round((256 - destW) / 2);
+  const destY = Math.round((256 - destH) / 2);
+
+  finalCtx.drawImage(cropCanvas, 0, 0, cropCanvas.width, cropCanvas.height, destX, destY, destW, destH);
+
+  const croppedDataUrl = finalCanvas.toDataURL('image/png');
+  const croppedImg = new Image();
+  croppedImg.onload = () => {
+    saveState();
+    objects = [{
+      type: 'image',
+      x: destX,
+      y: destY,
+      w: destW,
+      h: destH,
+      dataUrl: croppedDataUrl,
+      imgElement: croppedImg,
+      rotation: 0
+    }];
+    selectedObject = objects[0];
+    cropSelection = null;
+    cropPathPoints = [];
+    isCropModeActive = false;
+    updateCropUI();
+    if (cropTypeSelect) {
+      cropTypeSelect.value = "";
+      cropTypeSelect.classList.remove('active');
+    }
+    if (cropSelectBtn) cropSelectBtn.classList.remove('active');
+    activeCropHandle = null;
+    cropInitialBounds = null;
+    cropInitialPoints = null;
+    redraw();
+    trackEvent('execute_crop');
+    const dict = i18nData[currentLanguage] || i18nData.ja;
+    showToast(dict.toast_cropped || '✂️ 選択範囲でトリミングしました（「戻す」で復元可能）');
+  };
+  croppedImg.src = croppedDataUrl;
+}
 
 // ==========================================
 // 3. キャンバス描画制御（Mode A）
@@ -2416,6 +3121,7 @@ let previousDrawingTool = 'pen';
 
 if (selectTransformBtn) {
   selectTransformBtn.addEventListener('click', () => {
+    if (isCropModeActive) toggleCropMode(false);
     isSelectModeActive = !isSelectModeActive;
     if (isSelectModeActive) {
       previousDrawingTool = toolSelect.value;
@@ -2425,7 +3131,7 @@ if (selectTransformBtn) {
     } else {
       selectTransformBtn.classList.remove('active');
       canvas.style.cursor = 'crosshair';
-      selectedObject = null;
+      clearObjectSelection();
       redraw();
     }
   });
@@ -2436,30 +3142,259 @@ const rotate90Btn = document.getElementById('rotate90Btn');
 if (rotate90Btn) {
   rotate90Btn.addEventListener('click', () => {
     // 選択中オブジェクトがなければ最前面のオブジェクトを自動選択
-    if (!selectedObject && objects.length > 0) {
+    if (selectedObjects.length === 0 && !selectedObject && objects.length > 0) {
       selectedObject = objects[objects.length - 1];
+      selectedObjects = [selectedObject];
       isSelectModeActive = true;
       if (selectTransformBtn) selectTransformBtn.classList.add('active');
       syncEffectControlsWithObject(selectedObject);
     }
 
-    if (!selectedObject) {
+    const targets = selectedObjects.length > 0 ? selectedObjects : (selectedObject ? [selectedObject] : []);
+    if (targets.length === 0) {
       showToast("⚠️ 回転するレイヤーがありません（キャンバスに描画してください）");
       return;
     }
 
     saveState();
-    selectedObject.rotation = ((selectedObject.rotation || 0) + 90) % 360;
+    targets.forEach(obj => {
+      obj.rotation = ((obj.rotation || 0) + 90) % 360;
+    });
     redraw();
-    const rotDeg = selectedObject.rotation;
-    showToast(`↷ 90°回転しました（現在: ${rotDeg}°）`);
+    if (targets.length > 1) {
+      showToast(`↷ ${targets.length}個のレイヤーを90°回転しました`);
+    } else {
+      const rotDeg = targets[0].rotation;
+      showToast(`↷ 90°回転しました（現在: ${rotDeg}°）`);
+    }
   });
 }
+
+// ［範囲選択 ▼］ドロップダウン
+if (cropTypeSelect) {
+  cropTypeSelect.addEventListener('change', (e) => {
+    const val = e.target.value;
+    if (val) {
+      cropSelectMode = val;
+      toggleCropMode(true, val);
+    } else {
+      toggleCropMode(false);
+    }
+  });
+}
+
+// 合成モード切り替え (新規 / 追加 / 削除)
+function setCropComposeMode(mode) {
+  cropComposeMode = mode;
+  if (cropOpNew) cropOpNew.classList.toggle('active', mode === 'new');
+  if (cropOpAdd) cropOpAdd.classList.toggle('active', mode === 'add');
+  if (cropOpSub) cropOpSub.classList.toggle('active', mode === 'sub');
+  const labels = { new: '◻️ 新規選択', add: '➕ 選択範囲に追加', sub: '➖ 選択範囲から削除' };
+  showToast(`合成: ${labels[mode] || mode}`);
+}
+
+if (cropOpNew) cropOpNew.addEventListener('click', () => setCropComposeMode('new'));
+if (cropOpAdd) cropOpAdd.addEventListener('click', () => setCropComposeMode('add'));
+if (cropOpSub) cropOpSub.addEventListener('click', () => setCropComposeMode('sub'));
+
+// 境界ぼかしスライダー (フェザー 0〜20px)
+if (cropFeatherInput) {
+  cropFeatherInput.addEventListener('input', (e) => {
+    cropFeather = parseInt(e.target.value) || 0;
+    if (cropFeatherVal) cropFeatherVal.textContent = `${cropFeather}px`;
+    redraw();
+  });
+}
+
+// 多角形選択の確定（閉じる）
+function finishPolygonCrop() {
+  if (cropPolyPoints.length < 3) {
+    showToast('ℹ️ 多角形を閉じるには3点以上タップしてください');
+    return;
+  }
+  const pts = [...cropPolyPoints];
+  applyShapeToCropMask((mCtx) => {
+    mCtx.beginPath();
+    mCtx.moveTo(pts[0].x, pts[0].y);
+    for (let i = 1; i < pts.length; i++) {
+      mCtx.lineTo(pts[i].x, pts[i].y);
+    }
+    mCtx.closePath();
+    mCtx.fill();
+  });
+  cropPolyPoints = [];
+  showToast('📍 多角形選択を確定しました');
+  redraw();
+}
+
+if (cropPolyFinishBtn) cropPolyFinishBtn.addEventListener('click', finishPolygonCrop);
+if (cropPolyCancelBtn) {
+  cropPolyCancelBtn.addEventListener('click', () => {
+    if (cropPolyPoints.length > 0) {
+      cropPolyPoints.pop();
+      redraw();
+    }
+  });
+}
+
+// 色選択（同系色一括選択・マジックワンド）
+function selectColorAt(px, py) {
+  const snap = getCleanCanvasSnapshot();
+  const sCtx = snap.getContext('2d');
+  const imgData = sCtx.getImageData(0, 0, canvas.width, canvas.height);
+  const data = imgData.data;
+
+  const clampX = Math.max(0, Math.min(canvas.width - 1, Math.floor(px)));
+  const clampY = Math.max(0, Math.min(canvas.height - 1, Math.floor(py)));
+  const baseIdx = (clampY * canvas.width + clampX) * 4;
+  const br = data[baseIdx], bg = data[baseIdx + 1], bb = data[baseIdx + 2], ba = data[baseIdx + 3];
+
+  const tol = parseInt(cropColorTolerance) || 32;
+  const tolThreshold = (tol * 2.55) * (tol * 2.55) * 3;
+
+  const tempCanvas = document.createElement('canvas');
+  tempCanvas.width = canvas.width; tempCanvas.height = canvas.height;
+  const tCtx = tempCanvas.getContext('2d');
+  const maskData = tCtx.createImageData(canvas.width, canvas.height);
+  const mData = maskData.data;
+
+  for (let i = 0; i < data.length; i += 4) {
+    const dr = data[i] - br;
+    const dg = data[i + 1] - bg;
+    const db = data[i + 2] - bb;
+    const da = data[i + 3] - ba;
+    const distSq = dr * dr + dg * dg + db * db;
+    if (distSq <= tolThreshold && Math.abs(da) <= tol * 2.55) {
+      mData[i] = 255;
+      mData[i + 1] = 255;
+      mData[i + 2] = 255;
+      mData[i + 3] = 255;
+    }
+  }
+  tCtx.putImageData(maskData, 0, 0);
+
+  applyShapeToCropMask((mCtx) => {
+    mCtx.drawImage(tempCanvas, 0, 0);
+  });
+  showToast(`🪄 同系色を一括選択しました（許容度: ${tol}）`);
+}
+
+// 色選択の許容度スライダー
+if (cropColorToleranceInput) {
+  cropColorToleranceInput.addEventListener('input', (e) => {
+    cropColorTolerance = parseInt(e.target.value) || 32;
+    if (cropColorTolVal) cropColorTolVal.textContent = cropColorTolerance;
+  });
+}
+
+// 明るさ階調選択
+function selectLumaRange(type = 'highlights') {
+  const snap = getCleanCanvasSnapshot();
+  const sCtx = snap.getContext('2d');
+  const imgData = sCtx.getImageData(0, 0, canvas.width, canvas.height);
+  const data = imgData.data;
+
+  const tempCanvas = document.createElement('canvas');
+  tempCanvas.width = canvas.width; tempCanvas.height = canvas.height;
+  const tCtx = tempCanvas.getContext('2d');
+  const maskData = tCtx.createImageData(canvas.width, canvas.height);
+  const mData = maskData.data;
+
+  for (let i = 0; i < data.length; i += 4) {
+    if (data[i + 3] < 15) continue; // 透明部分は除外
+    const luma = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+    let match = false;
+    if (type === 'highlights' && luma >= 170) match = true;
+    else if (type === 'midtones' && luma >= 85 && luma < 170) match = true;
+    else if (type === 'shadows' && luma < 85) match = true;
+
+    if (match) {
+      mData[i] = 255;
+      mData[i + 1] = 255;
+      mData[i + 2] = 255;
+      mData[i + 3] = 255;
+    }
+  }
+  tCtx.putImageData(maskData, 0, 0);
+
+  applyShapeToCropMask((mCtx) => {
+    mCtx.drawImage(tempCanvas, 0, 0);
+  });
+  const typeNames = { highlights: '明部 (ハイライト)', midtones: '中間部', shadows: '暗部 (シャドウ)' };
+  showToast(`☀️ ${typeNames[type] || '階調'}を選択しました`);
+}
+
+if (cropLumaApplyBtn) {
+  cropLumaApplyBtn.addEventListener('click', () => {
+    const type = cropLumaTypeSelect ? cropLumaTypeSelect.value : 'highlights';
+    selectLumaRange(type);
+  });
+}
+
+// 「」範囲選択ボタン (互換)
+if (cropSelectBtn) {
+  cropSelectBtn.addEventListener('click', () => {
+    toggleCropMode();
+  });
+}
+
+// ✂️ 切り抜き実行ボタン
+if (executeCropBtn) {
+  executeCropBtn.addEventListener('click', () => {
+    executeCrop();
+  });
+}
+
+// 📋 コピーボタン (選択レイヤーまたは指定範囲)
+if (copyBtn) {
+  copyBtn.addEventListener('click', () => {
+    copySelected();
+  });
+}
+
+// 📥 貼付けボタン
+if (pasteBtn) {
+  pasteBtn.addEventListener('click', () => {
+    pasteClipboard();
+  });
+}
+
+// OS / クリップボードからの画像ペースト検知 (Ctrl+V / 右クリック貼り付け)
+window.addEventListener('paste', (e) => {
+  if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) return;
+
+  if (e.clipboardData && e.clipboardData.items) {
+    const items = e.clipboardData.items;
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].type && items[i].type.indexOf('image') !== -1) {
+        e.preventDefault();
+        const blob = items[i].getAsFile();
+        if (blob) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            pasteImageDataUrl(event.target.result);
+          };
+          reader.readAsDataURL(blob);
+          return;
+        }
+      }
+    }
+  }
+
+  if (appClipboard) {
+    e.preventDefault();
+    pasteClipboard();
+  }
+});
 
 toolSelect.addEventListener('change', () => {
   const isText = (toolSelect.value === 'text');
   fontSizeLabel.classList.toggle('hidden', !isText);
   if (fontSelectGroup) fontSelectGroup.classList.toggle('hidden', !isText);
+
+  if (isCropModeActive) {
+    toggleCropMode(false);
+  }
 
   if (isSelectModeActive) {
     isSelectModeActive = false;
@@ -2876,6 +3811,254 @@ function drawSelectionBox(ctx, obj) {
   ctx.restore();
 }
 
+// 複数同時選択中のオブジェクト枠＆合算外枠＆選択数バッジ描画
+function drawMultiSelectionBoxes(targetCtx, objs) {
+  if (!objs || objs.length === 0) return;
+
+  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+
+  // 1. 各オブジェクトの個別ピンク破線枠
+  objs.forEach(obj => {
+    const b = getObjectBounds(obj);
+    if (!b) return;
+
+    if (b.x < minX) minX = b.x;
+    if (b.y < minY) minY = b.y;
+    if (b.x + b.w > maxX) maxX = b.x + b.w;
+    if (b.y + b.h > maxY) maxY = b.y + b.h;
+
+    const cx = b.x + b.w / 2;
+    const cy = b.y + b.h / 2;
+    const rot = obj.rotation || 0;
+
+    targetCtx.save();
+    if (rot) {
+      targetCtx.translate(cx, cy);
+      targetCtx.rotate((rot * Math.PI) / 180);
+      targetCtx.translate(-cx, -cy);
+    }
+    targetCtx.strokeStyle = 'rgba(255, 75, 216, 0.7)';
+    targetCtx.lineWidth = 1.2;
+    targetCtx.setLineDash([4, 4]);
+    targetCtx.strokeRect(b.x - 0.5, b.y - 0.5, b.w + 1, b.h + 1);
+    targetCtx.restore();
+  });
+
+  if (minX !== Infinity && maxX !== -Infinity) {
+    const pad = 6;
+    const boxX = minX - pad;
+    const boxY = minY - pad;
+    const boxW = (maxX - minX) + pad * 2;
+    const boxH = (maxY - minY) + pad * 2;
+
+    targetCtx.save();
+    // 2. 合算の包括外枠（鮮やかなネオンピンク）
+    targetCtx.strokeStyle = '#FF4BD8';
+    targetCtx.lineWidth = 1.8;
+    targetCtx.setLineDash([6, 4]);
+    targetCtx.strokeRect(boxX, boxY, boxW, boxH);
+
+    // 3. バッジ描画（上部または内部）
+    const badgeText = `👥 ${objs.length}個のレイヤー選択中`;
+    targetCtx.font = 'bold 11px sans-serif';
+    const textWidth = targetCtx.measureText(badgeText).width;
+    const badgeW = Math.round(textWidth + 16);
+    const badgeH = 20;
+    const badgeX = Math.round(Math.max(4, Math.min(canvas.width - badgeW - 4, boxX)));
+    const badgeY = Math.round((boxY - badgeH - 4 >= 4) ? (boxY - badgeH - 4) : (boxY + 4));
+
+    targetCtx.setLineDash([]);
+    targetCtx.fillStyle = '#FF4BD8';
+    if (targetCtx.roundRect) {
+      targetCtx.beginPath();
+      targetCtx.roundRect(badgeX, badgeY, badgeW, badgeH, 4);
+      targetCtx.fill();
+    } else {
+      targetCtx.fillRect(badgeX, badgeY, badgeW, badgeH);
+    }
+
+    targetCtx.fillStyle = '#FFFFFF';
+    targetCtx.textBaseline = 'middle';
+    targetCtx.textAlign = 'left';
+    targetCtx.fillText(badgeText, badgeX + 8, badgeY + badgeH / 2);
+
+    targetCtx.restore();
+  }
+}
+
+// 範囲選択オーバーレイの描画（マスクCanvas、多角形ガイド、矩形、投げ縄、寸法バッジ）
+function drawCropOverlay(targetCtx, selection) {
+  // 1. 多角形選択の進行中プレビュー（点を打っている途中）
+  if (isCropModeActive && cropSelectMode === 'polygon' && cropPolyPoints.length > 0) {
+    targetCtx.save();
+    targetCtx.strokeStyle = '#4BEFFF';
+    targetCtx.fillStyle = '#4BEFFF';
+    targetCtx.lineWidth = 1.5;
+
+    // 線を結ぶ
+    targetCtx.beginPath();
+    targetCtx.moveTo(cropPolyPoints[0].x, cropPolyPoints[0].y);
+    for (let i = 1; i < cropPolyPoints.length; i++) {
+      targetCtx.lineTo(cropPolyPoints[i].x, cropPolyPoints[i].y);
+    }
+    targetCtx.stroke();
+
+    // 各頂点の丸
+    for (let i = 0; i < cropPolyPoints.length; i++) {
+      targetCtx.beginPath();
+      targetCtx.arc(cropPolyPoints[i].x, cropPolyPoints[i].y, 3.5, 0, Math.PI * 2);
+      targetCtx.fill();
+    }
+
+    // 始点（閉じるターゲット）のインジケータ
+    if (cropPolyPoints.length >= 2) {
+      targetCtx.beginPath();
+      targetCtx.arc(cropPolyPoints[0].x, cropPolyPoints[0].y, 9, 0, Math.PI * 2);
+      targetCtx.strokeStyle = '#ffea79';
+      targetCtx.lineWidth = 2;
+      targetCtx.setLineDash([3, 3]);
+      targetCtx.stroke();
+      targetCtx.setLineDash([]);
+    }
+
+    // 現在のマウス/タップ位置までのガイド線
+    if (currentDragPos) {
+      targetCtx.beginPath();
+      targetCtx.setLineDash([4, 4]);
+      targetCtx.strokeStyle = 'rgba(75, 239, 255, 0.7)';
+      targetCtx.moveTo(cropPolyPoints[cropPolyPoints.length - 1].x, cropPolyPoints[cropPolyPoints.length - 1].y);
+      targetCtx.lineTo(currentDragPos.x, currentDragPos.y);
+      targetCtx.stroke();
+      targetCtx.setLineDash([]);
+    }
+    targetCtx.restore();
+  }
+
+  // 2. 確定済みマスクまたは選択範囲の描画
+  if (!selection && !hasActiveCropMask()) return;
+
+  targetCtx.save();
+
+  // A. マスクCanvas（cropMaskCanvas）がある場合のマスク描画
+  if (cropMaskCanvas && hasActiveCropMask()) {
+    const overlayCanvas = document.createElement('canvas');
+    overlayCanvas.width = canvas.width;
+    overlayCanvas.height = canvas.height;
+    const oCtx = overlayCanvas.getContext('2d');
+    oCtx.fillStyle = 'rgba(0, 0, 0, 0.45)';
+    oCtx.fillRect(0, 0, canvas.width, canvas.height);
+    oCtx.globalCompositeOperation = 'destination-out';
+    if (cropFeather > 0) {
+      oCtx.filter = `blur(${cropFeather}px)`;
+    }
+    oCtx.drawImage(cropMaskCanvas, 0, 0);
+    targetCtx.drawImage(overlayCanvas, 0, 0);
+
+    // バウンディング枠の描画
+    if (selection) {
+      const { x, y, w, h } = selection;
+      targetCtx.strokeStyle = '#4BEFFF';
+      targetCtx.lineWidth = 1.5;
+      targetCtx.setLineDash([5, 4]);
+      targetCtx.strokeRect(x, y, w, h);
+      targetCtx.setLineDash([]);
+
+      // つまみハンドル（四隅の角 ＋ 4辺の中央）
+      const handles = getHandlePositions(selection);
+      for (const [key, pt] of Object.entries(handles)) {
+        const isCorner = ['tl', 'tr', 'bl', 'br'].includes(key);
+        const radius = isCorner ? 4.5 : 3;
+        targetCtx.save();
+        targetCtx.beginPath();
+        targetCtx.arc(pt.x, pt.y, radius, 0, Math.PI * 2);
+        targetCtx.fillStyle = '#FFFFFF';
+        targetCtx.fill();
+        targetCtx.lineWidth = isCorner ? 2 : 1.5;
+        targetCtx.strokeStyle = '#4BEFFF';
+        targetCtx.shadowColor = 'rgba(75, 239, 255, 0.85)';
+        targetCtx.shadowBlur = isCorner ? 6 : 3;
+        targetCtx.stroke();
+        targetCtx.restore();
+      }
+    }
+  } else if (selection) {
+    // B. ドラッグ中などの一時選択枠描画
+    const { x, y, w, h } = selection;
+    if (w > 0 && h > 0) {
+      if ((selection.type === 'freehand' || selection.type === 'lasso') && selection.points && selection.points.length >= 2) {
+        const pts = selection.points;
+        targetCtx.beginPath();
+        targetCtx.rect(0, 0, canvas.width, canvas.height);
+        targetCtx.moveTo(pts[0].x, pts[0].y);
+        for (let i = 1; i < pts.length; i++) targetCtx.lineTo(pts[i].x, pts[i].y);
+        targetCtx.closePath();
+        targetCtx.fillStyle = 'rgba(0, 0, 0, 0.45)';
+        targetCtx.fill('evenodd');
+
+        targetCtx.strokeStyle = '#4BEFFF';
+        targetCtx.lineWidth = 2;
+        targetCtx.setLineDash([5, 4]);
+        targetCtx.beginPath();
+        targetCtx.moveTo(pts[0].x, pts[0].y);
+        for (let i = 1; i < pts.length; i++) targetCtx.lineTo(pts[i].x, pts[i].y);
+        targetCtx.closePath();
+        targetCtx.stroke();
+        targetCtx.setLineDash([]);
+      } else {
+        targetCtx.fillStyle = 'rgba(0, 0, 0, 0.45)';
+        targetCtx.fillRect(0, 0, canvas.width, Math.max(0, y));
+        const bottomY = Math.min(canvas.height, y + h);
+        targetCtx.fillRect(0, bottomY, canvas.width, Math.max(0, canvas.height - bottomY));
+        targetCtx.fillRect(0, y, Math.max(0, x), h);
+        const rightX = Math.min(canvas.width, x + w);
+        targetCtx.fillRect(rightX, y, Math.max(0, canvas.width - rightX), h);
+
+        targetCtx.strokeStyle = '#4BEFFF';
+        targetCtx.lineWidth = 1.5;
+        targetCtx.setLineDash([5, 4]);
+        targetCtx.strokeRect(x, y, w, h);
+        targetCtx.setLineDash([]);
+      }
+    }
+  }
+
+  // 3. 寸法 & フェザーバッジ
+  if (selection && selection.w >= 4 && selection.h >= 4) {
+    const { x, y, w, h } = selection;
+    targetCtx.shadowBlur = 0;
+    const modeIcons = {
+      rect: '「」',
+      freehand: '✏️',
+      polygon: '📍',
+      color: '🪄',
+      luma: '☀️'
+    };
+    const icon = modeIcons[cropSelectMode] || '「」';
+    const featherText = cropFeather > 0 ? ` (ぼかし:${cropFeather}px)` : '';
+    const badgeText = `${icon} ${Math.round(w)} × ${Math.round(h)} px${featherText}`;
+    targetCtx.font = 'bold 10px Outfit, sans-serif';
+    const textW = targetCtx.measureText(badgeText).width;
+    const badgeX = Math.max(4, Math.min(canvas.width - textW - 14, x + w / 2 - textW / 2 - 6));
+    const badgeY = y > 22 ? y - 18 : Math.min(canvas.height - 20, y + h + 6);
+
+    targetCtx.fillStyle = 'rgba(10, 15, 31, 0.9)';
+    targetCtx.strokeStyle = '#4BEFFF';
+    targetCtx.lineWidth = 1;
+    targetCtx.beginPath();
+    if (targetCtx.roundRect) {
+      targetCtx.roundRect(badgeX, badgeY, textW + 12, 16, 4);
+    } else {
+      targetCtx.rect(badgeX, badgeY, textW + 12, 16);
+    }
+    targetCtx.fill();
+    targetCtx.stroke();
+    targetCtx.fillStyle = '#4BEFFF';
+    targetCtx.fillText(badgeText, badgeX + 6, badgeY + 12);
+  }
+
+  targetCtx.restore();
+}
+
 // リアルタイム・ガイド線 / 描画予定枠用
 let currentDragPos = null;
 
@@ -3143,6 +4326,28 @@ canvas.addEventListener('mousemove', (e) => {
       }
     }
   }
+
+  // 範囲選択モード時のカーソル（角ハンドル・枠内移動）
+  if (isCropModeActive && cropSelection && cropSelection.w > 0 && cropSelection.h > 0) {
+    const pos = getPos(e, canvas);
+    const handle = findHandleAt(pos, cropSelection, 10);
+    if (handle) {
+      const cursors = {
+        tl: 'nwse-resize', tr: 'nesw-resize', br: 'nwse-resize', bl: 'nesw-resize',
+        tc: 'ns-resize', bc: 'ns-resize', ml: 'ew-resize', mr: 'ew-resize'
+      };
+      canvas.style.cursor = cursors[handle] || 'pointer';
+      return;
+    } else {
+      const isInside = (cropSelection.points && isPointInCropPath(pos, cropSelection.points)) ||
+                       isPointInBounds(pos, cropSelection);
+      if (isInside) {
+        canvas.style.cursor = 'move';
+        return;
+      }
+    }
+  }
+
   canvas.style.cursor = isSelectModeActive ? 'default' : 'crosshair';
 });
 
@@ -3198,6 +4403,89 @@ function startDraw(e) {
   const tool = toolSelect.value;
   const isTouch = !!(e.touches && e.touches.length > 0);
 
+  // 範囲選択モード時の操作
+  if (isCropModeActive) {
+    // A. 多角形選択モード (タップで点を打つ / 始点タップで閉じる)
+    if (cropSelectMode === 'polygon') {
+      if (cropPolyPoints.length >= 2) {
+        const p0 = cropPolyPoints[0];
+        const closeDist = Math.hypot(pos.x - p0.x, pos.y - p0.y);
+        if (closeDist <= (isTouch ? 22 : 14)) {
+          finishPolygonCrop();
+          drawing = false;
+          return;
+        }
+      }
+      cropPolyPoints.push({ x: pos.x, y: pos.y });
+      drawing = false;
+      redraw();
+      return;
+    }
+
+    // B. 色選択モード (タップしたピクセルと同系色を一括選択)
+    if (cropSelectMode === 'color') {
+      selectColorAt(pos.x, pos.y);
+      drawing = false;
+      return;
+    }
+
+    // C. 明るさ階調選択モード (タップ箇所の明るさから階調を自動選択)
+    if (cropSelectMode === 'luma') {
+      const snap = getCleanCanvasSnapshot();
+      const sCtx = snap.getContext('2d');
+      const clampX = Math.max(0, Math.min(canvas.width - 1, Math.floor(pos.x)));
+      const clampY = Math.max(0, Math.min(canvas.height - 1, Math.floor(pos.y)));
+      const pData = sCtx.getImageData(clampX, clampY, 1, 1).data;
+      const luma = 0.299 * pData[0] + 0.587 * pData[1] + 0.114 * pData[2];
+      const lType = (luma >= 170) ? 'highlights' : (luma < 85 ? 'shadows' : 'midtones');
+      if (cropLumaTypeSelect) cropLumaTypeSelect.value = lType;
+      selectLumaRange(lType);
+      drawing = false;
+      return;
+    }
+
+    // D. 矩形・手でなぞる（角リサイズ / 移動 / 新規ドラッグ）
+    if (cropSelection && cropSelection.w > 0 && cropSelection.h > 0) {
+      // 1. 角または辺のつまみハンドル判定（スマホ時は広めの20px）
+      const hitHandle = findHandleAt(pos, cropSelection, isTouch ? 20 : 12);
+      if (hitHandle) {
+        activeCropHandle = hitHandle;
+        cropInitialBounds = { x: cropSelection.x, y: cropSelection.y, w: cropSelection.w, h: cropSelection.h };
+        cropInitialPoints = cropSelection.points ? cropSelection.points.map(p => ({ x: p.x, y: p.y })) : null;
+        startX = pos.x;
+        startY = pos.y;
+        drawing = true;
+        return;
+      }
+
+      // 2. 枠内のドラッグ移動判定
+      const isHit = (cropSelection.points && isPointInCropPath(pos, cropSelection.points)) ||
+                    isPointInBounds(pos, cropSelection);
+      if (isHit) {
+        isMovingCropBox = true;
+        cropBoxMoveOffset = { x: pos.x - cropSelection.x, y: pos.y - cropSelection.y };
+        drawing = true;
+        return;
+      }
+    }
+
+    // 3. 新規ドラッグ選択
+    isDraggingCrop = true;
+    cropDragStart = { x: pos.x, y: pos.y };
+    if (cropSelectMode === 'freehand' || cropSelectMode === 'lasso') {
+      cropPathPoints = [{ x: pos.x, y: pos.y }];
+      cropSelection = { type: cropSelectMode, points: cropPathPoints, x: pos.x, y: pos.y, w: 0, h: 0 };
+    } else {
+      cropPathPoints = [];
+      cropSelection = { type: 'rect', x: pos.x, y: pos.y, w: 0, h: 0 };
+    }
+    selectedObject = null;
+    drawing = true;
+    updateCropUI();
+    redraw();
+    return;
+  }
+
   // ガイドプレビュー用の位置初期化（選択変形モードやオブジェクト選択中は行わない）
   if (!isSelectModeActive && !selectedObject && ['line', 'rect', 'rectFill', 'circle', 'circleFill'].includes(tool)) {
     currentDragPos = { x: pos.x, y: pos.y };
@@ -3242,12 +4530,14 @@ function startDraw(e) {
 
   // 3. 選択・変形・移動モード（またはボタンON時）
   if (isSelectModeActive || tool === 'select') {
-    if (selectedObject) {
-      const b = getObjectBounds(selectedObject);
+    // 複数選択または単一選択中のオブジェクト内のタップかチェック（表示中のみ対象）
+    const currentTargets = (selectedObjects.length > 0 ? selectedObjects : (selectedObject ? [selectedObject] : [])).filter(o => o.visible !== false);
+    for (const obj of currentTargets) {
+      const b = getObjectBounds(obj);
       if (b) {
         const cx = b.x + b.w / 2;
         const cy = b.y + b.h / 2;
-        const localPos = toLocalPoint(pos, cx, cy, selectedObject.rotation || 0);
+        const localPos = toLocalPoint(pos, cx, cy, obj.rotation || 0);
         if (isPointInBounds(localPos, b)) {
           isDraggingObject = true;
           return;
@@ -3257,15 +4547,19 @@ function startDraw(e) {
 
     const hitObj = findObjectAt(pos.x, pos.y);
     if (hitObj) {
-      selectedObject = hitObj;
-      syncEffectControlsWithObject(selectedObject);
+      if (selectedObjects.includes(hitObj)) {
+        isDraggingObject = true;
+        return;
+      }
+      selectedObjects = [hitObj];
+      syncSelectedObjects();
       isDraggingObject = true;
       isSelectModeActive = true;
       if (selectTransformBtn) selectTransformBtn.classList.add('active');
       redraw();
       return;
     } else {
-      selectedObject = null;
+      clearObjectSelection();
       drawing = false;
       redraw();
       return;
@@ -3273,8 +4567,8 @@ function startDraw(e) {
   }
 
   // 他の描画ツール使用時に既存の選択を解除
-  if (selectedObject) {
-    selectedObject = null;
+  if (selectedObjects.length > 0 || selectedObject) {
+    clearObjectSelection();
     redraw();
   }
 
@@ -3370,8 +4664,110 @@ function draw(e) {
     return;
   }
 
+  // 多角形選択モード中のリアルタイム・ガイド線追従
+  if (isCropModeActive && cropSelectMode === 'polygon' && cropPolyPoints.length > 0) {
+    currentDragPos = getPos(e, canvas);
+    redraw();
+  }
+
   if (!drawing) return;
   const pos = getPos(e, canvas);
+
+  // 範囲選択ドラッグ中
+  if (isDraggingCrop && cropDragStart) {
+    const curX = Math.max(0, Math.min(canvas.width, pos.x));
+    const curY = Math.max(0, Math.min(canvas.height, pos.y));
+
+    if (cropSelectMode === 'freehand' || cropSelectMode === 'lasso') {
+      const last = cropPathPoints[cropPathPoints.length - 1];
+      const dist = last ? Math.hypot(curX - last.x, curY - last.y) : 999;
+      if (dist >= 3) {
+        cropPathPoints.push({ x: curX, y: curY });
+      }
+      let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+      cropPathPoints.forEach(p => {
+        if (p.x < minX) minX = p.x;
+        if (p.x > maxX) maxX = p.x;
+        if (p.y < minY) minY = p.y;
+        if (p.y > maxY) maxY = p.y;
+      });
+      cropSelection = {
+        type: cropSelectMode,
+        points: cropPathPoints,
+        x: (minX === Infinity) ? curX : minX,
+        y: (minY === Infinity) ? curY : minY,
+        w: (maxX === -Infinity) ? 0 : Math.max(0, maxX - minX),
+        h: (maxY === -Infinity) ? 0 : Math.max(0, maxY - minY)
+      };
+    } else {
+      cropSelection = {
+        type: 'rect',
+        x: Math.min(cropDragStart.x, curX),
+        y: Math.min(cropDragStart.y, curY),
+        w: Math.abs(curX - cropDragStart.x),
+        h: Math.abs(curY - cropDragStart.y)
+      };
+    }
+    redraw();
+    return;
+  }
+
+  // 範囲選択ハンドルのドラッグによるリサイズ中（角・辺をつまんで拡大縮小）
+  if (activeCropHandle && cropInitialBounds && cropSelection) {
+    const dx = pos.x - startX;
+    const dy = pos.y - startY;
+    const newB = calculateNewBounds(cropInitialBounds, activeCropHandle, dx, dy);
+
+    // キャンバス境界内に安全にクリップ
+    newB.x = Math.max(0, Math.min(canvas.width - 8, newB.x));
+    newB.y = Math.max(0, Math.min(canvas.height - 8, newB.y));
+    newB.w = Math.max(8, Math.min(canvas.width - newB.x, newB.w));
+    newB.h = Math.max(8, Math.min(canvas.height - newB.y, newB.h));
+
+    if (cropSelection.points && cropInitialBounds.w > 0 && cropInitialBounds.h > 0) {
+      const scaleX = newB.w / cropInitialBounds.w;
+      const scaleY = newB.h / cropInitialBounds.h;
+      cropSelection.points = (cropInitialPoints || []).map(p => ({
+        x: Math.round(newB.x + (p.x - cropInitialBounds.x) * scaleX),
+        y: Math.round(newB.y + (p.y - cropInitialBounds.y) * scaleY)
+      }));
+    }
+
+    cropSelection.x = newB.x;
+    cropSelection.y = newB.y;
+    cropSelection.w = newB.w;
+    cropSelection.h = newB.h;
+
+    redraw();
+    return;
+  }
+
+  // 選択枠の移動中
+  if (isMovingCropBox && cropBoxMoveOffset && cropSelection) {
+    const newX = Math.max(0, Math.min(canvas.width - cropSelection.w, pos.x - cropBoxMoveOffset.x));
+    const newY = Math.max(0, Math.min(canvas.height - cropSelection.h, pos.y - cropBoxMoveOffset.y));
+    const dx = newX - cropSelection.x;
+    const dy = newY - cropSelection.y;
+    cropSelection.x = newX;
+    cropSelection.y = newY;
+    if (cropSelection.points) {
+      cropSelection.points.forEach(p => {
+        p.x += dx;
+        p.y += dy;
+      });
+    }
+    // マスクCanvasのピクセルも枠に合わせて平行移動
+    if (cropMaskCanvas && (dx !== 0 || dy !== 0)) {
+      const tempMask = document.createElement('canvas');
+      tempMask.width = canvas.width; tempMask.height = canvas.height;
+      const tCtx = tempMask.getContext('2d');
+      tCtx.drawImage(cropMaskCanvas, 0, 0);
+      cropMaskCtx.clearRect(0, 0, canvas.width, canvas.height);
+      cropMaskCtx.drawImage(tempMask, dx, dy);
+    }
+    redraw();
+    return;
+  }
 
   // 2. 四隅「↺」回転ハンドルのドラッグ回転操作
   if (activeHandle === 'rotate' && selectedObject && rotateCenter) {
@@ -3411,11 +4807,14 @@ function draw(e) {
     return;
   }
 
-  // 4. オブジェクト移動
-  if (isDraggingObject && selectedObject) {
+  // 4. オブジェクト移動（複数同時移動対応）
+  if (isDraggingObject && (selectedObjects.length > 0 || selectedObject)) {
     const dx = pos.x - startX;
     const dy = pos.y - startY;
-    moveObject(selectedObject, dx, dy);
+    const targets = selectedObjects.length > 0 ? selectedObjects : [selectedObject];
+    targets.forEach(obj => {
+      if (obj) moveObject(obj, dx, dy);
+    });
     startX = pos.x;
     startY = pos.y;
     redraw();
@@ -3433,13 +4832,76 @@ function draw(e) {
   }
 
   // 6. 直線・四角・円のリアルタイム・ガイド予定枠プレビュー（変形中・移動中・オブジェクト選択中は非表示）
-  if (!activeHandle && !isDraggingObject && !selectedObject && ['line', 'rect', 'rectFill', 'circle', 'circleFill'].includes(tool)) {
+  if (!activeHandle && !isDraggingObject && !selectedObject && selectedObjects.length === 0 && ['line', 'rect', 'rectFill', 'circle', 'circleFill'].includes(tool)) {
     currentDragPos = pos;
     redraw();
   }
 }
 
 function endDraw(e) {
+  if (activeCropHandle) {
+    activeCropHandle = null;
+    cropInitialBounds = null;
+    cropInitialPoints = null;
+    drawing = false;
+    if (cropSelection && cropSelection.w >= 4 && cropSelection.h >= 4) {
+      ensureCropMaskCanvas();
+      cropMaskCtx.clearRect(0, 0, canvas.width, canvas.height);
+      cropMaskCtx.fillStyle = '#FFFFFF';
+      cropMaskCtx.fillRect(cropSelection.x, cropSelection.y, cropSelection.w, cropSelection.h);
+    }
+    updateCropUI();
+    redraw();
+    return;
+  }
+
+  if (isDraggingCrop) {
+    isDraggingCrop = false;
+    cropDragStart = null;
+    drawing = false;
+    if (cropSelection) {
+      if (cropSelection.type === 'freehand' || cropSelection.type === 'lasso') {
+        if (!cropSelection.points || cropSelection.points.length < 3 || cropSelection.w < 5 || cropSelection.h < 5) {
+          cropSelection = null;
+          cropPathPoints = [];
+        } else {
+          // マスクCanvasへパスを書き込み適用（新規 / 追加 / 削除）
+          const pts = [...cropSelection.points];
+          applyShapeToCropMask((mCtx) => {
+            mCtx.beginPath();
+            mCtx.moveTo(pts[0].x, pts[0].y);
+            for (let i = 1; i < pts.length; i++) mCtx.lineTo(pts[i].x, pts[i].y);
+            mCtx.closePath();
+            mCtx.fill();
+          });
+          cropPathPoints = [];
+        }
+      } else {
+        if (cropSelection.w < 5 || cropSelection.h < 5) {
+          cropSelection = null;
+        } else {
+          // マスクCanvasへ四角形を書き込み適用（新規 / 追加 / 削除）
+          const { x, y, w, h } = cropSelection;
+          applyShapeToCropMask((mCtx) => {
+            mCtx.fillRect(x, y, w, h);
+          });
+        }
+      }
+    }
+    updateCropUI();
+    redraw();
+    return;
+  }
+
+  if (isMovingCropBox) {
+    isMovingCropBox = false;
+    cropBoxMoveOffset = null;
+    drawing = false;
+    updateCropUI();
+    redraw();
+    return;
+  }
+
   if (isPinching) {
     isPinching = false;
     transformInitialBounds = null;
@@ -3566,6 +5028,7 @@ function moveObject(o, dx, dy) {
 function findObjectAt(x, y) {
   for (let i = objects.length - 1; i >= 0; i--) {
     const o = objects[i];
+    if (o.visible === false) continue; // 非表示レイヤーはキャンバス上で選択・ヒットさせない
     const b = getObjectBounds(o);
     if (!b) continue;
     const cx = b.x + b.w / 2;
@@ -3884,6 +5347,8 @@ function redraw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   for (const o of objects) {
+    if (o.visible === false) continue; // 非表示レイヤーは描画をスキップ
+
     // 消しゴム（透明化）
     if (o.type === 'eraser' && o.points && o.points.length > 0) {
       ctx.save();
@@ -4008,19 +5473,39 @@ function redraw() {
   }
 
   // 描画中のガイド線・予定枠プレビュー表示（オブジェクト選択中・変形中・移動中は非表示）
-  if (drawing && currentDragPos && !activeHandle && !isDraggingObject && !selectedObject && ['line', 'rect', 'rectFill', 'circle', 'circleFill'].includes(toolSelect.value)) {
+  if (drawing && currentDragPos && !activeHandle && !isDraggingObject && !selectedObject && selectedObjects.length === 0 && ['line', 'rect', 'rectFill', 'circle', 'circleFill'].includes(toolSelect.value)) {
     drawGuidePreview(ctx, toolSelect.value, startX, startY, currentDragPos);
   }
 
-  // 選択枠 & 8つのリサイズハンドル（4角＋4辺の中央）＆ 正確なpixelサイズ表示
-  if (selectedObject) {
+  // 選択枠表示（複数選択時は全レイヤー破線枠＋合算外枠＋バッジ、単一選択時はリサイズハンドル付き）
+  if (selectedObjects.length > 1) {
+    const visibleSelected = selectedObjects.filter(o => o.visible !== false);
+    if (visibleSelected.length > 1) {
+      drawMultiSelectionBoxes(ctx, visibleSelected);
+    } else if (visibleSelected.length === 1) {
+      drawSelectionBox(ctx, visibleSelected[0]);
+    }
+  } else if (selectedObject && selectedObject.visible !== false) {
     drawSelectionBox(ctx, selectedObject);
+  }
+
+  // 「」トリミング・範囲選択オーバーレイ描画
+  if (cropSelection) {
+    drawCropOverlay(ctx, cropSelection);
   }
 
   // キャンバス下部のステータス表示（オブジェクトのpixelサイズと位置を常時表示）
   const canvasInfoEl = document.getElementById('canvasInfo');
   if (canvasInfoEl) {
-    if (selectedObject) {
+    if (cropSelection && cropSelection.w > 0 && cropSelection.h > 0) {
+      const modeNames = { rect: '「」 矩形', freehand: '✏️ 手でなぞる範囲', lasso: '🪢 投げ縄' };
+      const mName = modeNames[cropSelection.type] || '範囲選択';
+      canvasInfoEl.textContent = `${mName}: ${Math.round(cropSelection.w)} × ${Math.round(cropSelection.h)} px (X:${Math.round(cropSelection.x)}, Y:${Math.round(cropSelection.y)})`;
+      canvasInfoEl.style.color = '#ffcc00';
+    } else if (selectedObjects.length > 1) {
+      canvasInfoEl.textContent = `選択中: ${selectedObjects.length}個のレイヤー（ドラッグで一括移動）`;
+      canvasInfoEl.style.color = '#FF4BD8';
+    } else if (selectedObject) {
       const sb = getObjectBounds(selectedObject);
       if (sb) {
         const rotStr = selectedObject.rotation ? ` 角度: ${selectedObject.rotation}°` : '';
@@ -4036,9 +5521,95 @@ function redraw() {
   updateLayerPanel();
 }
 
+// レイヤー順序移動ヘルパー (前面/背面)
+function moveLayer(fromIndex, toIndex) {
+  if (fromIndex < 0 || fromIndex >= objects.length) return;
+  if (toIndex < 0 || toIndex >= objects.length) return;
+  if (fromIndex === toIndex) return;
+
+  saveState();
+  const item = objects.splice(fromIndex, 1)[0];
+  objects.splice(toIndex, 0, item);
+  redraw();
+  trackEvent('layer_reorder', { from: fromIndex, to: toIndex });
+}
+
+// 選択レイヤー専用ツールバー (［   △   ］［   ▽   ］) の更新
+function updateLayerToolbar() {
+  const toolbar = document.getElementById('layerToolbar');
+  const upBtn = document.getElementById('layerMoveUpBtn');
+  const downBtn = document.getElementById('layerMoveDownBtn');
+  if (!toolbar || !upBtn || !downBtn) return;
+
+  const currentSelected = selectedObjects.length > 0 ? selectedObjects : (selectedObject ? [selectedObject] : []);
+
+  if (currentSelected.length === 0 || objects.length === 0) {
+    toolbar.classList.add('hidden');
+    return;
+  }
+
+  // 選択中レイヤー（ピンク色）が存在するときにツールバーを表示！
+  toolbar.classList.remove('hidden');
+
+  // 選択中レイヤーたちのインデックス群を取得
+  const indices = currentSelected.map(o => objects.indexOf(o)).filter(i => i !== -1);
+  if (indices.length === 0) {
+    toolbar.classList.add('hidden');
+    return;
+  }
+
+  const maxIdx = Math.max(...indices);
+  const minIdx = Math.min(...indices);
+
+  // すでに最前面（配列末尾）を含んでいれば「△」は無効
+  upBtn.disabled = (maxIdx >= objects.length - 1);
+  // すでに最背面（インデックス0）を含んでいれば「▽」は無効
+  downBtn.disabled = (minIdx <= 0);
+
+  upBtn.onclick = (e) => {
+    e.stopPropagation();
+    const curIndices = currentSelected.map(o => objects.indexOf(o)).filter(i => i !== -1);
+    if (curIndices.length === 0 || Math.max(...curIndices) >= objects.length - 1) return;
+    saveState();
+    // 前面へ移動（インデックスが大きい方から順に上へシフト）
+    const sorted = [...curIndices].sort((a, b) => b - a);
+    for (const idx of sorted) {
+      if (idx < objects.length - 1) {
+        const item = objects.splice(idx, 1)[0];
+        objects.splice(idx + 1, 0, item);
+      }
+    }
+    redraw();
+  };
+
+  downBtn.onclick = (e) => {
+    e.stopPropagation();
+    const curIndices = currentSelected.map(o => objects.indexOf(o)).filter(i => i !== -1);
+    if (curIndices.length === 0 || Math.min(...curIndices) <= 0) return;
+    saveState();
+    // 背面へ移動（インデックスが小さい方から順に下へシフト）
+    const sorted = [...curIndices].sort((a, b) => a - b);
+    for (const idx of sorted) {
+      if (idx > 0) {
+        const item = objects.splice(idx, 1)[0];
+        objects.splice(idx - 1, 0, item);
+      }
+    }
+    redraw();
+  };
+}
+
 // レイヤーパネル更新
 let dragIndex = null;
+let touchDragIndex = null;
+let touchDragCard = null;
+let touchStartY = 0;
+let isTouchDragging = false;
+let touchDragJustFinished = false;
+let currentDropTargetCard = null;
+
 function updateLayerPanel() {
+  ensureCreationOrders();
   const panel = document.getElementById('layerPanel');
   if (!panel) return;
   panel.innerHTML = "";
@@ -4047,10 +5618,11 @@ function updateLayerPanel() {
 
   if (objects.length === 0) {
     panel.innerHTML = '<div class="layer-empty-msg">' + (dict.layer_empty_msg || 'レイヤーはありません<br>描画すると追加されます') + '</div>';
+    updateLayerToolbar();
     return;
   }
 
-  // 最新レイヤーが上に来るように逆順で表示
+  // 最新レイヤー（最前面）が上に来るように逆順で表示
   for (let i = objects.length - 1; i >= 0; i--) {
     const obj = objects[i];
     const index = i;
@@ -4058,8 +5630,25 @@ function updateLayerPanel() {
     const card = document.createElement('div');
     card.className = "layerCard";
     card.draggable = true;
+    card.dataset.index = index;
     card.style.zIndex = (i + 1);
-    if (selectedObject === obj) card.classList.add("selected");
+    if (selectedObjects.includes(obj) || selectedObject === obj) card.classList.add("selected");
+
+    const isVisible = (obj.visible !== false);
+    if (!isVisible) card.classList.add("is-hidden");
+
+    // タグ（レイヤーカード）内の左端に配置する表示/非表示ボタン (👁 / 🙈)
+    const visBtn = document.createElement('button');
+    visBtn.className = "layer-vis-btn" + (isVisible ? "" : " is-hidden");
+    visBtn.textContent = isVisible ? "👁" : "🙈";
+    visBtn.title = isVisible ? (dict.layer_hide_tip || "非表示にする (👁)") : (dict.layer_show_tip || "表示する (🙈)");
+    visBtn.onclick = (e) => {
+      e.stopPropagation();
+      saveState();
+      obj.visible = !isVisible;
+      redraw();
+      updateLayerPanel();
+    };
 
     const icon = document.createElement('div');
     icon.className = "layerIcon";
@@ -4089,10 +5678,11 @@ function updateLayerPanel() {
     if (obj.sharpen && obj.sharpen > 0) fxBadge += ` 尖鋭:${obj.sharpen}%`;
     if (obj.rotation) fxBadge += ` ↷${obj.rotation}°`;
 
-    textSpan.textContent = `#${index + 1} ${label}` + (fxBadge ? ` (${fxBadge.trim()})` : "");
+    const circledNum = getCircledNumber(obj.creationOrder);
+    textSpan.textContent = `#${index + 1} ${label}${circledNum}` + (fxBadge ? ` (${fxBadge.trim()})` : "");
     if (fxBadge) textSpan.title = fxBadge.trim();
 
-    // レイヤー削除ボタン (☒)
+    // タグ（レイヤーカード）内の右端に配置する削除ボタン (☒)
     const deleteBtn = document.createElement('button');
     deleteBtn.className = "layer-delete-btn";
     deleteBtn.textContent = "☒";
@@ -4100,43 +5690,128 @@ function updateLayerPanel() {
     deleteBtn.onclick = (e) => {
       e.stopPropagation();
       saveState();
-      objects.splice(index, 1);
-      if (selectedObject === obj) selectedObject = null;
+      const objIndex = objects.indexOf(obj);
+      if (objIndex !== -1) objects.splice(objIndex, 1);
+      const sIdx = selectedObjects.indexOf(obj);
+      if (sIdx !== -1) selectedObjects.splice(sIdx, 1);
+      syncSelectedObjects();
       redraw();
       showToast(dict.toast_layer_deleted || "🗑 レイヤーを削除しました");
     };
 
+    // 配置順: ［👁 (表示切替)］ ［✏️ (アイコン)］ ［＃１ ペン① (名称)］ ［☒ (削除)］
+    card.appendChild(visBtn);
     card.appendChild(icon);
     card.appendChild(textSpan);
     card.appendChild(deleteBtn);
 
+    // レイヤー選択タップ／クリック（ワンクリックでピンク追加、もう一回で解除）
     card.onclick = () => {
-      selectedObject = (selectedObject === obj) ? null : obj;
-      if (selectedObject) {
-        isSelectModeActive = true;
-        if (selectTransformBtn) selectTransformBtn.classList.add('active');
-        syncEffectControlsWithObject(selectedObject);
-      } else {
-        isSelectModeActive = false;
-        if (selectTransformBtn) selectTransformBtn.classList.remove('active');
-      }
+      if (touchDragJustFinished) return;
+      toggleObjectSelection(obj);
       redraw();
     };
 
-    card.addEventListener('dragstart', () => { dragIndex = index; });
-    card.addEventListener('dragover', (e) => { e.preventDefault(); });
-    card.addEventListener('drop', () => {
+    // --- PC向けマウスドラッグ＆ドロップ ---
+    card.addEventListener('dragstart', () => {
+      dragIndex = index;
+      card.classList.add('touch-dragging');
+    });
+    card.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      card.classList.add('drag-target-highlight');
+    });
+    card.addEventListener('dragleave', () => {
+      card.classList.remove('drag-target-highlight');
+    });
+    card.addEventListener('dragend', () => {
+      card.classList.remove('touch-dragging');
+      document.querySelectorAll('.layerCard').forEach(c => c.classList.remove('drag-target-highlight'));
+    });
+    card.addEventListener('drop', (e) => {
+      e.preventDefault();
+      card.classList.remove('drag-target-highlight');
       if (dragIndex === null || dragIndex === index) return;
-      saveState();
-      const temp = objects[dragIndex];
-      objects.splice(dragIndex, 1);
-      objects.splice(index, 0, temp);
+      moveLayer(dragIndex, index);
       dragIndex = null;
-      redraw();
+    });
+
+    // --- iPhone / スマホ向けタッチドラッグ＆ドロップ ---
+    card.addEventListener('touchstart', (e) => {
+      if (e.target.closest('.layer-delete-btn')) {
+        return;
+      }
+      touchDragCard = card;
+      touchDragIndex = index;
+      touchStartY = e.touches[0].clientY;
+      isTouchDragging = false;
+    }, { passive: true });
+
+    card.addEventListener('touchmove', (e) => {
+      if (touchDragIndex === null) return;
+      const currentY = e.touches[0].clientY;
+      const deltaY = Math.abs(currentY - touchStartY);
+
+      if (deltaY > 6) {
+        isTouchDragging = true;
+        if (touchDragCard) touchDragCard.classList.add('touch-dragging');
+
+        const touch = e.touches[0];
+        const elemBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+        const targetCard = elemBelow ? elemBelow.closest('.layerCard') : null;
+
+        if (currentDropTargetCard && currentDropTargetCard !== targetCard) {
+          currentDropTargetCard.classList.remove('drag-target-highlight');
+        }
+
+        if (targetCard && targetCard !== touchDragCard) {
+          targetCard.classList.add('drag-target-highlight');
+          currentDropTargetCard = targetCard;
+        } else {
+          currentDropTargetCard = null;
+        }
+
+        if (e.cancelable) e.preventDefault();
+      }
+    }, { passive: false });
+
+    card.addEventListener('touchend', () => {
+      if (touchDragIndex !== null) {
+        if (touchDragCard) touchDragCard.classList.remove('touch-dragging');
+        if (currentDropTargetCard) {
+          currentDropTargetCard.classList.remove('drag-target-highlight');
+          const targetIdxStr = currentDropTargetCard.dataset.index;
+          if (targetIdxStr !== undefined) {
+            const targetIdx = parseInt(targetIdxStr, 10);
+            if (!isNaN(targetIdx) && targetIdx !== touchDragIndex) {
+              moveLayer(touchDragIndex, targetIdx);
+            }
+          }
+        }
+      }
+      if (isTouchDragging) {
+        touchDragJustFinished = true;
+        setTimeout(() => { touchDragJustFinished = false; }, 250);
+      }
+      touchDragCard = null;
+      touchDragIndex = null;
+      currentDropTargetCard = null;
+      isTouchDragging = false;
+    });
+
+    card.addEventListener('touchcancel', () => {
+      if (touchDragCard) touchDragCard.classList.remove('touch-dragging');
+      if (currentDropTargetCard) currentDropTargetCard.classList.remove('drag-target-highlight');
+      touchDragCard = null;
+      touchDragIndex = null;
+      currentDropTargetCard = null;
+      isTouchDragging = false;
     });
 
     panel.appendChild(card);
   }
+
+  updateLayerToolbar();
 }
 
 // ==========================================

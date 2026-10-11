@@ -24,12 +24,12 @@
   </script>
   <!-- PWA & Mobile Icons (Android / Chrome / iPhone) -->
   <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=1.0.15">
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=1.0.15">
-  <link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png?v=1.0.15">
-  <link rel="icon" type="image/png" sizes="192x192" href="IMP_192.png?v=1.0.15">
-  <link rel="icon" type="image/png" sizes="512x512" href="IMP_512.png?v=1.0.15">
-  <link rel="stylesheet" href="style.css?v=1.0.15">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=1.0.29">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=1.0.29">
+  <link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png?v=1.0.29">
+  <link rel="icon" type="image/png" sizes="192x192" href="IMP_192.png?v=1.0.39">
+  <link rel="icon" type="image/png" sizes="512x512" href="IMP_512.png?v=1.0.39">
+  <link rel="stylesheet" href="style.css?v=1.0.39">
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -69,15 +69,7 @@
     <!-- 中央アニメーションロゴエリア -->
     <div class="opening-logo-wrapper">
       <div class="opening-title" id="openingTitle">
-        <span class="opening-word word-icon">
-          <span class="opening-letter lead-letter letter-i">I</span><span class="opening-rest rest-con">con</span>
-        </span>
-        <span class="opening-word word-maker">
-          <span class="opening-letter lead-letter letter-m">M</span><span class="opening-rest rest-maker">aker</span>
-        </span>
-        <span class="opening-word word-pro">
-          <span class="opening-letter lead-letter letter-p">P</span><span class="opening-rest rest-pro">ro</span>
-        </span>
+        <span class="opening-letter lead-letter letter-i">I</span><span class="opening-rest rest-con">con</span><span class="opening-apostrophe" id="openingApostrophe">&#39;</span><span class="opening-letter lead-letter letter-m">M</span><span class="opening-rest rest-maker">aker</span>
       </div>
       <!-- サブタグライン（ゆっくり消えていく演出） -->
       <p class="opening-tagline" id="openingTagline">HIGH QUALITY MULTI - PLATFORM ICON STUDIO</p>
@@ -91,7 +83,7 @@
 
     <!-- フッタークレジット -->
     <footer class="opening-footer">
-      <div class="opening-producer">- produced by H.Fukazu -</div>
+      <div class="opening-producer">- produce by H.Fukazu -</div>
       <div class="opening-info" id="openingInfoBtn" title="Information">- Information -</div>
     </footer>
   </div>
@@ -99,9 +91,11 @@
 
 <header class="app-header">
   <div class="header-top-bar">
-    <button id="headerBackToOpeningBtn" class="header-back-btn" onclick="backToOpeningScreen()" data-i18n="back_to_opening">← 起動画面に戻る</button>
+    <div class="logo-container">
+      <h1>I'M - Icon Maker <span class="logo-badge">Pro</span></h1>
+    </div>
     <div class="mode-select-header-right">
-      <span style="font-size: 16px;">🌐</span>
+      <span style="font-size: 15px;">🌐</span>
       <select class="lang-selector mode-lang-select header-lang-select" onchange="setLanguage(this.value)">
         <option value="ja">🇯🇵 JP 日本語</option>
         <option value="en">🇺🇸 EN English</option>
@@ -117,9 +111,6 @@
         <option value="tr">🇹🇷 TR Türkçe</option>
       </select>
     </div>
-  </div>
-  <div class="logo-container">
-    <h1>IMP – Icon Maker <span class="logo-badge">Pro</span></h1>
   </div>
 </header>
 
@@ -144,9 +135,9 @@
       </div>
       <div class="layer-panel-container">
         <div id="layerPanel"></div>
-        <div class="panel-header">
-          <span data-i18n="layer_panel_title">レイヤー一覧</span>
-          <small data-i18n="layer_drag_hint">ドラッグで順序変更</small>
+        <div class="layer-toolbar hidden" id="layerToolbar">
+          <button type="button" id="layerMoveUpBtn" class="layer-control-btn layer-control-order-btn" title="前面へ移動 (△)" data-i18n-title="layer_move_up">△</button>
+          <button type="button" id="layerMoveDownBtn" class="layer-control-btn layer-control-order-btn" title="背面へ移動 (▽)" data-i18n-title="layer_move_down">▽</button>
         </div>
       </div>
     </div>
@@ -156,91 +147,162 @@
   <div class="canvas-tools-col">
     <!-- ツールバー -->
     <div class="toolbar-group">
-      <!-- ツール選択 -->
-      <div class="toolbar-item">
-        <label for="toolSelect" data-i18n="lbl_tool">ツール</label>
-        <select id="toolSelect">
-          <option value="pen" data-i18n="tool_pen">✏️ ペン</option>
-          <option value="eraser" data-i18n="tool_eraser">🧹 消しゴム</option>
-          <option value="line" data-i18n="tool_line">📏 直線</option>
-          <option value="rect" data-i18n="tool_rect">▢ 四角（枠）</option>
-          <option value="rectFill" data-i18n="tool_rect_fill">■ 四角（塗り）</option>
-          <option value="circle" data-i18n="tool_circle">◯ 円（枠）</option>
-          <option value="circleFill" data-i18n="tool_circle_fill">● 円（塗り）</option>
-          <option value="text" data-i18n="tool_text">🔤 テキスト</option>
-          <option value="fill" data-i18n="tool_fill">🪣 塗りつぶし</option>
-        </select>
-      </div>
-
-      <!-- 色選択 & スポイト -->
-      <div class="toolbar-item">
-        <label for="penColor" data-i18n="lbl_pen_color">描画色</label>
-        <div class="color-picker-wrap">
-          <input type="color" id="penColor" value="#4BEFFF" title="描画色 (#4BEFFF)">
+      <!-- 描画コントロール行（ツール・描画色・太さ・キャンバス背景） -->
+      <div class="toolbar-row toolbar-row-draw">
+        <!-- ツール選択 -->
+        <div class="toolbar-item item-tool">
+          <label for="toolSelect" data-i18n="lbl_tool">ツール</label>
+          <select id="toolSelect">
+            <option value="pen" data-i18n="tool_pen">✏️ ペン</option>
+            <option value="eraser" data-i18n="tool_eraser">🧹 消しゴム</option>
+            <option value="line" data-i18n="tool_line">📏 直線</option>
+            <option value="rect" data-i18n="tool_rect">▢ 四角（枠）</option>
+            <option value="rectFill" data-i18n="tool_rect_fill">■ 四角（塗り）</option>
+            <option value="circle" data-i18n="tool_circle">◯ 円（枠）</option>
+            <option value="circleFill" data-i18n="tool_circle_fill">● 円（塗り）</option>
+            <option value="text" data-i18n="tool_text">🔤 テキスト</option>
+            <option value="fill" data-i18n="tool_fill">🪣 塗りつぶし</option>
+          </select>
         </div>
-        <button type="button" id="eyedropperBtn" class="btn-eyedropper" title="スポイト（キャンバスから色を取得）">
-          <svg class="pipette-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m14 7 3 3"/>
-            <path d="m11 10-7.3 7.3a2 2 0 0 0 0 2.8l.1.1a2 2 0 0 0 2.8 0L14 13"/>
-            <path d="m17 7 2-2a2 2 0 0 0-2.8-2.8l-2 2"/>
-            <path d="m2 22 3-3"/>
-          </svg>
-        </button>
+
+        <!-- 色選択 & スポイト -->
+        <div class="toolbar-item item-color">
+          <label for="penColor" data-i18n="lbl_pen_color">色</label>
+          <div class="color-picker-wrap">
+            <input type="color" id="penColor" value="#4BEFFF" title="描画色 (#4BEFFF)">
+          </div>
+          <button type="button" id="eyedropperBtn" class="btn-eyedropper" title="スポイト（キャンバスから色を取得）">
+            <svg class="pipette-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m14 7 3 3"/>
+              <path d="m11 10-7.3 7.3a2 2 0 0 0 0 2.8l.1.1a2 2 0 0 0 2.8 0L14 13"/>
+              <path d="m17 7 2-2a2 2 0 0 0-2.8-2.8l-2 2"/>
+              <path d="m2 22 3-3"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- 太さ -->
+        <div class="toolbar-item item-size">
+          <label for="penSize"><span data-i18n="lbl_pen_size">太さ</span>:<span id="penSizeValue">4</span></label>
+          <input type="range" id="penSize" min="1" max="64" value="4">
+        </div>
+
+        <!-- 背景色 -->
+        <div class="toolbar-item item-bg">
+          <label for="canvasBgColor" data-i18n="lbl_canvas_bg">背景</label>
+          <select id="canvasBgColor">
+            <option value="transparent" data-i18n="bg_transparent">透過（チェッカー）</option>
+            <option value="#000000" data-i18n="bg_black">黒 (#000000)</option>
+            <option value="#ffffff" data-i18n="bg_white">白 (#ffffff)</option>
+            <option value="#0a0f1f" data-i18n="bg_navy">テーマ紺 (#0A0F1F)</option>
+          </select>
+        </div>
+
+        <!-- 文字サイズ（テキストツール時のみ） -->
+        <div id="fontSizeLabel" class="toolbar-item item-fontsize hidden">
+          <label for="fontSize" data-i18n="lbl_font_size">サイズ</label>
+          <input type="number" id="fontSize" min="8" max="128" value="32">
+        </div>
+
+        <!-- フォント選択（テキストツール時のみ） -->
+        <div id="fontSelectGroup" class="toolbar-item item-fontfamily hidden">
+          <label for="fontFamilySelect" data-i18n="lbl_font_family">フォント</label>
+          <select id="fontFamilySelect">
+            <option value="'Outfit', 'Noto Sans JP', sans-serif" data-i18n="font_gothic">ゴシック (標準・モダン)</option>
+            <option value="'M PLUS Rounded 1c', sans-serif" data-i18n="font_round">丸ゴシック (ポップ・親しみ)</option>
+            <option value="'Noto Serif JP', serif" data-i18n="font_mincho">明朝体 (優雅・和風)</option>
+            <option value="'HG行書体', 'HGP行書体', 'HGS行書体', 'DF行書体', 'DFP行書体', 'Yuji Mai', 'Yuji Boku', cursive, serif" data-i18n="font_brush">行書体 (流麗・毛筆・和の美)</option>
+            <option value="'Impact', sans-serif" data-i18n="font_impact">インパクト (超太字・力強い)</option>
+            <option value="'Caveat', cursive" data-i18n="font_hand">手書き (スクリプト風)</option>
+            <option value="monospace" data-i18n="font_mono">等幅 (テック・コード風)</option>
+            <option value="'Georgia', serif" data-i18n="font_classic">クラシック (Georgia)</option>
+          </select>
+        </div>
       </div>
 
-      <!-- 太さ -->
-      <div class="toolbar-item">
-        <label for="penSize"><span data-i18n="lbl_pen_size">太さ</span>: <span id="penSizeValue">4</span>px</label>
-        <input type="range" id="penSize" min="1" max="64" value="4">
+      <!-- 操作・編集・履歴コントロール行（選択・変形、90度、範囲選択、コピー、貼付け、戻す、やり直し、クリア） -->
+      <div class="toolbar-row toolbar-row-actions">
+        <!-- 選択・変形 & 90度回転ボタン -->
+        <div class="toolbar-item-cluster transform-cluster">
+          <button type="button" id="selectTransformBtn" class="btn-tool" title="レイヤーの選択・変形・移動モード" data-i18n="btn_select_transform">
+            ✋ 選択・変形
+          </button>
+          <button type="button" id="rotate90Btn" class="btn-tool btn-rotate" title="時計回りに90度回転" data-i18n-title="btn_rotate_90_tip">
+            ↷ <span data-i18n="btn_rotate_90">90°</span>
+          </button>
+        </div>
+
+        <!-- 範囲選択・トリミング & コピー・ペーストボタングループ -->
+        <div class="toolbar-item-cluster edit-cluster">
+          <select id="cropTypeSelect" class="btn-tool crop-select-dropdown" title="範囲選択の方式を選択">
+            <option value="" disabled selected data-i18n="btn_crop_select">範囲選択</option>
+            <option value="rect">「」 矩形選択（四角）</option>
+            <option value="freehand">✏️ 手でなぞる（投げ縄）</option>
+            <option value="polygon">📍 点を打つ（多角形）</option>
+            <option value="color">🪄 色選択（同色一括）</option>
+            <option value="luma">☀️ 明るさ階調選択</option>
+          </select>
+          <button type="button" id="executeCropBtn" class="btn-tool btn-action hidden" title="選択範囲で切り抜く" data-i18n-title="btn_execute_crop_tip" data-i18n="btn_execute_crop">
+            ✂️ 切り抜き
+          </button>
+          <button type="button" id="copyBtn" class="btn-tool" title="選択レイヤーまたは範囲をコピー (Ctrl+C)" data-i18n-title="btn_copy_tip" data-i18n="btn_copy">
+            📋 コピー
+          </button>
+          <button type="button" id="pasteBtn" class="btn-tool" title="クリップボードから貼り付け (Ctrl+V)" data-i18n-title="btn_paste_tip" data-i18n="btn_paste">
+            📥 貼付け
+          </button>
+        </div>
+
+        <!-- 履歴操作ボタン -->
+        <div class="toolbar-item-cluster history-cluster">
+          <button id="undoButton" class="btn-tool" title="元に戻す (Ctrl+Z)" disabled data-i18n="btn_undo">↩ 戻す</button>
+          <button id="redoButton" class="btn-tool" title="やり直す (Ctrl+Y)" disabled data-i18n="btn_redo">↪ やり直し</button>
+          <button id="clearCanvas" class="btn-tool btn-danger" title="キャンバスをクリア" data-i18n="btn_clear">🗑 クリア</button>
+        </div>
       </div>
 
-      <!-- 文字サイズ（テキストツール時のみ） -->
-      <div id="fontSizeLabel" class="toolbar-item hidden">
-        <label for="fontSize" data-i18n="lbl_font_size">文字サイズ</label>
-        <input type="number" id="fontSize" min="8" max="128" value="32">
-      </div>
+      <!-- 範囲選択オプションバー (範囲選択モード時に展開) -->
+      <div id="cropOptionsBar" class="toolbar-item crop-options-bar hidden">
+        <!-- 合成モード切り替え -->
+        <div class="crop-op-group">
+          <span class="crop-opt-lbl">合成:</span>
+          <div class="crop-mode-radios">
+            <button type="button" id="cropOpNew" class="btn-crop-mode active" title="新規選択">◻️ 新規</button>
+            <button type="button" id="cropOpAdd" class="btn-crop-mode" title="既存の選択範囲に追加（合体）">➕ 追加</button>
+            <button type="button" id="cropOpSub" class="btn-crop-mode" title="選択範囲から削る（一部削除）">➖ 削除</button>
+          </div>
+        </div>
 
-      <!-- フォント選択（テキストツール時のみ） -->
-      <div id="fontSelectGroup" class="toolbar-item hidden">
-        <label for="fontFamilySelect" data-i18n="lbl_font_family">フォント</label>
-        <select id="fontFamilySelect">
-          <option value="'Outfit', 'Noto Sans JP', sans-serif" data-i18n="font_gothic">ゴシック (標準・モダン)</option>
-          <option value="'M PLUS Rounded 1c', sans-serif" data-i18n="font_round">丸ゴシック (ポップ・親しみ)</option>
-          <option value="'Noto Serif JP', serif" data-i18n="font_mincho">明朝体 (優雅・和風)</option>
-          <option value="'HG行書体', 'HGP行書体', 'HGS行書体', 'DF行書体', 'DFP行書体', 'Yuji Mai', 'Yuji Boku', cursive, serif" data-i18n="font_brush">行書体 (流麗・毛筆・和の美)</option>
-          <option value="'Impact', sans-serif" data-i18n="font_impact">インパクト (超太字・力強い)</option>
-          <option value="'Caveat', cursive" data-i18n="font_hand">手書き (スクリプト風)</option>
-          <option value="monospace" data-i18n="font_mono">等幅 (テック・コード風)</option>
-          <option value="'Georgia', serif" data-i18n="font_classic">クラシック (Georgia)</option>
-        </select>
-      </div>
+        <!-- 境界ぼかし (フェザー) -->
+        <div class="crop-op-group">
+          <label for="cropFeatherInput" class="crop-opt-lbl">ぼかし:</label>
+          <input type="range" id="cropFeatherInput" min="0" max="20" value="0" step="1" class="crop-slider">
+          <span id="cropFeatherVal" class="crop-val-badge">0px</span>
+        </div>
 
-      <!-- 背景色 -->
-      <div class="toolbar-item">
-        <label for="canvasBgColor" data-i18n="lbl_canvas_bg">キャンバス背景</label>
-        <select id="canvasBgColor">
-          <option value="transparent" data-i18n="bg_transparent">透過（チェッカー）</option>
-          <option value="#000000" data-i18n="bg_black">黒 (#000000)</option>
-          <option value="#ffffff" data-i18n="bg_white">白 (#ffffff)</option>
-          <option value="#0a0f1f" data-i18n="bg_navy">テーマ紺 (#0A0F1F)</option>
-        </select>
-      </div>
+        <!-- 多角形選択時の「確定」＆「1点戻す」 -->
+        <div id="cropPolyControls" class="crop-op-group hidden">
+          <button type="button" id="cropPolyFinishBtn" class="btn-tool btn-poly-action" title="多角形を閉じて確定">✓ 確定</button>
+          <button type="button" id="cropPolyCancelBtn" class="btn-tool" title="直前の点を1つ戻す">↩ 1点戻す</button>
+        </div>
 
-      <!-- 選択・変形 & 90度回転ボタン -->
-      <div class="toolbar-item transform-buttons-group">
-        <button type="button" id="selectTransformBtn" class="btn-tool" title="レイヤーの選択・変形・移動モード" data-i18n="btn_select_transform">
-          ✋ 選択・変形
-        </button>
-        <button type="button" id="rotate90Btn" class="btn-tool btn-rotate" title="時計回りに90度回転" data-i18n-title="btn_rotate_90_tip">
-          ↷ <span data-i18n="btn_rotate_90">90°</span>
-        </button>
-      </div>
+        <!-- 色選択時の「色の許容値(あいまい度)」 -->
+        <div id="cropColorControls" class="crop-op-group hidden">
+          <label for="cropColorTolerance" class="crop-opt-lbl">許容度:</label>
+          <input type="range" id="cropColorTolerance" min="1" max="100" value="32" step="1" class="crop-slider">
+          <span id="cropColorTolVal" class="crop-val-badge">32</span>
+        </div>
 
-      <!-- 履歴操作ボタン -->
-      <div class="toolbar-item history-buttons">
-        <button id="undoButton" class="btn-tool" title="元に戻す (Ctrl+Z)" disabled data-i18n="btn_undo">↩ 戻す</button>
-        <button id="redoButton" class="btn-tool" title="やり直す (Ctrl+Y)" disabled data-i18n="btn_redo">↪ やり直し</button>
-        <button id="clearCanvas" class="btn-tool btn-danger" title="キャンバスをクリア" data-i18n="btn_clear">🗑 クリア</button>
+        <!-- 明るさ階調選択時の「階調タイプ」 -->
+        <div id="cropLumaControls" class="crop-op-group hidden">
+          <label for="cropLumaType" class="crop-opt-lbl">階調:</label>
+          <select id="cropLumaType" class="crop-mini-select">
+            <option value="highlights">☀️ 明部 (ハイライト)</option>
+            <option value="midtones">⛅ 中間部</option>
+            <option value="shadows">🌑 暗部 (シャドウ)</option>
+          </select>
+          <button type="button" id="cropLumaApplyBtn" class="btn-tool btn-poly-action" title="指定の階調を選択">選択</button>
+        </div>
       </div>
     </div>
 
@@ -595,7 +657,11 @@
           <option value="it">🇮🇹 IT Italiano</option>
           <option value="de">🇩🇪 DE Deutsch</option>
           <option value="uk">🇺🇦 UK Українська</option>
+          <option value="hi">🇮🇳 HI हिन्दी</option>
+          <option value="ar">🇸🇦 AR العربية</option>
+          <option value="ru">🇷🇺 RU Русский</option>
           <option value="id">🇮🇩 ID Indonesia</option>
+          <option value="zh">🇨🇳 ZH 中文</option>
           <option value="ko">🇰🇷 KO 한국어</option>
           <option value="tr">🇹🇷 TR Türkçe</option>
         </select>
@@ -607,9 +673,9 @@
   <!-- スクロールコンテンツエリア -->
   <div class="info-scroll-body">
     <div id="informationContent" class="information-content-box">
-      <p id="infoCreatedBy" class="info-created-text">このアプリは、<strong>H.Fukazu</strong>によって制作されました。</p>
+      <p id="infoCreatedBy" class="info-created-text" data-i18n="info_created_by">Ｉ’Ｍ（アイム）は、<strong>H.Fukazu</strong>によって製作されました。</p>
       <p class="info-row">
-        <span data-i18n="info_version">バージョン：</span><strong>v1.0.4</strong> <span data-i18n="info_updated_date">（2026/10/10 更新）</span>
+        <span data-i18n="info_version">バージョン：</span><strong>v1.0.5</strong> <span data-i18n="info_updated_date">（2026/10/10 更新）</span>
       </p>
       <p class="info-sub-row"><span data-i18n="info_initial_release">初版リリース：</span><strong>v1.0.0（2026/10/10）</strong></p>
 
@@ -625,16 +691,17 @@
       <section id="sec-ja" class="readme-section" dir="ltr">
         <div class="readme-flag">🇯🇵</div>
         <h2 class="readme-lang-title">＜＜ 日本語 ＞＞</h2>
-        <p>このアプリは <strong>H.Fukazu</strong> によって制作されました。</p>
-        <p><strong>著作権および利用規約</strong><br>本作品（ソフトウェア、コード、ドキュメント、および関連する全ての内容を含む）の著作権は、© 2025 H.Fukazu に帰属します。© 2025
-          H.Fukazu. All Rights Reserved.</p>
+        <p>Ｉ’Ｍ（アイム）は、<strong>H.Fukazu</strong>によって製作されました。</p>
+        <p><strong>著作権および利用規約</strong><br>本作品（ソフトウェア、コード、ドキュメント、および関連する全ての内容を含む）の著作権は、© 2026 H.Fukazu に帰属します。© 2026 H.Fukazu. All Rights Reserved.</p>
         <p><strong>厳禁事項</strong><br>著作者からの書面による事前の明示的な許可なく、以下の行為を固く禁じます。</p>
         <ul>
-          <li>無断転用、複製、改変、二次利用は禁止</li>
+          <li>本アプリ本体（ソフトウェア・ソースコード）の無断転用、複製、改変、二次利用は禁止</li>
           <li>ソースコードの全部または一部の無断転載および再配布の禁止</li>
-          <li>商業的な目的での利用禁止（営利・非営利を問わず、対価を得る活動への利用）</li>
-          <li>本作品を基にした派生作品の作成および公開も禁止</li>
+          <li>本アプリ本体を商業的な目的で利用することの禁止（営利・非営利を問わず、対価を得る活動への利用・販売等）</li>
+          <li>本アプリ本体を基にした派生作品の作成および公開も禁止</li>
         </ul>
+        <p><strong>【作成されたアイコン画像（成果物）の権利について】</strong><br>
+        本アプリを利用してユーザーが作成・書き出したアイコン画像（成果物）の著作権はユーザーに帰属し、商用・非営利を問わずご自由にご利用いただけます。</p>
         <p>本作品は、著作権法によって最大限に保護されています。</p>
       </section>
       <section id="sec-en" class="readme-section" dir="ltr">
@@ -642,23 +709,24 @@
         <h2 class="readme-lang-title">＜＜ English (英語) ＞＞</h2>
         <p>This application was created by <strong>H.Fukazu</strong>.</p>
         <p><strong>Copyright and Usage Policy</strong><br>All rights to this work—including software, code,
-          documentation, and all related content—are reserved by © 2025 H.Fukazu. All Rights Reserved.</p>
+          documentation, and all related content—are reserved by © 2026 H.Fukazu. All Rights Reserved.</p>
         <p><strong>Strictly Prohibited</strong><br>The following actions are strictly prohibited without prior explicit
           written permission from the author:</p>
         <ul>
-          <li>Unauthorized use, reproduction, modification, or secondary use</li>
+          <li>Unauthorized use, reproduction, modification, or secondary use of this application/software</li>
           <li>Republishing or redistributing all or part of the source code without permission</li>
-          <li>Use for commercial purposes (including both for-profit and non-profit activities involving compensation)
-          </li>
-          <li>Creation or publication of derivative works based on this work</li>
+          <li>Use of this application itself for commercial purposes (including resale, sublicensing, or paid redistribution)</li>
+          <li>Creation or publication of derivative works based on this software</li>
         </ul>
+        <p><strong>[Rights to Created Icons (Output)]</strong><br>
+        Users retain full rights to icon images created and exported using this application, and are completely free to use them for both commercial and non-commercial purposes.</p>
         <p>This work is fully protected under copyright law.</p>
       </section>
       <section id="sec-nl" class="readme-section" dir="ltr">
         <div class="readme-flag">🇳🇱</div>
         <h2 class="readme-lang-title">◆ Nederlands (オランダ語) ◆</h2>
         <p>Deze applicatie is gemaakt door <strong>H.Fukazu</strong>.</p>
-        <p><strong>Auteursrecht en gebruiksvoorwaarden</strong><br>Het auteursrecht berust bij © 2025 H.Fukazu. All
+        <p><strong>Auteursrecht en gebruiksvoorwaarden</strong><br>Het auteursrecht berust bij © 2026 H.Fukazu. All
           Rights Reserved.</p>
         <p><strong>Strikt verboden</strong></p>
         <ul>
@@ -673,7 +741,7 @@
         <div class="readme-flag">🇵🇹 🇧🇷</div>
         <h2 class="readme-lang-title">＜＜ Português (ポルトガル語) ＞＞</h2>
         <p>Este aplicativo foi criado por <strong>H.Fukazu</strong>.</p>
-        <p><strong>Direitos autorais e política de uso</strong><br>Os direitos autorais pertencem a © 2025 H.Fukazu. All
+        <p><strong>Direitos autorais e política de uso</strong><br>Os direitos autorais pertencem a © 2026 H.Fukazu. All
           Rights Reserved.</p>
         <p><strong>Proibições estritas</strong></p>
         <ul>
@@ -688,7 +756,7 @@
         <div class="readme-flag">🇪🇸 🇲🇽</div>
         <h2 class="readme-lang-title">＜＜ Español (スペイン語) ＞＞</h2>
         <p>Esta aplicación fue creada por <strong>H.Fukazu</strong>.</p>
-        <p><strong>Derechos de autor y política de uso</strong><br>Los derechos de autor pertenecen a © 2025 H.Fukazu.
+        <p><strong>Derechos de autor y política de uso</strong><br>Los derechos de autor pertenecen a © 2026 H.Fukazu.
           All Rights Reserved.</p>
         <p><strong>Prohibiciones estrictas</strong></p>
         <ul>
@@ -704,7 +772,7 @@
         <h2 class="readme-lang-title">＜＜ Français (フランス語) ＞＞</h2>
         <p>Cette application a été créée par <strong>H.Fukazu</strong>.</p>
         <p><strong>Politique de droits d'auteur</strong><br>Tous les droits relatifs à cette œuvre sont réservés à ©
-          2025 H.Fukazu. Tous droits réservés.</p>
+          2026 H.Fukazu. Tous droits réservés.</p>
         <p><strong>Strictement interdit</strong></p>
         <ul>
           <li>Utilisation, reproduction, modification ou réutilisation non autorisée</li>
@@ -718,7 +786,7 @@
         <div class="readme-flag">🇮🇹</div>
         <h2 class="readme-lang-title">＜＜ Italiano (イタリア語) ＞＞</h2>
         <p>Questa app è stata creata da <strong>H.Fukazu</strong>.</p>
-        <p><strong>Copyright e condizioni d'uso</strong><br>Il copyright di quest'opera appartiene a © 2025 H.Fukazu.
+        <p><strong>Copyright e condizioni d'uso</strong><br>Il copyright di quest'opera appartiene a © 2026 H.Fukazu.
           All Rights Reserved.</p>
         <p><strong>Divieti assoluti</strong></p>
         <ul>
@@ -733,7 +801,7 @@
         <div class="readme-flag">🇩🇪</div>
         <h2 class="readme-lang-title">＜＜ Deutsch (ドイツ語) ＞＞</h2>
         <p>Diese App wurde von <strong>H.Fukazu</strong> entwickelt.</p>
-        <p><strong>Urheberrecht und Nutzungsbedingungen</strong><br>Das Urheberrecht liegt bei © 2025 H.Fukazu. All
+        <p><strong>Urheberrecht und Nutzungsbedingungen</strong><br>Das Urheberrecht liegt bei © 2026 H.Fukazu. All
           Rights Reserved.</p>
         <p><strong>Streng verboten</strong></p>
         <ul>
@@ -748,7 +816,7 @@
         <div class="readme-flag">🇺🇦</div>
         <h2 class="readme-lang-title">＜＜ Українська (ウクライナ語) ＞＞</h2>
         <p>Цей додаток створено <strong>H.Fukazu</strong>.</p>
-        <p><strong>Авторське право та умови використання</strong><br>Авторські права належать © 2025 H.Fukazu. All
+        <p><strong>Авторське право та умови використання</strong><br>Авторські права належать © 2026 H.Fukazu. All
           Rights Reserved.</p>
         <p><strong>Строго заборонено</strong></p>
         <ul>
@@ -763,7 +831,7 @@
         <div class="readme-flag">🇮🇳</div>
         <h2 class="readme-lang-title">＜＜ हिन्दी (ヒンディー語) ＞＞</h2>
         <p>यह ऐप <strong>H.Fukazu</strong> द्वारा बनाया गया है।</p>
-        <p><strong>कॉपीराइट और उपयोग की शर्तें</strong><br>इस रचना का कॉपीराइट © 2025 H.Fukazu के पास है। All Rights
+        <p><strong>कॉपीराइट और उपयोग की शर्तें</strong><br>इस रचना का कॉपीराइट © 2026 H.Fukazu के पास है। All Rights
           Reserved.</p>
         <p><strong>कड़ाई से निषिद्ध</strong></p>
         <ul>
@@ -778,7 +846,7 @@
         <div class="readme-flag">🇸🇦</div>
         <h2 class="readme-lang-title">＜＜ العربية (アラビア語) ＞＞</h2>
         <p>تم إنشاء هذا التطبيق بواسطة <strong>H.Fukazu</strong>.</p>
-        <p><strong>حقوق النشر وشروط الاستخدام</strong><br>حقوق النشر لهذا العمل تعود إلى © 2025 H.Fukazu. All Rights
+        <p><strong>حقوق النشر وشروط الاستخدام</strong><br>حقوق النشر لهذا العمل تعود إلى © 2026 H.Fukazu. All Rights
           Reserved.</p>
         <p><strong>المحظورات الصارمة</strong></p>
         <ul>
@@ -793,7 +861,7 @@
         <div class="readme-flag">🇷🇺</div>
         <h2 class="readme-lang-title">＜＜ Русский (ロシア語) ＞＞</h2>
         <p>Это приложение было создано <strong>H.Fukazu</strong>.</p>
-        <p><strong>Авторские права и условия использования</strong><br>Авторские права принадлежат © 2025 H.Fukazu. All
+        <p><strong>Авторские права и условия использования</strong><br>Авторские права принадлежат © 2026 H.Fukazu. All
           Rights Reserved.</p>
         <p><strong>Строго запрещено</strong></p>
         <ul>
@@ -808,7 +876,7 @@
         <div class="readme-flag">🇮🇩</div>
         <h2 class="readme-lang-title">＜＜ Bahasa Indonesia (インドネシア語) ＞＞</h2>
         <p>Aplikasi ini dibuat oleh <strong>H.Fukazu</strong>.</p>
-        <p><strong>Hak Cipta dan Ketentuan Penggunaan</strong><br>Hak cipta dimiliki oleh © 2025 H.Fukazu. All Rights
+        <p><strong>Hak Cipta dan Ketentuan Penggunaan</strong><br>Hak cipta dimiliki oleh © 2026 H.Fukazu. All Rights
           Reserved.</p>
         <p><strong>Larangan Keras</strong></p>
         <ul>
@@ -823,7 +891,7 @@
         <div class="readme-flag">🇨🇳</div>
         <h2 class="readme-lang-title">＜＜ 中文 (中国語) ＞＞</h2>
         <p>本应用由 <strong>H.Fukazu</strong> 制作。</p>
-        <p><strong>版权与使用条款</strong><br>本作品的版权归 © 2025 H.Fukazu 所有。All Rights Reserved.</p>
+        <p><strong>版权与使用条款</strong><br>本作品的版权归 © 2026 H.Fukazu 所有。All Rights Reserved.</p>
         <p><strong>严禁事项</strong></p>
         <ul>
           <li>禁止擅自转载、複製、修改、二次使用</li>
@@ -837,7 +905,7 @@
         <div class="readme-flag">🇰🇷</div>
         <h2 class="readme-lang-title">＜＜ 한국어 (韓国語) ＞＞</h2>
         <p>이 앱은 <strong>H.Fukazu</strong>에 의해 제작되었습니다.</p>
-        <p><strong>저작권 및 이용 약관</strong><br>본 작품의 저작권은 © 2025 H.Fukazu에게 있습니다. All Rights Reserved.</p>
+        <p><strong>저작권 및 이용 약관</strong><br>본 작품의 저작권은 © 2026 H.Fukazu에게 있습니다. All Rights Reserved.</p>
         <p><strong>금지 사항</strong></p>
         <ul>
           <li>무단 전용, 복제, 수정, 2차 사용 금지</li>
@@ -851,7 +919,7 @@
         <div class="readme-flag">🇹🇷</div>
         <h2 class="readme-lang-title">＜＜ Türkçe (トルコ語) ＞＞</h2>
         <p>Bu uygulama <strong>H.Fukazu</strong> tarafından oluşturulmuştur.</p>
-        <p><strong>Telif Hakkı ve Kullanım Koşulları</strong><br>Bu eserin telif hakkı © 2025 H.Fukazu'ya aittir. Tüm
+        <p><strong>Telif Hakkı ve Kullanım Koşulları</strong><br>Bu eserin telif hakkı © 2026 H.Fukazu'ya aittir. Tüm
           Hakları Saklıdır.</p>
         <p><strong>Kesinlikle Yasaktır</strong></p>
         <ul>
@@ -878,8 +946,8 @@
 <!-- ライブラリ -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="sample_icons_data.js?v=1.0.15"></script>
-<script src="script.js?v=1.0.15"></script>
+<script src="sample_icons_data.js?v=1.0.39"></script>
+<script src="script.js?v=1.0.39"></script>
 
 </body>
 </html>
