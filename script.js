@@ -142,12 +142,16 @@ const i18nData = {
     lbl_ios_fill_a: "iPhone用(iOS)は透明部分を背景色で補完する <small>※iOSホーム画面は透過を黒にする仕様のため推奨</small>",
     lbl_ios_fill_b: "iPhone用(iOS)は透明部分を背景色で補完する <small>※iOSホーム画面用推奨</small>",
     btn_export_ios: "<strong>iPhone用</strong><small>apple-touch-icon (180×180)</small>",
-    btn_export_android192: "<strong>Android用</strong><small>PWA標準 (192×192)</small>",
-    btn_export_android512: "<strong>Android用 高精細</strong><small>PWAスプラッシュ (512×512)</small>",
+    btn_export_android192: "<strong>PWA / Android</strong><small>icon-192.png (192×192)</small>",
+    btn_export_android512: "<strong>PWA 高精細</strong><small>icon-512.png (512×512)</small>",
     btn_export_ico: "<strong>Windows / Web</strong><small>favicon.ico (マルチサイズ)</small>",
+    btn_export_ico16: "<strong>単体ICO</strong><small>favicon-16x16.ico (16×16)</small>",
+    btn_export_fav48: "<strong>タブ/検索用</strong><small>favicon-48x48.png (48×48)</small>",
+    btn_export_fav32: "<strong>標準タブ用</strong><small>favicon-32x32.png (32×32)</small>",
+    btn_export_fav16: "<strong>小タブ用</strong><small>favicon-16x16.png (16×16)</small>",
     btn_export_png_a: "<strong>標準PNG</strong><small>imp_canvas.png (256×256)</small>",
     btn_export_png_b: "<strong>標準PNG</strong><small>imp_image.png (256×256)</small>",
-    btn_export_zip: "<strong>全サイズ一括ZIP</strong><small>iOS + Android + Favicon + 設定</small>",
+    btn_export_zip: "<strong>全サイズ一括ZIP</strong><small>全種アイコン + 設定ファイル</small>",
     drop_zone_title: "画像をここにドラッグ＆ドロップ",
     drop_zone_desc: "またはクリックして画像を選択（PNG, JPG, WEBP, SVG対応 / スマホ撮影写真OK）",
     btn_select_file: "ファイルを選択する",
@@ -304,12 +308,16 @@ const i18nData = {
     lbl_ios_fill_a: "Fill transparency with background for iPhone (iOS) <small>※Recommended as iOS home turns transparent into black</small>",
     lbl_ios_fill_b: "Fill transparency with background for iPhone (iOS) <small>※Recommended for iOS Home Screen</small>",
     btn_export_ios: "<strong>iPhone (iOS)</strong><small>apple-touch-icon (180×180)</small>",
-    btn_export_android192: "<strong>Android</strong><small>PWA Standard (192×192)</small>",
-    btn_export_android512: "<strong>Android High-Res</strong><small>PWA Splash (512×512)</small>",
+    btn_export_android192: "<strong>PWA / Android</strong><small>icon-192.png (192×192)</small>",
+    btn_export_android512: "<strong>PWA High-Res</strong><small>icon-512.png (512×512)</small>",
     btn_export_ico: "<strong>Windows / Web</strong><small>favicon.ico (Multi-size)</small>",
+    btn_export_ico16: "<strong>Single ICO</strong><small>favicon-16x16.ico (16×16)</small>",
+    btn_export_fav48: "<strong>Tab / Search PNG</strong><small>favicon-48x48.png (48×48)</small>",
+    btn_export_fav32: "<strong>Tab PNG</strong><small>favicon-32x32.png (32×32)</small>",
+    btn_export_fav16: "<strong>Small Tab PNG</strong><small>favicon-16x16.png (16×16)</small>",
     btn_export_png_a: "<strong>Standard PNG</strong><small>imp_canvas.png (256×256)</small>",
     btn_export_png_b: "<strong>Standard PNG</strong><small>imp_image.png (256×256)</small>",
-    btn_export_zip: "<strong>All-in-One ZIP</strong><small>iOS + Android + Favicon + Manifest</small>",
+    btn_export_zip: "<strong>All-in-One ZIP</strong><small>All Icons + Config Files</small>",
     drop_zone_title: "Drag & Drop Image Here",
     drop_zone_desc: "or click to select file (Supports PNG, JPG, WEBP, SVG / Mobile photos OK)",
     btn_select_file: "Select File",
@@ -1846,19 +1854,25 @@ function setLanguage(lang) {
   });
 
   // data-i18n 要素を更新
-  const dict = i18nData[lang];
+  const dict = i18nData[lang] || i18nData.ja;
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
-    if (dict && dict[key] !== undefined) {
-      el.innerHTML = dict[key];
+    const val = (dict && dict[key] !== undefined) 
+      ? dict[key] 
+      : (i18nData.en && i18nData.en[key] !== undefined ? i18nData.en[key] : (i18nData.ja ? i18nData.ja[key] : undefined));
+    if (val !== undefined) {
+      el.innerHTML = val;
     }
   });
 
   // data-i18n-title 属性の要素（ツールチップ）を更新
   document.querySelectorAll('[data-i18n-title]').forEach(el => {
     const key = el.getAttribute('data-i18n-title');
-    if (dict && dict[key] !== undefined) {
-      el.title = dict[key];
+    const val = (dict && dict[key] !== undefined) 
+      ? dict[key] 
+      : (i18nData.en && i18nData.en[key] !== undefined ? i18nData.en[key] : (i18nData.ja ? i18nData.ja[key] : undefined));
+    if (val !== undefined) {
+      el.title = val;
     }
   });
 
@@ -6160,8 +6174,7 @@ function canvasToPngBytes(canvasElement) {
   return bytes;
 }
 
-function createMultiSizeIco(sourceCanvas) {
-  const sizes = [16, 32, 48, 64, 128, 256];
+function createIcoBytes(sourceCanvas, sizes = [16, 32, 48, 64, 128, 256]) {
   const images = sizes.map(size => {
     const resized = resizeCanvas(sourceCanvas, size);
     return {
@@ -6215,8 +6228,16 @@ function createMultiSizeIco(sourceCanvas) {
   return ico;
 }
 
-async function saveICO(sourceCanvas, filename) {
-  const icoBytes = createMultiSizeIco(sourceCanvas);
+function createMultiSizeIco(sourceCanvas) {
+  return createIcoBytes(sourceCanvas, [16, 32, 48, 64, 128, 256]);
+}
+
+function createSingleSizeIco(sourceCanvas, size = 16) {
+  return createIcoBytes(sourceCanvas, [size]);
+}
+
+async function saveICO(sourceCanvas, filename, sizes = [16, 32, 48, 64, 128, 256]) {
+  const icoBytes = createIcoBytes(sourceCanvas, sizes);
   const blob = new Blob([icoBytes], { type: 'image/x-icon' });
   await saveBlobWithPicker(blob, filename, 'ico');
 }
@@ -6241,23 +6262,33 @@ async function saveAllInZip(sourceCanvas, isModeA = true) {
   const iosCanvas = resizeCanvas(sourceCanvas, 180, iosBg);
   zip.file("apple-touch-icon.png", canvasToPngBytes(iosCanvas));
 
-  // 2. Android / PWA用 (192x192, 512x512)
+  // 2. Android / PWA用 (icon-192.png, icon-512.png & android-chrome互換名)
   const a192 = resizeCanvas(sourceCanvas, 192);
-  zip.file("android-chrome-192x192.png", canvasToPngBytes(a192));
+  const a192Bytes = canvasToPngBytes(a192);
+  zip.file("icon-192.png", a192Bytes);
+  zip.file("android-chrome-192x192.png", a192Bytes);
 
   const a512 = resizeCanvas(sourceCanvas, 512);
-  zip.file("android-chrome-512x512.png", canvasToPngBytes(a512));
+  const a512Bytes = canvasToPngBytes(a512);
+  zip.file("icon-512.png", a512Bytes);
+  zip.file("android-chrome-512x512.png", a512Bytes);
 
-  // 3. ファビコン用 (favicon-32x32.png, favicon-16x16.png)
+  // 3. ファビコンPNG用 (48x48, 32x32, 16x16)
+  const f48 = resizeCanvas(sourceCanvas, 48);
+  zip.file("favicon-48x48.png", canvasToPngBytes(f48));
+
   const f32 = resizeCanvas(sourceCanvas, 32);
   zip.file("favicon-32x32.png", canvasToPngBytes(f32));
 
   const f16 = resizeCanvas(sourceCanvas, 16);
   zip.file("favicon-16x16.png", canvasToPngBytes(f16));
 
-  // 4. Windows / マルチサイズICO (favicon.ico)
+  // 4. Windows / マルチサイズICO (favicon.ico) & 単体16x16 ICO (favicon-16x16.ico)
   const icoBytes = createMultiSizeIco(sourceCanvas);
   zip.file("favicon.ico", icoBytes);
+
+  const ico16Bytes = createSingleSizeIco(sourceCanvas, 16);
+  zip.file("favicon-16x16.ico", ico16Bytes);
 
   // 5. PWA設定ファイル (manifest.json)
   const manifest = {
@@ -6265,13 +6296,25 @@ async function saveAllInZip(sourceCanvas, isModeA = true) {
     short_name: "App",
     icons: [
       {
-        src: "/android-chrome-192x192.png",
-        sizes: "192x192",
+        src: "/favicon-48x48.png",
+        sizes: "48x48",
         type: "image/png"
       },
       {
-        src: "/android-chrome-512x512.png",
+        src: "/icon-192.png",
+        sizes: "192x192",
+        type: "image/png",
+        purpose: "any"
+      },
+      {
+        src: "/icon-512.png",
         sizes: "512x512",
+        type: "image/png",
+        purpose: "any maskable"
+      },
+      {
+        src: "/apple-touch-icon.png",
+        sizes: "180x180",
         type: "image/png"
       }
     ],
@@ -6283,10 +6326,14 @@ async function saveAllInZip(sourceCanvas, isModeA = true) {
 
   // 6. 組み込み用HTMLスニペット (index_head_tags.html)
   const headSnippet = `<!-- Webアプリ / PWA HTML <head> に貼り付けるタグ -->
+<link rel="shortcut icon" href="/favicon.ico">
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
 <link rel="manifest" href="/manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -6296,22 +6343,27 @@ async function saveAllInZip(sourceCanvas, isModeA = true) {
   zip.file("index_head_tags.html", headSnippet);
 
   // 7. README説明書
-  const readme = `=== IMP (Icon Maker Pro) アイコンパッケージ ===
+  const readme = `=== IMP (Icon Maker Pro) 完全対応アイコンパッケージ ===
 
 【同封ファイル一覧】
 - apple-touch-icon.png (180x180) : iPhone / iPad ホーム画面用アイコン
-- android-chrome-192x192.png   : Android / PWA 標準アプリアイコン
-- android-chrome-512x512.png   : Android / PWA 高精細スプラッシュ画面用アイコン
-- favicon-32x32.png            : ブラウザタブ用ファビコン
-- favicon-16x16.png            : ブラウザタブ用小サイズファビコン
-- favicon.ico                  : Windows / ブラウザ用マルチサイズICO
+- icon-192.png (192x192)         : PWA / Android 標準アプリアイコン
+- icon-512.png (512x512)         : PWA / Android 高精細スプラッシュ画面用アイコン
+- android-chrome-192x192.png   : Android Chrome互換用アプリアイコン
+- android-chrome-512x512.png   : Android Chrome互換用スプラッシュアイコン
+- favicon.ico                  : Windows / ブラウザ用マルチサイズICO (16, 32, 48, 64, 128, 256)
+- favicon-16x16.ico            : 16×16 単体ICOファイル
+- favicon-48x48.png            : Google検索結果 / デスクトップ用ファビコン
+- favicon-32x32.png            : 高解像度ブラウザタブ用ファビコン
+- favicon-16x16.png            : 標準ブラウザタブ用小サイズファビコン
 - manifest.json                : PWA設定ファイル
-- index_head_tags.html         : HTMLの<head>内に貼り付けるコード
+- index_head_tags.html         : HTMLの<head>内に貼り付ける完全コード
+- README.txt                   : 本ファイル（説明書）
 
 【使い方】
 1. これらの画像と manifest.json をWebサイトのルート階層に配置します。
 2. index_head_tags.html のコードを既存サイトの index.html の <head> 内に貼り付けます。
-これでiPhone、Android、PCすべてのブラウザで完璧にアイコンが表示されます！
+これでiPhone、Android、Windows、Mac、すべてのブラウザで完璧にアイコンが表示されます！
 `;
   zip.file("README.txt", readme);
 
@@ -6342,7 +6394,7 @@ function withCleanCanvasExport(action) {
 }
 
 // Mode A (キャンバス)
-document.getElementById('downloadIosA').addEventListener('click', () => {
+document.getElementById('downloadIosA')?.addEventListener('click', () => {
   trackEvent('export_icon', { platform: 'ios', mode: 'canvas' });
   withCleanCanvasExport(() => {
     const fill = document.getElementById('fillBgForIosA').checked ? "#ffffff" : null;
@@ -6350,35 +6402,63 @@ document.getElementById('downloadIosA').addEventListener('click', () => {
   });
 });
 
-document.getElementById('downloadAndroid192A').addEventListener('click', () => {
+document.getElementById('downloadAndroid192A')?.addEventListener('click', () => {
   trackEvent('export_icon', { platform: 'android_192', mode: 'canvas' });
   withCleanCanvasExport(() => {
-    saveCanvasAsPNG(canvas, 'android-chrome-192x192.png', 192);
+    saveCanvasAsPNG(canvas, 'icon-192.png', 192);
   });
 });
 
-document.getElementById('downloadAndroid512A').addEventListener('click', () => {
+document.getElementById('downloadAndroid512A')?.addEventListener('click', () => {
   trackEvent('export_icon', { platform: 'android_512', mode: 'canvas' });
   withCleanCanvasExport(() => {
-    saveCanvasAsPNG(canvas, 'android-chrome-512x512.png', 512);
+    saveCanvasAsPNG(canvas, 'icon-512.png', 512);
   });
 });
 
-document.getElementById('downloadIcoA').addEventListener('click', () => {
+document.getElementById('downloadIcoA')?.addEventListener('click', () => {
   trackEvent('export_icon', { platform: 'ico', mode: 'canvas' });
   withCleanCanvasExport(() => {
-    saveICO(canvas, 'favicon.ico');
+    saveICO(canvas, 'favicon.ico', [16, 32, 48, 64, 128, 256]);
   });
 });
 
-document.getElementById('downloadPngA').addEventListener('click', () => {
+document.getElementById('downloadIco16A')?.addEventListener('click', () => {
+  trackEvent('export_icon', { platform: 'ico_16', mode: 'canvas' });
+  withCleanCanvasExport(() => {
+    saveICO(canvas, 'favicon-16x16.ico', [16]);
+  });
+});
+
+document.getElementById('downloadFav48A')?.addEventListener('click', () => {
+  trackEvent('export_icon', { platform: 'fav_48', mode: 'canvas' });
+  withCleanCanvasExport(() => {
+    saveCanvasAsPNG(canvas, 'favicon-48x48.png', 48);
+  });
+});
+
+document.getElementById('downloadFav32A')?.addEventListener('click', () => {
+  trackEvent('export_icon', { platform: 'fav_32', mode: 'canvas' });
+  withCleanCanvasExport(() => {
+    saveCanvasAsPNG(canvas, 'favicon-32x32.png', 32);
+  });
+});
+
+document.getElementById('downloadFav16A')?.addEventListener('click', () => {
+  trackEvent('export_icon', { platform: 'fav_16', mode: 'canvas' });
+  withCleanCanvasExport(() => {
+    saveCanvasAsPNG(canvas, 'favicon-16x16.png', 16);
+  });
+});
+
+document.getElementById('downloadPngA')?.addEventListener('click', () => {
   trackEvent('export_icon', { platform: 'png', mode: 'canvas' });
   withCleanCanvasExport(() => {
     saveCanvasAsPNG(canvas, 'imp_canvas.png', 256);
   });
 });
 
-document.getElementById('downloadZipA').addEventListener('click', () => {
+document.getElementById('downloadZipA')?.addEventListener('click', () => {
   trackEvent('export_icon', { platform: 'zip_all', mode: 'canvas' });
   withCleanCanvasExport(() => {
     saveAllInZip(canvas, true);
@@ -6386,33 +6466,53 @@ document.getElementById('downloadZipA').addEventListener('click', () => {
 });
 
 // Mode B (画像アップロード)
-document.getElementById('downloadIosB').addEventListener('click', () => {
+document.getElementById('downloadIosB')?.addEventListener('click', () => {
   trackEvent('export_icon', { platform: 'ios', mode: 'upload' });
   const fill = document.getElementById('fillBgForIosB').checked ? "#ffffff" : null;
   saveCanvasAsPNG(previewCanvas, 'apple-touch-icon.png', 180, fill);
 });
 
-document.getElementById('downloadAndroid192B').addEventListener('click', () => {
+document.getElementById('downloadAndroid192B')?.addEventListener('click', () => {
   trackEvent('export_icon', { platform: 'android_192', mode: 'upload' });
-  saveCanvasAsPNG(previewCanvas, 'android-chrome-192x192.png', 192);
+  saveCanvasAsPNG(previewCanvas, 'icon-192.png', 192);
 });
 
-document.getElementById('downloadAndroid512B').addEventListener('click', () => {
+document.getElementById('downloadAndroid512B')?.addEventListener('click', () => {
   trackEvent('export_icon', { platform: 'android_512', mode: 'upload' });
-  saveCanvasAsPNG(previewCanvas, 'android-chrome-512x512.png', 512);
+  saveCanvasAsPNG(previewCanvas, 'icon-512.png', 512);
 });
 
-document.getElementById('downloadIcoB').addEventListener('click', () => {
+document.getElementById('downloadIcoB')?.addEventListener('click', () => {
   trackEvent('export_icon', { platform: 'ico', mode: 'upload' });
-  saveICO(previewCanvas, 'favicon.ico');
+  saveICO(previewCanvas, 'favicon.ico', [16, 32, 48, 64, 128, 256]);
 });
 
-document.getElementById('downloadPngB').addEventListener('click', () => {
+document.getElementById('downloadIco16B')?.addEventListener('click', () => {
+  trackEvent('export_icon', { platform: 'ico_16', mode: 'upload' });
+  saveICO(previewCanvas, 'favicon-16x16.ico', [16]);
+});
+
+document.getElementById('downloadFav48B')?.addEventListener('click', () => {
+  trackEvent('export_icon', { platform: 'fav_48', mode: 'upload' });
+  saveCanvasAsPNG(previewCanvas, 'favicon-48x48.png', 48);
+});
+
+document.getElementById('downloadFav32B')?.addEventListener('click', () => {
+  trackEvent('export_icon', { platform: 'fav_32', mode: 'upload' });
+  saveCanvasAsPNG(previewCanvas, 'favicon-32x32.png', 32);
+});
+
+document.getElementById('downloadFav16B')?.addEventListener('click', () => {
+  trackEvent('export_icon', { platform: 'fav_16', mode: 'upload' });
+  saveCanvasAsPNG(previewCanvas, 'favicon-16x16.png', 16);
+});
+
+document.getElementById('downloadPngB')?.addEventListener('click', () => {
   trackEvent('export_icon', { platform: 'png', mode: 'upload' });
   saveCanvasAsPNG(previewCanvas, 'imp_image.png', 256);
 });
 
-document.getElementById('downloadZipB').addEventListener('click', () => {
+document.getElementById('downloadZipB')?.addEventListener('click', () => {
   trackEvent('export_icon', { platform: 'zip_all', mode: 'upload' });
   saveAllInZip(previewCanvas, false);
 });
@@ -6482,7 +6582,7 @@ function registerServiceWorker() {
     // 起動時に更新後ポップアップを表示判定
     checkShowUpdatedPopup();
 
-    navigator.serviceWorker.register('./sw.js?v=1.0.13')
+    navigator.serviceWorker.register('./sw.js?v=1.0.42')
       .then((reg) => {
         swRegistration = reg;
 

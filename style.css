@@ -1220,6 +1220,14 @@ input[type="color"]::-webkit-color-swatch {
   border-color: var(--accent-cyan);
   box-shadow: 0 0 10px rgba(75, 239, 255, 0.4);
 }
+.btn-fav:hover {
+  border-color: #FF9F0A;
+  box-shadow: 0 0 10px rgba(255, 159, 10, 0.4);
+}
+.btn-png:hover {
+  border-color: #BF5AF2;
+  box-shadow: 0 0 10px rgba(191, 90, 242, 0.4);
+}
 .btn-zip {
   background: linear-gradient(135deg, rgba(255, 211, 56, 0.1), rgba(255, 75, 216, 0.1));
   border-color: var(--accent-gold);
