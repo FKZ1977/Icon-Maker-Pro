@@ -27,9 +27,9 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png?v=1.0.29">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=1.0.29">
   <link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png?v=1.0.29">
-  <link rel="icon" type="image/png" sizes="192x192" href="IMP_192.png?v=1.0.39">
-  <link rel="icon" type="image/png" sizes="512x512" href="IMP_512.png?v=1.0.39">
-  <link rel="stylesheet" href="style.css?v=1.0.39">
+  <link rel="icon" type="image/png" sizes="192x192" href="IMP_192.png?v=1.0.41">
+  <link rel="icon" type="image/png" sizes="512x512" href="IMP_512.png?v=1.0.41">
+  <link rel="stylesheet" href="style.css?v=1.0.41">
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -683,6 +683,27 @@
       <div style="text-align: center; margin: 28px 0 10px;">
         <button class="action-btn copyright-btn" id="showCopyrightBtn" onclick="showReadmePageFromInfo()" data-i18n="show_copyright">📖 著作権情報を見る</button>
       </div>
+
+      <!-- Ｉ’Ｍ［Pro］URL & QRコード -->
+      <div class="app-url-qr-box">
+        <div class="app-url-header">
+          <span class="app-url-label">Ｉ’Ｍ［Pro］URL</span>
+        </div>
+        <div class="app-url-link-row">
+          <a href="https://fkz1977.github.io/Icon-Maker-Pro/" target="_blank" rel="noopener noreferrer" class="app-url-link" title="https://fkz1977.github.io/Icon-Maker-Pro/">https://fkz1977.github.io/Icon-Maker-Pro/</a>
+          <button type="button" class="btn-copy-url" onclick="copyAppUrl(this)" title="URL Copy" aria-label="Copy URL">
+            <svg class="copy-icon-svg" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="app-qr-wrapper">
+          <div class="app-qr-frame">
+            <img src="qr_imp.png?v=1.0.41" alt="Ｉ’Ｍ［Pro］QRコード" class="app-qr-img" width="160" height="160">
+          </div>
+        </div>
+      </div>
     </div>
 
   <!-- 16言語利用規約・著作権情報セクション -->
@@ -946,8 +967,8 @@
 <!-- ライブラリ -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="sample_icons_data.js?v=1.0.39"></script>
-<script src="script.js?v=1.0.39"></script>
+<script src="sample_icons_data.js?v=1.0.41"></script>
+<script src="script.js?v=1.0.41"></script>
 
 </body>
 </html>

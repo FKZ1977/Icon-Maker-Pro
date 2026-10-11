@@ -6545,6 +6545,50 @@ function registerServiceWorker() {
   });
 }
 
+// Ｉ’Ｍ［Pro］URL クリップボードコピー（世界共通アイコン切り替え）
+function copyAppUrl(btn) {
+  const url = 'https://fkz1977.github.io/Icon-Maker-Pro/';
+  const copySvg = '<svg class="copy-icon-svg" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+  const checkSvg = '<svg class="copy-icon-svg" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#38E54D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+
+  const animateBtn = () => {
+    if (btn) {
+      btn.innerHTML = checkSvg;
+      btn.style.borderColor = '#38E54D';
+      btn.style.color = '#38E54D';
+      btn.style.boxShadow = '0 0 10px rgba(56, 229, 77, 0.5)';
+      setTimeout(() => {
+        btn.innerHTML = copySvg;
+        btn.style.borderColor = '';
+        btn.style.color = '';
+        btn.style.boxShadow = '';
+      }, 2000);
+    }
+  };
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(animateBtn).catch(() => {
+      fallbackCopyText(url, animateBtn);
+    });
+  } else {
+    fallbackCopyText(url, animateBtn);
+  }
+}
+
+function fallbackCopyText(text, cb) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try {
+    document.execCommand('copy');
+    if (typeof cb === 'function') cb();
+  } catch (e) {}
+  document.body.removeChild(ta);
+}
+
 // 初期化
 setLanguage(currentLanguage);
 updateHistoryButtons();

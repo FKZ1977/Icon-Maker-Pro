@@ -3,7 +3,7 @@
    オフライン対応 & 最新版自動読み込み (Network First / Stale-While-Revalidate)
    =================================================== */
 
-const CACHE_NAME = 'imp-pwa-v1.0.39';
+const CACHE_NAME = 'imp-pwa-v1.0.41';
 
 const PRECACHE_ASSETS = [
   './',
@@ -14,7 +14,8 @@ const PRECACHE_ASSETS = [
   './manifest.json',
   './IMP_192.png',
   './IMP_512.png',
-  './apple-touch-icon.png'
+  './apple-touch-icon.png',
+  './qr_imp.png'
 ];
 
 // 1. インストール：事前キャッシュして即座に待機状態をスキップ

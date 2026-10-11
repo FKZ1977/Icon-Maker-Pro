@@ -2470,6 +2470,123 @@ html.fonts-ready .opening-tagline {
   color: #FFFFFF;
 }
 
+/* ==========================================
+   Ｉ’Ｍ［Pro］URL & QRコード スタイル
+   ========================================== */
+.app-url-qr-box {
+  margin-top: 26px;
+  padding-top: 22px;
+  border-top: 1px dashed rgba(75, 239, 255, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.app-url-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.app-url-label {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--accent-cyan);
+  text-shadow: 0 0 10px rgba(75, 239, 255, 0.5);
+  letter-spacing: 0.5px;
+}
+
+.app-url-link-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+
+.app-url-link {
+  font-size: clamp(12px, 3.2vw, 14px);
+  color: #4BEFFF;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  word-break: break-all;
+  transition: all 0.2s ease;
+  font-family: 'Outfit', monospace, sans-serif;
+}
+
+.app-url-link:hover {
+  color: #FFFFFF;
+  text-shadow: 0 0 8px rgba(75, 239, 255, 0.8);
+}
+
+.btn-copy-url {
+  background: rgba(75, 239, 255, 0.12);
+  border: 1px solid var(--border-neon-soft);
+  color: var(--accent-cyan);
+  border-radius: var(--radius-sm);
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.btn-copy-url:hover {
+  background: rgba(75, 239, 255, 0.28);
+  border-color: var(--accent-cyan);
+  color: #FFFFFF;
+  box-shadow: 0 0 10px rgba(75, 239, 255, 0.5);
+  transform: translateY(-1px);
+}
+
+.btn-copy-url:active {
+  transform: scale(0.94);
+}
+
+.copy-icon-svg {
+  display: block;
+  pointer-events: none;
+}
+
+.app-qr-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.app-qr-frame {
+  background: #FFFFFF;
+  padding: 10px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(75, 239, 255, 0.35), 0 6px 16px rgba(0, 0, 0, 0.6);
+  display: inline-block;
+  line-height: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.app-qr-frame:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 28px rgba(75, 239, 255, 0.6), 0 8px 20px rgba(0, 0, 0, 0.7);
+}
+
+.app-qr-img {
+  width: 140px;
+  height: 140px;
+  display: block;
+  border-radius: 4px;
+}
+
 /* 16言語利用規約・著作権情報セクション */
 .readme-body-container {
   max-width: 760px;
