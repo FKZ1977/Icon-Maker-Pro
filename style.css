@@ -739,10 +739,16 @@ input[type="color"]::-webkit-color-swatch {
   padding: 0 4px 6px 0; /* キャンバス上端・右枠線と隙間ゼロで直結 */
   box-sizing: border-box;
   position: relative;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-neon-soft) rgba(0, 0, 0, 0.3);
 }
 
 #layerPanel::-webkit-scrollbar {
   width: 5px;
+  display: block;
 }
 #layerPanel::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.3);
@@ -751,6 +757,9 @@ input[type="color"]::-webkit-color-swatch {
 #layerPanel::-webkit-scrollbar-thumb {
   background: var(--border-neon-soft);
   border-radius: 4px;
+}
+#layerPanel::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-cyan);
 }
 
 /* レイヤーカード：キャンバス枠に直接ドッキングするタブ表現 */
@@ -775,6 +784,17 @@ input[type="color"]::-webkit-color-swatch {
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(75, 239, 255, 0.15);
   transition: all 0.15s ease;
   user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-y; /* スマホで縦スクロールを優先 */
+}
+
+/* スマホ長押しドラッグ中のハイライト表示 */
+.layerCard.touch-dragging {
+  transform: scale(1.04) translateY(-2px);
+  border-color: var(--accent-cyan) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8), 0 0 16px rgba(75, 239, 255, 0.8) !important;
+  z-index: 200 !important;
+  opacity: 0.95;
 }
 
 /* 一番上の最新レイヤータブ：描写枠（キャンバス）の最上部枠線とピッタリ同じ高さでくっつく！ */
@@ -818,14 +838,12 @@ input[type="color"]::-webkit-color-swatch {
   flex-shrink: 0;
 }
 
-/* タグ（レイヤーカード）内の左端に配置する表示/非表示ボタン (👁) */
+/* タグ（レイヤーカード）内の左端に配置する表示/非表示ボタン（モダン線画SVG） */
 .layer-vis-btn {
   background: none;
   border: none;
-  color: var(--text-main);
+  color: var(--accent-cyan);
   cursor: pointer;
-  font-size: 13px;
-  line-height: 1;
   padding: 3px 4px;
   border-radius: 4px;
   display: inline-flex;
@@ -833,23 +851,33 @@ input[type="color"]::-webkit-color-swatch {
   justify-content: center;
   transition: all 0.15s ease;
   user-select: none;
+  -webkit-user-select: none;
   flex-shrink: 0;
   touch-action: manipulation;
 }
 
 .layer-vis-btn:hover {
   background: rgba(75, 239, 255, 0.25);
+  color: #FFFFFF;
   transform: scale(1.15);
+}
+
+.layer-vis-svg {
+  display: block;
+  stroke: currentColor;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+  pointer-events: none;
 }
 
 .layer-vis-btn.is-hidden {
   opacity: 0.45;
-  filter: grayscale(0.8);
+  color: var(--text-muted);
 }
 
 .layer-vis-btn.is-hidden:hover {
   opacity: 0.85;
   background: rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
 }
 
 /* 非表示レイヤーカード全体のトーンダウン表示 */
@@ -1482,9 +1510,16 @@ pre code {
     max-width: 175px;
     width: auto;
     padding: 8px 6px;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    height: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
   }
 
   .layer-toolbar {
+    flex-shrink: 0;
     min-height: 38px;
     padding: 6px 0 2px 0;
     margin-top: 4px;
@@ -1501,7 +1536,14 @@ pre code {
   }
 
   #layerPanel {
+    flex: 1 1 0px;
+    min-height: 0;
     max-height: min(210px, 56vw);
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+    overscroll-behavior: contain;
     gap: 4px;
   }
 

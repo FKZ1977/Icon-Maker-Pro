@@ -42,8 +42,8 @@ const i18nData = {
     layer_move_down: "背面へ移動 (▼)",
     layer_empty_msg: "レイヤーはありません<br>描画すると追加されます",
     layer_delete_tip: "このレイヤーを削除",
-    layer_hide_tip: "非表示にする (👁)",
-    layer_show_tip: "表示する (🙈)",
+    layer_hide_tip: "非表示にする",
+    layer_show_tip: "表示する",
     layer_rect: "四角",
     layer_circle: "円",
     layer_line: "直線",
@@ -208,8 +208,8 @@ const i18nData = {
     layer_move_down: "Move Backward (▼)",
     layer_empty_msg: "No layers yet<br>Draw on canvas to add one",
     layer_delete_tip: "Delete this layer",
-    layer_hide_tip: "Hide layer (👁)",
-    layer_show_tip: "Show layer (🙈)",
+    layer_hide_tip: "Hide layer",
+    layer_show_tip: "Show layer",
     layer_rect: "Rectangle",
     layer_circle: "Circle",
     layer_line: "Line",
@@ -5618,9 +5618,27 @@ let dragIndex = null;
 let touchDragIndex = null;
 let touchDragCard = null;
 let touchStartY = 0;
+let touchStartX = 0;
 let isTouchDragging = false;
 let touchDragJustFinished = false;
 let currentDropTargetCard = null;
+
+// レイヤー表示・非表示の洗練されたモダンSVGアイコン（Figma/Photoshopスタイルのミニマル線画）
+function getLayerVisibilityIconSvg(isVisible) {
+  if (isVisible) {
+    return `<svg class="layer-vis-svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/>
+      <circle cx="12" cy="12" r="3.2"/>
+    </svg>`;
+  } else {
+    return `<svg class="layer-vis-svg is-hidden" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m2 2 20 20"/>
+      <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/>
+      <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/>
+      <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/>
+    </svg>`;
+  }
+}
 
 function updateLayerPanel() {
   ensureCreationOrders();
@@ -5651,11 +5669,11 @@ function updateLayerPanel() {
     const isVisible = (obj.visible !== false);
     if (!isVisible) card.classList.add("is-hidden");
 
-    // タグ（レイヤーカード）内の左端に配置する表示/非表示ボタン (👁 / 🙈)
+    // タグ（レイヤーカード）内の左端に配置する表示/非表示ボタン（洗練されたモダンSVG線画アイコン）
     const visBtn = document.createElement('button');
     visBtn.className = "layer-vis-btn" + (isVisible ? "" : " is-hidden");
-    visBtn.textContent = isVisible ? "👁" : "🙈";
-    visBtn.title = isVisible ? (dict.layer_hide_tip || "非表示にする (👁)") : (dict.layer_show_tip || "表示する (🙈)");
+    visBtn.innerHTML = getLayerVisibilityIconSvg(isVisible);
+    visBtn.title = isVisible ? (dict.layer_hide_tip || "非表示にする") : (dict.layer_show_tip || "表示する");
     visBtn.onclick = (e) => {
       e.stopPropagation();
       saveState();
@@ -5750,26 +5768,54 @@ function updateLayerPanel() {
       dragIndex = null;
     });
 
-    // --- iPhone / スマホ向けタッチドラッグ＆ドロップ ---
+    // --- iPhone / スマホ向けタッチ操作（スワイプはスムーズに縦スクロール、長押しで並べ替えドラッグ） ---
+    let touchHoldTimer = null;
+    let touchHoldTriggered = false;
+
     card.addEventListener('touchstart', (e) => {
-      if (e.target.closest('.layer-delete-btn')) {
+      if (e.target.closest('.layer-delete-btn') || e.target.closest('.layer-vis-btn')) {
         return;
       }
       touchDragCard = card;
       touchDragIndex = index;
       touchStartY = e.touches[0].clientY;
+      touchStartX = e.touches[0].clientX;
       isTouchDragging = false;
+      touchHoldTriggered = false;
+
+      // 約280ms 長押しで並べ替えドラッグモードへ移行
+      touchHoldTimer = setTimeout(() => {
+        touchHoldTriggered = true;
+        isTouchDragging = true;
+        if (touchDragCard) {
+          touchDragCard.classList.add('touch-dragging');
+          if (navigator.vibrate) {
+            try { navigator.vibrate(30); } catch (_) {}
+          }
+        }
+      }, 280);
     }, { passive: true });
 
     card.addEventListener('touchmove', (e) => {
       if (touchDragIndex === null) return;
       const currentY = e.touches[0].clientY;
+      const currentX = e.touches[0].clientX;
       const deltaY = Math.abs(currentY - touchStartY);
+      const deltaX = Math.abs(currentX - touchStartX);
 
-      if (deltaY > 6) {
-        isTouchDragging = true;
-        if (touchDragCard) touchDragCard.classList.add('touch-dragging');
+      // 長押し判定前に指が動いた場合はスクロール操作とみなし、タイマーを解除（通常スクロールを優先！）
+      if (!touchHoldTriggered) {
+        if (deltaY > 8 || deltaX > 8) {
+          if (touchHoldTimer) {
+            clearTimeout(touchHoldTimer);
+            touchHoldTimer = null;
+          }
+        }
+        return; // スクロールを阻害しないため preventDefault は呼ばない
+      }
 
+      // 長押し完了後に指を動かした場合：並べ替えドラッグ処理を実行
+      if (isTouchDragging) {
         const touch = e.touches[0];
         const elemBelow = document.elementFromPoint(touch.clientX, touch.clientY);
         const targetCard = elemBelow ? elemBelow.closest('.layerCard') : null;
@@ -5789,8 +5835,12 @@ function updateLayerPanel() {
       }
     }, { passive: false });
 
-    card.addEventListener('touchend', () => {
-      if (touchDragIndex !== null) {
+    const finishTouch = () => {
+      if (touchHoldTimer) {
+        clearTimeout(touchHoldTimer);
+        touchHoldTimer = null;
+      }
+      if (touchDragIndex !== null && isTouchDragging) {
         if (touchDragCard) touchDragCard.classList.remove('touch-dragging');
         if (currentDropTargetCard) {
           currentDropTargetCard.classList.remove('drag-target-highlight');
@@ -5802,6 +5852,9 @@ function updateLayerPanel() {
             }
           }
         }
+      } else {
+        if (touchDragCard) touchDragCard.classList.remove('touch-dragging');
+        if (currentDropTargetCard) currentDropTargetCard.classList.remove('drag-target-highlight');
       }
       if (isTouchDragging) {
         touchDragJustFinished = true;
@@ -5811,16 +5864,11 @@ function updateLayerPanel() {
       touchDragIndex = null;
       currentDropTargetCard = null;
       isTouchDragging = false;
-    });
+      touchHoldTriggered = false;
+    };
 
-    card.addEventListener('touchcancel', () => {
-      if (touchDragCard) touchDragCard.classList.remove('touch-dragging');
-      if (currentDropTargetCard) currentDropTargetCard.classList.remove('drag-target-highlight');
-      touchDragCard = null;
-      touchDragIndex = null;
-      currentDropTargetCard = null;
-      isTouchDragging = false;
-    });
+    card.addEventListener('touchend', finishTouch);
+    card.addEventListener('touchcancel', finishTouch);
 
     panel.appendChild(card);
   }
