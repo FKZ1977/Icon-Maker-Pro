@@ -3,7 +3,7 @@
    オフライン対応 & 最新版自動読み込み (Network First / Stale-While-Revalidate)
    =================================================== */
 
-const CACHE_NAME = 'imp-pwa-v1.0.43';
+const CACHE_NAME = 'imp-pwa-v1.0.45';
 
 const PRECACHE_ASSETS = [
   './',
@@ -18,6 +18,7 @@ const PRECACHE_ASSETS = [
   './favicon-32x32.png',
   './favicon-48x48.png',
   './icon-192.png',
+  './icon-512.png',
   './IMP_192.png',
   './IMP_512.png',
   './apple-touch-icon.png',

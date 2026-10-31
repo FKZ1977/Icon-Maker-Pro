@@ -205,7 +205,7 @@ const i18nData = {
     menu_open: "プロジェクトを開く",
     menu_save: "プロジェクトを保存",
     menu_import_image: "画像をインポート",
-    menu_switch_upload: "画像アップロード変換 (モードB)",
+    menu_switch_upload: "画像選択 (モードB)",
     menu_export_icons: "アイコンを保存 (書き出し)",
     menu_pwa_code: "Webアプリ・PWA組み込みコード",
     menu_edit: "編集",
@@ -231,7 +231,7 @@ const i18nData = {
     opt_layout_desktop: "💻 PC横",
     menu_quick_layout: "画面切替",
     tab_canvas_short: "キャンバス",
-    tab_upload_short: "画像変換"
+    tab_upload_short: "画像選択"
   },
   en: {
     prompt_start: "Press any key or click / tap screen to start",
@@ -416,7 +416,7 @@ const i18nData = {
     menu_open: "Open Project",
     menu_save: "Save Project",
     menu_import_image: "Import Image",
-    menu_switch_upload: "Image Converter (Mode B)",
+    menu_switch_upload: "Select Image (Mode B)",
     menu_export_icons: "Export Icons",
     menu_pwa_code: "Web App / PWA Code",
     menu_edit: "Edit",
@@ -442,7 +442,7 @@ const i18nData = {
     opt_layout_desktop: "💻 Desktop",
     menu_quick_layout: "Layout",
     tab_canvas_short: "Canvas",
-    tab_upload_short: "Image"
+    tab_upload_short: "Select Image"
   },
   nl: {
     prompt_start: "Druk op een toets of klik / tik om te starten",
@@ -6776,31 +6776,28 @@ async function saveAllInZip(sourceCanvas, isModeA = true) {
   zip.file("favicon-16x16.ico", ico16Bytes);
 
   // 5. PWA設定ファイル (manifest.json)
+  // ※iOSの共有シート・ホーム画面追加で白枠縮小を起こさないよう 512px / 180px / 192px のみを優先配置
   const manifest = {
     name: "My App",
     short_name: "App",
     icons: [
       {
-        src: "/favicon-48x48.png",
-        sizes: "48x48",
-        type: "image/png"
+        src: "/icon-512.png",
+        sizes: "512x512",
+        type: "image/png",
+        purpose: "any"
+      },
+      {
+        src: "/apple-touch-icon.png",
+        sizes: "180x180",
+        type: "image/png",
+        purpose: "any"
       },
       {
         src: "/icon-192.png",
         sizes: "192x192",
         type: "image/png",
         purpose: "any"
-      },
-      {
-        src: "/icon-512.png",
-        sizes: "512x512",
-        type: "image/png",
-        purpose: "any maskable"
-      },
-      {
-        src: "/apple-touch-icon.png",
-        sizes: "180x180",
-        type: "image/png"
       }
     ],
     theme_color: "#0A0F1F",
@@ -6811,14 +6808,15 @@ async function saveAllInZip(sourceCanvas, isModeA = true) {
 
   // 6. 組み込み用HTMLスニペット (index_head_tags.html)
   const headSnippet = `<!-- Webアプリ / PWA HTML <head> に貼り付けるタグ -->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="512x512" href="/icon-512.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
 <link rel="manifest" href="/manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -7067,7 +7065,7 @@ function registerServiceWorker() {
     // 起動時に更新後ポップアップを表示判定
     checkShowUpdatedPopup();
 
-    navigator.serviceWorker.register('./sw.js?v=1.0.42')
+    navigator.serviceWorker.register('./sw.js?v=1.0.45')
       .then((reg) => {
         swRegistration = reg;
 
@@ -7188,7 +7186,11 @@ function fallbackCopyText(text, cb) {
       const btn = dd.querySelector('.menubar-btn');
       const panel = dd.querySelector('.dropdown-panel');
       if (btn) btn.classList.remove('open');
-      if (panel) panel.classList.add('hidden');
+      if (panel) {
+        panel.classList.add('hidden');
+        panel.style.left = '';
+        panel.style.right = '';
+      }
     });
   }
 
@@ -7204,6 +7206,15 @@ function fallbackCopyText(text, cb) {
       if (!isOpen) {
         panel.classList.remove('hidden');
         btn.classList.add('open');
+
+        // 画面端からはみ出さないように座標を自動補正 (スマホ・PC両対応)
+        const rect = panel.getBoundingClientRect();
+        const vw = window.innerWidth || document.documentElement.clientWidth;
+        if (rect.right > vw - 8) {
+          const overflow = rect.right - (vw - 8);
+          const currentLeft = parseFloat(window.getComputedStyle(panel).left) || 0;
+          panel.style.left = `${Math.max(-rect.left + 8, currentLeft - overflow)}px`;
+        }
       }
     });
   });
@@ -7355,10 +7366,20 @@ function fallbackCopyText(text, cb) {
   if (menuItemToggleTools) {
     menuItemToggleTools.addEventListener('click', () => {
       closeAllMenus();
+      // 画像選択モード中に押された場合はキャンバスモードに切り替えてツールを表示
+      if (canvasMode && canvasMode.classList.contains('hidden')) {
+        setMode('canvas');
+        const toolsCol = document.querySelector('.canvas-tools-col');
+        if (toolsCol) toolsCol.style.display = '';
+        menuItemToggleTools.classList.remove('tools-off');
+        showToast('🎨 キャンバスとツールボックスを表示しました');
+        return;
+      }
       const toolsCol = document.querySelector('.canvas-tools-col');
       if (toolsCol) {
         const isHidden = toolsCol.style.display === 'none';
         toolsCol.style.display = isHidden ? '' : 'none';
+        menuItemToggleTools.classList.toggle('tools-off', !isHidden);
         showToast(isHidden ? '🛠 ツールボックス・エフェクトを表示しました' : '🛠 ツールボックスを非表示にしました');
       }
     });

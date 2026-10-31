@@ -22,19 +22,22 @@
     gtag('js', new Date());
     gtag('config', 'G-7LZXVT7C1X');
   </script>
-  <!-- Favicon & PWA Mobile Icons (Windows / Mac / iOS / Android) -->
-  <link rel="shortcut icon" href="favicon.ico?v=1.0.43">
-  <link rel="icon" type="image/x-icon" href="favicon.ico?v=1.0.43">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png?v=1.0.43">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png?v=1.0.43">
-  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png?v=1.0.43">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=1.0.43">
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=1.0.43">
-  <link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png?v=1.0.43">
-  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png?v=1.0.43">
-  <link rel="icon" type="image/png" sizes="512x512" href="IMP_512.png?v=1.0.43">
-  <link rel="manifest" href="manifest.json?v=1.0.43">
-  <link rel="stylesheet" href="style.css?v=1.0.43">
+  <!-- Favicon & PWA Mobile Icons (iOS Safari / Android / Windows / Mac) -->
+  <!-- ※iOSの共有シート・ホーム画面追加で白枠縮小を防ぐため、不透明RGBのapple-touch-iconと512pxを最優先配置 -->
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=1.0.45">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=1.0.45">
+  <link rel="apple-touch-icon" sizes="512x512" href="IMP_512.png?v=1.0.45">
+  <link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png?v=1.0.45">
+  <link rel="icon" type="image/png" sizes="512x512" href="IMP_512.png?v=1.0.45">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png?v=1.0.45">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png?v=1.0.45">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png?v=1.0.45">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png?v=1.0.45">
+  <link rel="shortcut icon" href="favicon.ico?v=1.0.45">
+  <link rel="icon" type="image/x-icon" href="favicon.ico?v=1.0.45">
+  <link rel="manifest" href="manifest.json?v=1.0.45">
+  <meta property="og:image" content="https://fkz1977.github.io/Icon-Maker-Pro/IMP_512.png?v=1.0.45">
+  <link rel="stylesheet" href="style.css?v=1.0.45">
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -133,7 +136,7 @@
         <button type="button" class="dropdown-item" id="menuItemSave"><span class="d-icon">💾</span><span data-i18n="menu_save">プロジェクトを保存</span><small>Ctrl+S</small></button>
         <div class="dropdown-divider"></div>
         <button type="button" class="dropdown-item" id="menuItemImport"><span class="d-icon">📥</span><span data-i18n="menu_import_image">画像をインポート</span></button>
-        <button type="button" class="dropdown-item" id="menuItemSwitchUpload"><span class="d-icon">📁</span><span data-i18n="menu_switch_upload">画像アップロード変換 (モードB)</span></button>
+        <button type="button" class="dropdown-item" id="menuItemSwitchUpload"><span class="d-icon">📁</span><span data-i18n="menu_switch_upload">画像選択 (モードB)</span></button>
         <div class="dropdown-divider"></div>
         <button type="button" class="dropdown-item" id="menuItemExport"><span class="d-icon">📤</span><span data-i18n="menu_export_icons">アイコンを保存 (書き出し)</span></button>
         <button type="button" class="dropdown-item" id="menuItemPwaSnippet"><span class="d-icon">📋</span><span data-i18n="menu_pwa_code">Webアプリ・PWA組み込みコード</span></button>
@@ -146,8 +149,6 @@
         🎨 <span data-i18n="menu_edit">編集</span> <span class="menu-arrow">▾</span>
       </button>
       <div class="dropdown-panel hidden" id="menuPanelEdit">
-        <button type="button" class="dropdown-item" id="menuItemToggleTools"><span class="d-icon">🛠</span><span data-i18n="menu_toggle_tools">ツールボックス・エフェクト表示切替</span></button>
-        <div class="dropdown-divider"></div>
         <button type="button" class="dropdown-item" id="menuItemUndo"><span class="d-icon">↩</span><span data-i18n="menu_undo">元に戻す</span><small>Ctrl+Z</small></button>
         <button type="button" class="dropdown-item" id="menuItemRedo"><span class="d-icon">↪</span><span data-i18n="menu_redo">やり直し</span><small>Ctrl+Y</small></button>
         <div class="dropdown-divider"></div>
@@ -203,16 +204,21 @@
     <button type="button" class="menubar-btn menubar-layout-btn" id="quickLayoutBtn" title="スマホ縦画面 / PC横画面 レイアウト切替">
       <span id="quickLayoutIcon">📱</span><span id="quickLayoutLabel" data-i18n="menu_quick_layout">画面切替</span>
     </button>
+
+    <!-- ツールボックス・エフェクト表示切替ボタン（「ファイル」「編集」「表示」「画面切替」の並びの最後） -->
+    <button type="button" class="menubar-btn menubar-tools-btn" id="menuItemToggleTools" title="ツールボックス・エフェクト表示切替">
+      🛠 <span data-i18n="menu_toggle_tools">ツールボックス・エフェクト表示切替</span>
+    </button>
   </div>
 
-  <!-- クイック切り替え（キャンバス ⇔ 画像変換） -->
+  <!-- クイック切り替え（キャンバス ⇔ 画像選択） -->
   <div class="menubar-right">
     <div class="mode-switch-pill">
       <button type="button" id="tabCanvas" class="menubar-mode-btn active" data-mode="canvas">
         🎨 <span data-i18n="tab_canvas_short">キャンバス</span>
       </button>
       <button type="button" id="tabUpload" class="menubar-mode-btn" data-mode="upload">
-        📁 <span data-i18n="tab_upload_short">画像変換</span>
+        📁 <span data-i18n="tab_upload_short">画像選択</span>
       </button>
     </div>
   </div>
@@ -791,14 +797,15 @@
   </div>
   <p class="snippet-desc" data-i18n="snippet_desc">作成したアイコンファイルをWebサイトのルートに配置し、HTMLの <code>&lt;head&gt;</code> 内に以下のタグを貼り付けるだけでiPhone・Android・PCすべてに対応できます。</p>
   <pre><code id="snippetCode">&lt;!-- Favicon &amp; Mobile Icons (iPhone / Android / Windows / Mac) --&gt;
+&lt;link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"&gt;
+&lt;link rel="apple-touch-icon" sizes="512x512" href="/icon-512.png"&gt;
+&lt;link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png"&gt;
+&lt;link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png"&gt;
+&lt;link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png"&gt;
+&lt;link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"&gt;
+&lt;link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"&gt;
 &lt;link rel="shortcut icon" href="/favicon.ico"&gt;
 &lt;link rel="icon" type="image/x-icon" href="/favicon.ico"&gt;
-&lt;link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"&gt;
-&lt;link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"&gt;
-&lt;link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png"&gt;
-&lt;link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"&gt;
-&lt;link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png"&gt;
-&lt;link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png"&gt;
 &lt;link rel="manifest" href="/manifest.json"&gt;
 &lt;meta name="apple-mobile-web-app-capable" content="yes"&gt;
 &lt;meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"&gt;
@@ -1181,8 +1188,8 @@
 <!-- ライブラリ -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="sample_icons_data.js?v=1.0.43"></script>
-<script src="script.js?v=1.0.43"></script>
+<script src="sample_icons_data.js?v=1.0.45"></script>
+<script src="script.js?v=1.0.45"></script>
 
 </body>
 </html>

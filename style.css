@@ -122,6 +122,7 @@ h1 {
    プロ仕様メニューバー (ファイル / 編集 / 表示 / 画面切替)
 ========================= */
 .app-menubar {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -181,6 +182,17 @@ h1 {
   box-shadow: 0 0 10px rgba(255, 75, 216, 0.45) !important;
 }
 
+.menubar-tools-btn {
+  border-color: rgba(75, 239, 255, 0.45);
+  background: rgba(75, 239, 255, 0.08);
+}
+
+.menubar-tools-btn.tools-off {
+  opacity: 0.65;
+  border-color: rgba(154, 168, 199, 0.35);
+  background: rgba(10, 15, 31, 0.6);
+}
+
 .menubar-btn:hover,
 .menubar-btn.open {
   background: rgba(75, 239, 255, 0.1);
@@ -207,6 +219,8 @@ h1 {
   border: 1px solid rgba(75, 239, 255, 0.4);
   border-radius: 10px;
   min-width: 220px;
+  max-width: calc(100vw - 16px);
+  box-sizing: border-box;
   padding: 6px 0;
   z-index: 9999;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7), 0 0 16px rgba(75, 239, 255, 0.15);
@@ -3883,7 +3897,7 @@ body.ui-xlarge .btn-nudge-step {
 /* ===================================================
    表示メニュー：画面レイアウト手動切替 (スマホ縦 / PC横)
    =================================================== */
-body.layout-mobile .neon-box.canvas-mode-layout {
+body.layout-mobile .neon-box.canvas-mode-layout:not(.hidden) {
   max-width: 680px !important;
   display: flex !important;
   flex-direction: column !important;
@@ -3895,7 +3909,7 @@ body.layout-mobile .canvas-stage-col {
   width: 100% !important;
 }
 
-body.layout-desktop .neon-box.canvas-mode-layout {
+body.layout-desktop .neon-box.canvas-mode-layout:not(.hidden) {
   max-width: 1200px !important;
   display: grid !important;
   grid-template-columns: auto 1fr !important;
@@ -3909,6 +3923,41 @@ body.layout-desktop .canvas-stage-col {
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
+}
+
+/* hiddenクラスはレイアウト切替時にも常に非表示を最優先 */
+.mode-section.hidden,
+.hidden {
+  display: none !important;
+}
+
+/* スマホレイアウト選択時：ドラッグ＆ドロップ案内を非表示にして「ファイルを選択する」から表示 */
+body.layout-mobile #dropZone .drop-zone-icon,
+body.layout-mobile #dropZone .drop-zone-title,
+body.layout-mobile #dropZone .drop-zone-desc {
+  display: none !important;
+}
+
+body.layout-mobile #dropZone {
+  padding: 14px 16px;
+  border-style: solid;
+}
+
+/* スマホレイアウト時のドロップダウンメニュー画面内収め */
+body.layout-mobile .menu-item-dropdown {
+  position: static;
+}
+
+body.layout-mobile .dropdown-panel {
+  left: 6px !important;
+  right: 6px !important;
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: calc(100vw - 24px) !important;
+}
+
+body.layout-mobile .dropdown-item {
+  white-space: normal;
 }
 
 @media (max-width: 768px) {
@@ -3930,6 +3979,35 @@ body.layout-desktop .canvas-stage-col {
   .menubar-mode-btn {
     padding: 4px 9px;
     font-size: 11.5px;
+  }
+
+  /* ① スマホ画面幅ではドロップダウンリストが画面外に出ないようメニューバー幅内に収める */
+  .menu-item-dropdown {
+    position: static;
+  }
+
+  .dropdown-panel {
+    left: 6px !important;
+    right: 6px !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: calc(100vw - 24px) !important;
+  }
+
+  .dropdown-item {
+    white-space: normal;
+  }
+
+  /* ④ スマホ画面時（PC横レイアウトが明示選択されていない場合）はドラッグ＆ドロップ表示を省略 */
+  body:not(.layout-desktop) #dropZone .drop-zone-icon,
+  body:not(.layout-desktop) #dropZone .drop-zone-title,
+  body:not(.layout-desktop) #dropZone .drop-zone-desc {
+    display: none !important;
+  }
+
+  body:not(.layout-desktop) #dropZone {
+    padding: 14px 16px;
+    border-style: solid;
   }
 
   .canvas-footer-bar {
