@@ -1,6 +1,6 @@
 {
-  "name": "I’M📂 – Icon Maker Pro",
-  "short_name": "I’M📂",
+  "name": "Icon Maker📂 – Icon Maker Pro",
+  "short_name": "Icon Maker📂",
   "description": "iOS (iPhone) / Android (PWA) / Windows マルチ対応 アイコン作成ツール",
   "start_url": "./index.html",
   "scope": "./",

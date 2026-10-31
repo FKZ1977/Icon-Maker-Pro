@@ -185,7 +185,53 @@ const i18nData = {
     toast_checking_update: "🔄 最新版を確認中...",
     toast_latest_version: "✅ 現在最新のバージョンです",
     toast_updating: "🚀 最新版に更新して再読み込みします...",
-    toast_update_completed: "🚀 最新バージョンに更新されました！"
+    toast_update_completed: "🚀 最新バージョンに更新されました！",
+    btn_save_project: "保存",
+    btn_save_project_tip: "作業中のプロジェクトを保存 (.imp)",
+    btn_load_project: "開く",
+    btn_load_project_tip: "保存したプロジェクトを読み込む",
+    btn_export_project: "<strong>プロジェクト保存</strong><small>全レイヤー再開可能 (.imp)</small>",
+    toast_project_saved: "💾 プロジェクトを保存しました",
+    toast_project_loaded: "📂 プロジェクトを読み込みました",
+    toast_project_load_err: "⚠️ プロジェクトファイルの読み込みに失敗しました",
+    toast_text_updated: "🔤 テキストを更新しました",
+    modal_text_title: "テキストの再編集",
+    modal_text_content: "テキスト内容",
+    btn_apply_text: "✓ 変更を反映",
+    layer_edit_tip: "テキスト内容・フォントを編集",
+    btn_cancel: "キャンセル",
+    menu_file: "ファイル",
+    menu_new: "新規作成",
+    menu_open: "プロジェクトを開く",
+    menu_save: "プロジェクトを保存",
+    menu_import_image: "画像をインポート",
+    menu_switch_upload: "画像アップロード変換 (モードB)",
+    menu_export_icons: "アイコンを保存 (書き出し)",
+    menu_pwa_code: "Webアプリ・PWA組み込みコード",
+    menu_edit: "編集",
+    menu_toggle_tools: "ツールボックス・エフェクト表示切替",
+    menu_undo: "元に戻す",
+    menu_redo: "やり直し",
+    menu_copy: "コピー",
+    menu_paste: "貼り付け",
+    menu_delete: "選択レイヤーを削除",
+    menu_rotate_90: "90°時計回り回転",
+    menu_clear: "全レイヤークリア",
+    menu_view: "表示",
+    menu_zoom_header: "🔍 キャンバス拡大・縮小 (ズーム)",
+    menu_loupe: "虫眼鏡 (ルーペ) モード",
+    menu_checker: "透明グリッド (チェッカー) 表示",
+    menu_uisize_header: "🔤 文字・ボタンサイズ切替",
+    opt_size_normal: "標準",
+    opt_size_large: "大",
+    opt_size_xlarge: "特大",
+    menu_layout_header: "📐 画面レイアウト切替",
+    opt_layout_auto: "自動",
+    opt_layout_mobile: "📱 スマホ縦",
+    opt_layout_desktop: "💻 PC横",
+    menu_quick_layout: "画面切替",
+    tab_canvas_short: "キャンバス",
+    tab_upload_short: "画像変換"
   },
   en: {
     prompt_start: "Press any key or click / tap screen to start",
@@ -350,7 +396,53 @@ const i18nData = {
     btn_update_now: "Update Now",
     toast_checking_update: "🔄 Checking for updates...",
     toast_latest_version: "✅ You are using the latest version",
-    toast_updating: "🚀 Updating to latest version and reloading..."
+    toast_updating: "🚀 Updating to latest version and reloading...",
+    btn_save_project: "Save",
+    btn_save_project_tip: "Save current project (.imp)",
+    btn_load_project: "Open",
+    btn_load_project_tip: "Load saved project",
+    btn_export_project: "<strong>Save Project</strong><small>Resume all layers (.imp)</small>",
+    toast_project_saved: "💾 Project saved successfully",
+    toast_project_loaded: "📂 Project loaded successfully",
+    toast_project_load_err: "⚠️ Failed to load project file",
+    toast_text_updated: "🔤 Text updated",
+    modal_text_title: "Edit Text",
+    modal_text_content: "Text Content",
+    btn_apply_text: "✓ Apply Changes",
+    layer_edit_tip: "Edit text content and font",
+    btn_cancel: "Cancel",
+    menu_file: "File",
+    menu_new: "New Canvas",
+    menu_open: "Open Project",
+    menu_save: "Save Project",
+    menu_import_image: "Import Image",
+    menu_switch_upload: "Image Converter (Mode B)",
+    menu_export_icons: "Export Icons",
+    menu_pwa_code: "Web App / PWA Code",
+    menu_edit: "Edit",
+    menu_toggle_tools: "Toggle Toolbox & Effects",
+    menu_undo: "Undo",
+    menu_redo: "Redo",
+    menu_copy: "Copy",
+    menu_paste: "Paste",
+    menu_delete: "Delete Selected Layer",
+    menu_rotate_90: "Rotate 90° Clockwise",
+    menu_clear: "Clear All Layers",
+    menu_view: "View",
+    menu_zoom_header: "🔍 Canvas Zoom",
+    menu_loupe: "Magnifier (Loupe) Mode",
+    menu_checker: "Transparent Checker Grid",
+    menu_uisize_header: "🔤 Text & Button Size",
+    opt_size_normal: "Normal",
+    opt_size_large: "Large",
+    opt_size_xlarge: "X-Large",
+    menu_layout_header: "📐 Screen Layout",
+    opt_layout_auto: "Auto",
+    opt_layout_mobile: "📱 Mobile",
+    opt_layout_desktop: "💻 Desktop",
+    menu_quick_layout: "Layout",
+    tab_canvas_short: "Canvas",
+    tab_upload_short: "Image"
   },
   nl: {
     prompt_start: "Druk op een toets of klik / tik om te starten",
@@ -2387,6 +2479,162 @@ function saveState() {
   // 履歴スタック上限（メモリ保護）
   if (undoStack.length > 50) undoStack.shift();
   updateHistoryButtons();
+  saveAutosaveProject();
+}
+
+// ==========================================
+// プロジェクト保存 & 読み込み (.imp / JSON)
+// ==========================================
+function exportProject() {
+  const dict = i18nData[currentLanguage] || i18nData.ja;
+  ensureCreationOrders();
+  const bgColorSelect = document.getElementById('canvasBgColor');
+  const projectData = {
+    version: "1.0",
+    appName: "Icon Maker Pro",
+    timestamp: new Date().toISOString(),
+    canvas: {
+      width: canvas.width,
+      height: canvas.height,
+      bgColor: bgColorSelect ? bgColorSelect.value : 'transparent'
+    },
+    nextCreationOrder: nextCreationOrder,
+    objects: JSON.parse(serializeObjects(objects))
+  };
+
+  const jsonStr = JSON.stringify(projectData, null, 2);
+  const blob = new Blob([jsonStr], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const now = new Date();
+  const dateStr = now.getFullYear().toString() +
+    String(now.getMonth() + 1).padStart(2, '0') +
+    String(now.getDate()).padStart(2, '0') + '_' +
+    String(now.getHours()).padStart(2, '0') +
+    String(now.getMinutes()).padStart(2, '0');
+  a.href = url;
+  a.download = `imp_project_${dateStr}.imp`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  trackEvent('export_project', { layers: objects.length });
+  showToast(dict.toast_project_saved || '💾 プロジェクトを保存しました');
+}
+
+function importProjectFile(file) {
+  const dict = i18nData[currentLanguage] || i18nData.ja;
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data || !Array.isArray(data.objects)) {
+        throw new Error("Invalid project format");
+      }
+
+      saveState();
+
+      // キャンバス背景色の復元
+      if (data.canvas && data.canvas.bgColor) {
+        const bgColorSelect = document.getElementById('canvasBgColor');
+        if (bgColorSelect) {
+          bgColorSelect.value = data.canvas.bgColor;
+          if (typeof updateCanvasBackground === 'function') {
+            updateCanvasBackground();
+          }
+        }
+      }
+
+      if (data.nextCreationOrder) {
+        nextCreationOrder = data.nextCreationOrder;
+      }
+
+      // レイヤーオブジェクトの復元
+      objects = deserializeObjects(JSON.stringify(data.objects));
+      clearObjectSelection();
+
+      // 画像の完全ロード待機
+      const imagesToLoad = objects.filter(o => o.type === 'image' && o.imgElement);
+      if (imagesToLoad.length > 0) {
+        let loaded = 0;
+        imagesToLoad.forEach(io => {
+          if (io.imgElement.complete) {
+            loaded++;
+            if (loaded === imagesToLoad.length) {
+              redraw();
+              updateLayerPanel();
+            }
+          } else {
+            io.imgElement.onload = () => {
+              loaded++;
+              if (loaded === imagesToLoad.length) {
+                redraw();
+                updateLayerPanel();
+              }
+            };
+          }
+        });
+      }
+
+      redraw();
+      updateLayerPanel();
+      saveAutosaveProject();
+      trackEvent('import_project', { layers: objects.length });
+      showToast(dict.toast_project_loaded || '📂 プロジェクトを読み込みました');
+    } catch (err) {
+      console.error('Project import error:', err);
+      showToast(dict.toast_project_load_err || '⚠️ プロジェクトファイルの読み込みに失敗しました');
+    }
+  };
+  reader.readAsText(file);
+}
+
+// オートセーブ（localStorage）
+function saveAutosaveProject() {
+  try {
+    const bgColorSelect = document.getElementById('canvasBgColor');
+    const projectData = {
+      version: "1.0",
+      timestamp: new Date().toISOString(),
+      canvasBgColor: bgColorSelect ? bgColorSelect.value : 'transparent',
+      nextCreationOrder: nextCreationOrder,
+      objects: JSON.parse(serializeObjects(objects))
+    };
+    localStorage.setItem('imp_autosave_project', JSON.stringify(projectData));
+  } catch (err) {
+    // クォータ超過等の場合は安全にスキップ
+  }
+}
+
+function restoreAutosaveProject() {
+  try {
+    const raw = localStorage.getItem('imp_autosave_project');
+    if (!raw) return false;
+    const data = JSON.parse(raw);
+    if (!data || !Array.isArray(data.objects) || data.objects.length === 0) return false;
+
+    if (data.canvasBgColor) {
+      const bgColorSelect = document.getElementById('canvasBgColor');
+      if (bgColorSelect) {
+        bgColorSelect.value = data.canvasBgColor;
+        if (typeof updateCanvasBackground === 'function') {
+          updateCanvasBackground();
+        }
+      }
+    }
+    if (data.nextCreationOrder) {
+      nextCreationOrder = data.nextCreationOrder;
+    }
+    objects = deserializeObjects(JSON.stringify(data.objects));
+    redraw();
+    updateLayerPanel();
+    return true;
+  } catch (err) {
+    return false;
+  }
 }
 
 function undo() {
@@ -2427,6 +2675,106 @@ undoButton.addEventListener('click', undo);
 redoButton.addEventListener('click', redo);
 clearCanvasBtn.addEventListener('click', clearAll);
 
+// プロジェクト保存・読込イベントリスナー登録
+const saveProjectBtn = document.getElementById('saveProjectBtn');
+const loadProjectBtn = document.getElementById('loadProjectBtn');
+const projectFileInput = document.getElementById('projectFileInput');
+const downloadProjectA = document.getElementById('downloadProjectA');
+
+if (saveProjectBtn) {
+  saveProjectBtn.addEventListener('click', exportProject);
+}
+if (downloadProjectA) {
+  downloadProjectA.addEventListener('click', exportProject);
+}
+if (loadProjectBtn && projectFileInput) {
+  loadProjectBtn.addEventListener('click', () => {
+    projectFileInput.value = '';
+    projectFileInput.click();
+  });
+  projectFileInput.addEventListener('change', (e) => {
+    if (e.target.files && e.target.files[0]) {
+      importProjectFile(e.target.files[0]);
+    }
+  });
+}
+
+// ==========================================
+// テキストレイヤー再編集モーダル制御
+// ==========================================
+let editingTextObject = null;
+
+function openTextEditModal(textObj) {
+  if (!textObj || textObj.type !== 'text') return;
+  editingTextObject = textObj;
+
+  const modal = document.getElementById('textEditModal');
+  const input = document.getElementById('modalTextInput');
+  const fontSelect = document.getElementById('modalFontFamily');
+  const sizeInput = document.getElementById('modalFontSize');
+  const colorInput = document.getElementById('modalTextColor');
+
+  if (!modal || !input) return;
+
+  input.value = textObj.text || '';
+  if (fontSelect) fontSelect.value = textObj.fontFamily || "'Outfit', 'Noto Sans JP', sans-serif";
+  if (sizeInput) sizeInput.value = textObj.size || 32;
+  if (colorInput) colorInput.value = textObj.color || '#4BEFFF';
+
+  modal.classList.remove('hidden');
+  setTimeout(() => {
+    input.focus();
+    input.select();
+  }, 50);
+}
+
+function closeTextEditModal() {
+  const modal = document.getElementById('textEditModal');
+  if (modal) modal.classList.add('hidden');
+  editingTextObject = null;
+}
+
+function applyTextEdit() {
+  if (!editingTextObject) return;
+  const input = document.getElementById('modalTextInput');
+  const fontSelect = document.getElementById('modalFontFamily');
+  const sizeInput = document.getElementById('modalFontSize');
+  const colorInput = document.getElementById('modalTextColor');
+  const dict = i18nData[currentLanguage] || i18nData.ja;
+
+  const newText = input ? input.value : '';
+  if (!newText.trim()) {
+    showToast("テキストを入力してください");
+    return;
+  }
+
+  saveState();
+  editingTextObject.text = newText;
+  if (fontSelect) editingTextObject.fontFamily = fontSelect.value;
+  if (sizeInput) editingTextObject.size = parseInt(sizeInput.value) || 32;
+  if (colorInput) editingTextObject.color = colorInput.value;
+
+  closeTextEditModal();
+  redraw();
+  updateLayerPanel();
+  showToast(dict.toast_text_updated || '🔤 テキストを更新しました');
+}
+
+// モーダル内のボタンリスナー登録
+const textEditModalCloseBtn = document.getElementById('textEditModalCloseBtn');
+const textEditModalCancelBtn = document.getElementById('textEditModalCancelBtn');
+const textEditModalApplyBtn = document.getElementById('textEditModalApplyBtn');
+const textEditModalOverlay = document.getElementById('textEditModal');
+
+if (textEditModalCloseBtn) textEditModalCloseBtn.addEventListener('click', closeTextEditModal);
+if (textEditModalCancelBtn) textEditModalCancelBtn.addEventListener('click', closeTextEditModal);
+if (textEditModalApplyBtn) textEditModalApplyBtn.addEventListener('click', applyTextEdit);
+if (textEditModalOverlay) {
+  textEditModalOverlay.addEventListener('click', (e) => {
+    if (e.target === textEditModalOverlay) closeTextEditModal();
+  });
+}
+
 // ショートカットキー対応 (Ctrl+Z, Ctrl+Y, Ctrl+C, Ctrl+V, Delete, Esc)
 window.addEventListener('keydown', (e) => {
   // テキスト入力中・選択セレクト中は除外
@@ -2451,6 +2799,9 @@ window.addEventListener('keydown', (e) => {
     } else if (e.key === 'v' || e.key === 'V') {
       e.preventDefault();
       pasteClipboard();
+    } else if (e.key === 's' || e.key === 'S') {
+      e.preventDefault();
+      exportProject();
     }
   } else {
     if (e.key === 'Delete' || e.key === 'Backspace') {
@@ -2459,6 +2810,7 @@ window.addEventListener('keydown', (e) => {
         deleteSelectedObject();
       }
     } else if (e.key === 'Escape') {
+      closeTextEditModal();
       if (cropSelection || isCropModeActive) {
         e.preventDefault();
         toggleCropMode(false);
@@ -2555,13 +2907,7 @@ function getCleanCanvasSnapshot() {
   snapCanvas.height = canvas.height;
   const snapCtx = snapCanvas.getContext('2d');
 
-  // 背景色を描画（透過以外）
-  const bgColorSelect = document.getElementById('canvasBgColor');
-  const bg = bgColorSelect ? bgColorSelect.value : 'transparent';
-  if (bg && bg !== 'transparent') {
-    snapCtx.fillStyle = bg;
-    snapCtx.fillRect(0, 0, snapCanvas.width, snapCanvas.height);
-  }
+  // キャンバス上のオブジェクト描画そのものを純粋にコピー（透過部分は透明のまま）
   snapCtx.drawImage(canvas, 0, 0);
 
   selectedObjects = prevSelectedList;
@@ -2731,7 +3077,7 @@ function pasteImageDataUrl(dataUrl, targetW = null, targetH = null) {
     const posX = Math.round((canvas.width - w) / 2);
     const posY = Math.round((canvas.height - h) / 2);
 
-    const eff = getCurrentEffectSettings();
+    // 貼り付け画像には余計な枠線や影などのエフェクトを勝手に付加せず、純粋なピクセル画像として配置
     const newImageObj = {
       type: 'image',
       x: posX,
@@ -2741,14 +3087,36 @@ function pasteImageDataUrl(dataUrl, targetW = null, targetH = null) {
       dataUrl: dataUrl,
       imgElement: img,
       rotation: 0,
-      ...eff
+      opacity: 100,
+      blur: 0,
+      sharpen: 0,
+      shadowEnable: false,
+      glossEnable: false
     };
+
     objects.push(newImageObj);
     selectedObject = newImageObj;
+    selectedObjects = [newImageObj];
+
+    // 範囲選択モードを自動終了・クリーンアップ（二重枠・不要枠の解消！）
+    if (isCropModeActive || cropSelection) {
+      isCropModeActive = false;
+      if (cropTypeSelect) {
+        cropTypeSelect.value = "";
+        cropTypeSelect.classList.remove('active');
+      }
+      cropSelection = null;
+      clearCropMask();
+      updateCropUI();
+      updateCropOptionsBar();
+    }
+
     isSelectModeActive = true;
     if (selectTransformBtn) selectTransformBtn.classList.add('active');
     syncEffectControlsWithObject(selectedObject);
+    updateLayerPanel();
     redraw();
+    saveAutosaveProject();
     trackEvent('paste_action', { target: 'image' });
     showToast(dict.toast_pasted || '📥 画像レイヤーを貼り付けました');
   };
@@ -3731,13 +4099,35 @@ function drawSelectionBox(ctx, obj) {
   ctx.setLineDash([]);
   const handles = getHandlePositions(b);
   for (const [key, pt] of Object.entries(handles)) {
+    const isEdgeCenter = ['tc', 'bc', 'ml', 'mr'].includes(key);
+    ctx.save();
     ctx.beginPath();
-    ctx.arc(pt.x, pt.y, 4, 0, Math.PI * 2);
+    if (key === 'tc' || key === 'bc') {
+      // 上辺・下辺中央：高さ伸縮（縦ストレッチ）を表す横長カプセルハンドル
+      if (ctx.roundRect) {
+        ctx.roundRect(pt.x - 7, pt.y - 3.5, 14, 7, 3);
+      } else {
+        ctx.arc(pt.x, pt.y, 4.5, 0, Math.PI * 2);
+      }
+    } else if (key === 'ml' || key === 'mr') {
+      // 左右辺中央：横幅伸縮（横ストレッチ）を表す縦長カプセルハンドル
+      if (ctx.roundRect) {
+        ctx.roundRect(pt.x - 3.5, pt.y - 7, 7, 14, 3);
+      } else {
+        ctx.arc(pt.x, pt.y, 4.5, 0, Math.PI * 2);
+      }
+    } else {
+      // 四隅：全体拡大縮小を表す丸ハンドル
+      ctx.arc(pt.x, pt.y, 4.5, 0, Math.PI * 2);
+    }
     ctx.fillStyle = '#FFFFFF';
     ctx.fill();
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = '#FF4BD8';
+    ctx.lineWidth = 1.8;
+    ctx.strokeStyle = isEdgeCenter ? '#4BEFFF' : '#FF4BD8';
+    ctx.shadowColor = isEdgeCenter ? 'rgba(75, 239, 255, 0.7)' : 'rgba(255, 75, 216, 0.7)';
+    ctx.shadowBlur = 4;
     ctx.stroke();
+    ctx.restore();
   }
 
   // 3. 四隅の「↺」回転ハンドル（各角から外側に16pxオフセット）
@@ -3977,23 +4367,45 @@ function drawCropOverlay(targetCtx, selection) {
       targetCtx.strokeRect(x, y, w, h);
       targetCtx.setLineDash([]);
 
-      // つまみハンドル（四隅の角 ＋ 4辺の中央）
-      const handles = getHandlePositions(selection);
-      for (const [key, pt] of Object.entries(handles)) {
-        const isCorner = ['tl', 'tr', 'bl', 'br'].includes(key);
-        const radius = isCorner ? 4.5 : 3;
-        targetCtx.save();
-        targetCtx.beginPath();
-        targetCtx.arc(pt.x, pt.y, radius, 0, Math.PI * 2);
-        targetCtx.fillStyle = '#FFFFFF';
-        targetCtx.fill();
-        targetCtx.lineWidth = isCorner ? 2 : 1.5;
-        targetCtx.strokeStyle = '#4BEFFF';
-        targetCtx.shadowColor = 'rgba(75, 239, 255, 0.85)';
-        targetCtx.shadowBlur = isCorner ? 6 : 3;
-        targetCtx.stroke();
-        targetCtx.restore();
+// 範囲選択ボックス用8つのリサイズハンドル描画ヘルパー（上下・左右ストレッチ対応）
+function drawCropBoxHandles(targetCtx, sel) {
+  if (!sel || sel.w < 6 || sel.h < 6) return;
+  const handles = getHandlePositions(sel);
+  for (const [key, pt] of Object.entries(handles)) {
+    const isCorner = ['tl', 'tr', 'bl', 'br'].includes(key);
+    targetCtx.save();
+    targetCtx.beginPath();
+    if (key === 'tc' || key === 'bc') {
+      // 上辺・下辺中央：高さ伸縮（縦ストレッチ）
+      if (targetCtx.roundRect) {
+        targetCtx.roundRect(pt.x - 7, pt.y - 3.5, 14, 7, 3);
+      } else {
+        targetCtx.arc(pt.x, pt.y, 4, 0, Math.PI * 2);
       }
+    } else if (key === 'ml' || key === 'mr') {
+      // 左右辺中央：横幅伸縮（横ストレッチ）
+      if (targetCtx.roundRect) {
+        targetCtx.roundRect(pt.x - 3.5, pt.y - 7, 7, 14, 3);
+      } else {
+        targetCtx.arc(pt.x, pt.y, 4, 0, Math.PI * 2);
+      }
+    } else {
+      // 四隅の角
+      targetCtx.arc(pt.x, pt.y, 4.5, 0, Math.PI * 2);
+    }
+    targetCtx.fillStyle = '#FFFFFF';
+    targetCtx.fill();
+    targetCtx.lineWidth = isCorner ? 2 : 1.5;
+    targetCtx.strokeStyle = '#4BEFFF';
+    targetCtx.shadowColor = 'rgba(75, 239, 255, 0.85)';
+    targetCtx.shadowBlur = isCorner ? 6 : 4;
+    targetCtx.stroke();
+    targetCtx.restore();
+  }
+}
+
+      // つまみハンドル（四隅の角 ＋ 4辺の中央）
+      drawCropBoxHandles(targetCtx, selection);
     }
   } else if (selection) {
     // B. ドラッグ中などの一時選択枠描画
@@ -4032,6 +4444,9 @@ function drawCropOverlay(targetCtx, selection) {
         targetCtx.setLineDash([5, 4]);
         targetCtx.strokeRect(x, y, w, h);
         targetCtx.setLineDash([]);
+
+        // 矩形選択枠の8つのつまみハンドル（4角 ＋ 4辺中央）を常時描画
+        drawCropBoxHandles(targetCtx, selection);
       }
     }
   }
@@ -4319,14 +4734,14 @@ canvas.addEventListener('mousemove', (e) => {
       const localPos = toLocalPoint(pos, cx, cy, rot);
 
       // 四隅の「↺」回転ハンドル
-      const rotHandle = findRotateHandleAt(localPos, bounds, 12);
+      const rotHandle = findRotateHandleAt(localPos, bounds, 15);
       if (rotHandle) {
         canvas.style.cursor = 'grab';
         return;
       }
 
-      // 8つのリサイズハンドル
-      const handle = findHandleAt(localPos, bounds, 10);
+      // 8つのリサイズハンドル（四隅・上下中央・左右中央）
+      const handle = findHandleAt(localPos, bounds, 14);
       if (handle) {
         const cursors = {
           tl: 'nwse-resize', tr: 'nesw-resize', br: 'nwse-resize', bl: 'nesw-resize',
@@ -4341,10 +4756,10 @@ canvas.addEventListener('mousemove', (e) => {
     }
   }
 
-  // 範囲選択モード時のカーソル（角ハンドル・枠内移動）
+  // 範囲選択モード時のカーソル（角ハンドル・辺中央ストレッチハンドル・枠内移動）
   if (isCropModeActive && cropSelection && cropSelection.w > 0 && cropSelection.h > 0) {
     const pos = getPos(e, canvas);
-    const handle = findHandleAt(pos, cropSelection, 10);
+    const handle = findHandleAt(pos, cropSelection, 14);
     if (handle) {
       const cursors = {
         tl: 'nwse-resize', tr: 'nesw-resize', br: 'nwse-resize', bl: 'nesw-resize',
@@ -4460,8 +4875,8 @@ function startDraw(e) {
 
     // D. 矩形・手でなぞる（角リサイズ / 移動 / 新規ドラッグ）
     if (cropSelection && cropSelection.w > 0 && cropSelection.h > 0) {
-      // 1. 角または辺のつまみハンドル判定（スマホ時は広めの20px）
-      const hitHandle = findHandleAt(pos, cropSelection, isTouch ? 20 : 12);
+      // 1. 角または辺のつまみハンドル判定（スマホ時は広めの24px、PCは14px）
+      const hitHandle = findHandleAt(pos, cropSelection, isTouch ? 24 : 14);
       if (hitHandle) {
         activeCropHandle = hitHandle;
         cropInitialBounds = { x: cropSelection.x, y: cropSelection.y, w: cropSelection.w, h: cropSelection.h };
@@ -4517,7 +4932,7 @@ function startDraw(e) {
       const localPos = toLocalPoint(pos, cx, cy, rot);
 
       // A. 四隅の「↺」回転ハンドルがタップされたか
-      const rotHit = findRotateHandleAt(localPos, bounds, isTouch ? 22 : 14);
+      const rotHit = findRotateHandleAt(localPos, bounds, isTouch ? 26 : 16);
       if (rotHit) {
         activeHandle = 'rotate';
         rotateCenter = { x: cx, y: cy };
@@ -4529,8 +4944,8 @@ function startDraw(e) {
         return;
       }
 
-      // B. 8つのリサイズハンドルがタップされたか
-      const hitHandle = findHandleAt(localPos, bounds, isTouch ? 18 : 10);
+      // B. 8つのリサイズハンドル（四隅・上下中央・左右中央）がタップされたか
+      const hitHandle = findHandleAt(localPos, bounds, isTouch ? 24 : 14);
       if (hitHandle) {
         activeHandle = hitHandle;
         transformInitialBounds = bounds;
@@ -5731,10 +6146,24 @@ function updateLayerPanel() {
       showToast(dict.toast_layer_deleted || "🗑 レイヤーを削除しました");
     };
 
-    // 配置順: ［👁 (表示切替)］ ［✏️ (アイコン)］ ［＃１ ペン① (名称)］ ［☒ (削除)］
+    // テキストレイヤー再編集ボタン (✏️)
+    let editBtn = null;
+    if (obj.type === 'text') {
+      editBtn = document.createElement('button');
+      editBtn.className = "layer-edit-btn";
+      editBtn.textContent = "✏️";
+      editBtn.title = dict.layer_edit_tip || "テキスト内容・フォントを編集";
+      editBtn.onclick = (e) => {
+        e.stopPropagation();
+        openTextEditModal(obj);
+      };
+    }
+
+    // 配置順: ［👁 (表示切替)］ ［✏️/🔤 (アイコン)］ ［＃１ 名称①］ ［✏️ (編集)］ ［☒ (削除)］
     card.appendChild(visBtn);
     card.appendChild(icon);
     card.appendChild(textSpan);
+    if (editBtn) card.appendChild(editBtn);
     card.appendChild(deleteBtn);
 
     // レイヤー選択タップ／クリック（ワンクリックでピンク追加、もう一回で解除）
@@ -5742,6 +6171,14 @@ function updateLayerPanel() {
       if (touchDragJustFinished) return;
       toggleObjectSelection(obj);
       redraw();
+    };
+
+    // ダブルクリックでテキスト編集（テキストレイヤーのみ）
+    card.ondblclick = (e) => {
+      e.stopPropagation();
+      if (obj.type === 'text') {
+        openTextEditModal(obj);
+      }
     };
 
     // --- PC向けマウスドラッグ＆ドロップ ---
@@ -5773,7 +6210,7 @@ function updateLayerPanel() {
     let touchHoldTriggered = false;
 
     card.addEventListener('touchstart', (e) => {
-      if (e.target.closest('.layer-delete-btn') || e.target.closest('.layer-vis-btn')) {
+      if (e.target.closest('.layer-delete-btn') || e.target.closest('.layer-vis-btn') || e.target.closest('.layer-edit-btn')) {
         return;
       }
       touchDragCard = card;
@@ -6737,8 +7174,523 @@ function fallbackCopyText(text, cb) {
   document.body.removeChild(ta);
 }
 
+// ==========================================
+// プロ仕様メニューバー制御
+// ==========================================
+(function initMenubar() {
+  // =====================
+  // ドロップダウン開閉制御
+  // =====================
+  const menuDropdowns = document.querySelectorAll('.menu-item-dropdown');
+
+  function closeAllMenus() {
+    menuDropdowns.forEach(dd => {
+      const btn = dd.querySelector('.menubar-btn');
+      const panel = dd.querySelector('.dropdown-panel');
+      if (btn) btn.classList.remove('open');
+      if (panel) panel.classList.add('hidden');
+    });
+  }
+
+  menuDropdowns.forEach(dd => {
+    const btn = dd.querySelector('.menubar-btn');
+    const panel = dd.querySelector('.dropdown-panel');
+    if (!btn || !panel) return;
+
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = !panel.classList.contains('hidden');
+      closeAllMenus();
+      if (!isOpen) {
+        panel.classList.remove('hidden');
+        btn.classList.add('open');
+      }
+    });
+  });
+
+  // ドロップダウン外クリックで閉じる
+  document.addEventListener('click', () => closeAllMenus());
+
+  // =========================
+  // ファイルメニュー項目
+  // =========================
+  const menuItemNew = document.getElementById('menuItemNew');
+  const menuItemOpen = document.getElementById('menuItemOpen');
+  const menuItemSave = document.getElementById('menuItemSave');
+  const menuItemImport = document.getElementById('menuItemImport');
+  const menuItemSwitchUpload = document.getElementById('menuItemSwitchUpload');
+  const menuItemExport = document.getElementById('menuItemExport');
+  const menuItemPwaSnippet = document.getElementById('menuItemPwaSnippet');
+
+  if (menuItemNew) {
+    menuItemNew.addEventListener('click', () => {
+      closeAllMenus();
+      if (objects.length > 0) {
+        const dict = i18nData[currentLanguage] || i18nData.ja;
+        if (confirm(dict.confirm_clear || 'キャンバスの内容をクリアして新規作成しますか？')) {
+          saveState();
+          objects = [];
+          clearObjectSelection();
+          redraw();
+          showToast('📄 新規作成しました');
+        }
+      } else {
+        showToast('📄 新規キャンバスです');
+      }
+    });
+  }
+
+  if (menuItemOpen) {
+    menuItemOpen.addEventListener('click', () => {
+      closeAllMenus();
+      const pfi = document.getElementById('projectFileInput');
+      if (pfi) { pfi.value = ''; pfi.click(); }
+    });
+  }
+
+  if (menuItemSave) {
+    menuItemSave.addEventListener('click', () => {
+      closeAllMenus();
+      if (typeof exportProject === 'function') exportProject();
+    });
+  }
+
+  if (menuItemImport) {
+    menuItemImport.addEventListener('click', () => {
+      closeAllMenus();
+      const imgImport = document.getElementById('imageImportInput');
+      if (imgImport) { imgImport.value = ''; imgImport.click(); }
+    });
+  }
+
+  if (menuItemSwitchUpload) {
+    menuItemSwitchUpload.addEventListener('click', () => {
+      closeAllMenus();
+      if (typeof setMode === 'function') setMode('upload');
+    });
+  }
+
+  if (menuItemExport) {
+    menuItemExport.addEventListener('click', () => {
+      closeAllMenus();
+      const exportSection = document.querySelector('.export-section');
+      if (exportSection) exportSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+
+  if (menuItemPwaSnippet) {
+    menuItemPwaSnippet.addEventListener('click', () => {
+      closeAllMenus();
+      const snippetSection = document.getElementById('pwaSnippetSection');
+      if (snippetSection) {
+        if (typeof setMode === 'function') setMode('canvas');
+        snippetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  }
+
+  // 画像インポートファイル入力
+  const imageImportInput = document.getElementById('imageImportInput');
+  if (imageImportInput) {
+    imageImportInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          pasteImageDataUrl(ev.target.result);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  // =========================
+  // 編集メニュー項目
+  // =========================
+  const menuItemUndo = document.getElementById('menuItemUndo');
+  const menuItemRedo = document.getElementById('menuItemRedo');
+  const menuItemCopy = document.getElementById('menuItemCopy');
+  const menuItemPaste = document.getElementById('menuItemPaste');
+  const menuItemDelete = document.getElementById('menuItemDelete');
+  const menuItemRotate = document.getElementById('menuItemRotate');
+  const menuItemClear = document.getElementById('menuItemClear');
+  const menuItemToggleTools = document.getElementById('menuItemToggleTools');
+
+  if (menuItemUndo) menuItemUndo.addEventListener('click', () => { closeAllMenus(); if (typeof undo === 'function') undo(); });
+  if (menuItemRedo) menuItemRedo.addEventListener('click', () => { closeAllMenus(); if (typeof redo === 'function') redo(); });
+  if (menuItemCopy) menuItemCopy.addEventListener('click', () => { closeAllMenus(); if (typeof copySelected === 'function') copySelected(); });
+  if (menuItemPaste) menuItemPaste.addEventListener('click', () => { closeAllMenus(); if (typeof pasteClipboard === 'function') pasteClipboard(); });
+
+  if (menuItemDelete) {
+    menuItemDelete.addEventListener('click', () => {
+      closeAllMenus();
+      const targets = selectedObjects.length > 0 ? [...selectedObjects] : (selectedObject ? [selectedObject] : []);
+      if (targets.length === 0) { showToast('ℹ️ 削除するレイヤーを選択してください'); return; }
+      saveState();
+      targets.forEach(obj => {
+        const idx = objects.indexOf(obj);
+        if (idx !== -1) objects.splice(idx, 1);
+      });
+      clearObjectSelection();
+      redraw();
+      showToast(`🗑 ${targets.length > 1 ? targets.length + '個の' : ''}レイヤーを削除しました`);
+    });
+  }
+
+  if (menuItemRotate) {
+    menuItemRotate.addEventListener('click', () => {
+      closeAllMenus();
+      const btn = document.getElementById('rotate90Btn');
+      if (btn) btn.click();
+    });
+  }
+
+  if (menuItemClear) {
+    menuItemClear.addEventListener('click', () => {
+      closeAllMenus();
+      if (typeof clearAll === 'function') clearAll();
+    });
+  }
+
+  if (menuItemToggleTools) {
+    menuItemToggleTools.addEventListener('click', () => {
+      closeAllMenus();
+      const toolsCol = document.querySelector('.canvas-tools-col');
+      if (toolsCol) {
+        const isHidden = toolsCol.style.display === 'none';
+        toolsCol.style.display = isHidden ? '' : 'none';
+        showToast(isHidden ? '🛠 ツールボックス・エフェクトを表示しました' : '🛠 ツールボックスを非表示にしました');
+      }
+    });
+  }
+
+  // =========================
+  // 表示メニュー：ズーム機能 (100% / 150% / 200% / 300%)
+  // =========================
+  let currentZoom = 1;
+  const zoomViewport = document.getElementById('canvasZoomViewport');
+
+  const zoomBtns = document.querySelectorAll('[data-zoom]');
+  zoomBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      closeAllMenus();
+      const z = parseFloat(btn.dataset.zoom) || 1;
+      currentZoom = z;
+      if (zoomViewport && canvas) {
+        if (z === 1) {
+          zoomViewport.style.maxWidth = '';
+          zoomViewport.style.maxHeight = '';
+          zoomViewport.style.overflow = 'hidden';
+          canvas.style.width = '';
+          canvas.style.height = '';
+        } else {
+          zoomViewport.style.maxWidth = '260px';
+          zoomViewport.style.maxHeight = '260px';
+          zoomViewport.style.overflow = 'auto';
+          canvas.style.width = `${Math.round(256 * z)}px`;
+          canvas.style.height = `${Math.round(256 * z)}px`;
+          canvas.style.maxWidth = 'none';
+        }
+      }
+      zoomBtns.forEach(b => b.classList.toggle('active', b === btn));
+      showToast(`🔍 ズーム ${Math.round(z * 100)}%`);
+    });
+  });
+
+  // =========================
+  // 表示メニュー：UIサイズ切替 (標準 / 大 / 特大)
+  // =========================
+  const uiSizeBtns = document.querySelectorAll('[data-uisize]');
+  uiSizeBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      closeAllMenus();
+      const size = btn.dataset.uisize;
+      document.body.classList.remove('ui-large', 'ui-xlarge');
+      if (size === 'large') document.body.classList.add('ui-large');
+      if (size === 'xlarge') document.body.classList.add('ui-xlarge');
+      uiSizeBtns.forEach(b => b.classList.toggle('active', b === btn));
+      showToast(`🔤 UIサイズ: ${btn.textContent.trim()}`);
+    });
+  });
+
+  // =========================
+  // 表示メニュー & ワンタップボタン：画面レイアウト切替 (自動 / スマホ縦 / PC横)
+  // =========================
+  let currentLayoutMode = 'auto';
+  const layoutBtns = document.querySelectorAll('[data-layout]');
+  const quickLayoutBtn = document.getElementById('quickLayoutBtn');
+  const quickLayoutIcon = document.getElementById('quickLayoutIcon');
+
+  function applyLayoutMode(layout, showMsg = true) {
+    currentLayoutMode = layout;
+    document.body.classList.remove('layout-mobile', 'layout-desktop');
+    if (layout === 'mobile') document.body.classList.add('layout-mobile');
+    if (layout === 'desktop') document.body.classList.add('layout-desktop');
+
+    layoutBtns.forEach(b => b.classList.toggle('active', b.dataset.layout === layout));
+    if (quickLayoutIcon) {
+      quickLayoutIcon.textContent = layout === 'desktop' ? '💻' : '📱';
+    }
+    if (showMsg) {
+      const names = { auto: '📐 自動判定', mobile: '📱 スマホ縦画面レイアウト', desktop: '💻 PC・横画面レイアウト' };
+      showToast(`画面切替: ${names[layout] || layout}`);
+    }
+  }
+
+  layoutBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      closeAllMenus();
+      applyLayoutMode(btn.dataset.layout, true);
+    });
+  });
+
+  if (quickLayoutBtn) {
+    quickLayoutBtn.addEventListener('click', () => {
+      closeAllMenus();
+      // ワンタップで スマホ縦 ⇔ PC横 をスマートに切り替え
+      const isCurrentlyWide = currentLayoutMode === 'desktop' ||
+        (currentLayoutMode === 'auto' && window.innerWidth >= 860);
+      const nextMode = isCurrentlyWide ? 'mobile' : 'desktop';
+      applyLayoutMode(nextMode, true);
+    });
+  }
+
+  // =========================
+  // 表示メニュー：透明グリッド (チェッカー) 表示切替
+  // =========================
+  let isCheckerVisible = true;
+  const menuItemChecker = document.getElementById('menuItemChecker');
+  const checkerStatusBadge = document.getElementById('checkerStatusBadge');
+
+  if (menuItemChecker) {
+    menuItemChecker.addEventListener('click', () => {
+      closeAllMenus();
+      isCheckerVisible = !isCheckerVisible;
+      if (canvas) canvas.classList.toggle('checkerboard-off', !isCheckerVisible);
+      if (previewCanvas) previewCanvas.classList.toggle('checkerboard-off', !isCheckerVisible);
+      if (checkerStatusBadge) {
+        checkerStatusBadge.textContent = isCheckerVisible ? 'ON' : 'OFF';
+        checkerStatusBadge.classList.toggle('on', isCheckerVisible);
+      }
+      showToast(isCheckerVisible ? '🏁 透明グリッド (チェッカー) ON' : '🏁 透明グリッド (チェッカー) OFF');
+    });
+  }
+
+  // =========================
+  // 表示メニュー：虫眼鏡 (ルーペ) モード
+  // =========================
+  let isLoupeMode = false;
+  const menuItemLoupe = document.getElementById('menuItemLoupe');
+  const loupeStatusBadge = document.getElementById('loupeStatusBadge');
+  const loupeEl = document.getElementById('canvasLoupe');
+  const loupeCanvas = document.getElementById('loupeCanvas');
+  const loupeCtx = loupeCanvas ? loupeCanvas.getContext('2d') : null;
+
+  if (menuItemLoupe) {
+    menuItemLoupe.addEventListener('click', () => {
+      closeAllMenus();
+      isLoupeMode = !isLoupeMode;
+      if (!isLoupeMode && loupeEl) {
+        loupeEl.classList.add('hidden');
+      }
+      if (loupeStatusBadge) {
+        loupeStatusBadge.textContent = isLoupeMode ? 'ON' : 'OFF';
+        loupeStatusBadge.classList.toggle('on', isLoupeMode);
+      }
+      showToast(isLoupeMode ? '🔎 ルーペモード ON (キャンバス上をホバー/タッチで拡大)' : '🔎 ルーペモード OFF');
+    });
+  }
+
+  function updateLoupeAt(e) {
+    if (!isLoupeMode || !loupeEl || !loupeCanvas || !loupeCtx || !canvas) return;
+    const pos = getPos(e, canvas);
+    if (pos.x < 0 || pos.x > canvas.width || pos.y < 0 || pos.y > canvas.height) {
+      loupeEl.classList.add('hidden');
+      return;
+    }
+    loupeEl.classList.remove('hidden');
+
+    // ビューポート内の相対座標へルーペを配置
+    const vpRect = (zoomViewport || canvas.parentElement).getBoundingClientRect();
+    let clientX = e.clientX;
+    let clientY = e.clientY;
+    if (e.touches && e.touches.length > 0) {
+      clientX = e.touches[0].clientX;
+      clientY = e.touches[0].clientY;
+    }
+    const relX = clientX - vpRect.left;
+    const relY = clientY - vpRect.top;
+    loupeEl.style.left = `${Math.max(46, Math.min(vpRect.width - 46, relX))}px`;
+    loupeEl.style.top = `${Math.max(55, relY)}px`;
+
+    // 3倍拡大で周辺ピクセルを描画
+    const zoomFactor = 3;
+    const lw = loupeCanvas.width;
+    const lh = loupeCanvas.height;
+    const srcW = lw / zoomFactor;
+    const srcH = lh / zoomFactor;
+    const srcX = pos.x - srcW / 2;
+    const srcY = pos.y - srcH / 2;
+
+    loupeCtx.clearRect(0, 0, lw, lh);
+    loupeCtx.fillStyle = '#0b101e';
+    loupeCtx.fillRect(0, 0, lw, lh);
+    loupeCtx.imageSmoothingEnabled = false;
+    loupeCtx.drawImage(canvas, srcX, srcY, srcW, srcH, 0, 0, lw, lh);
+  }
+
+  if (canvas) {
+    canvas.addEventListener('mousemove', updateLoupeAt);
+    canvas.addEventListener('touchmove', updateLoupeAt, { passive: true });
+    canvas.addEventListener('mouseleave', () => {
+      if (loupeEl) loupeEl.classList.add('hidden');
+    });
+    canvas.addEventListener('touchend', () => {
+      if (loupeEl) loupeEl.classList.add('hidden');
+    });
+  }
+
+  // =========================
+  // 十字キー微調整コントローラー (▲ ▼ ◀ ▶ ナッジボタン & 1px/5px/10px 切替)
+  // =========================
+  let nudgeStep = 1;
+  const nudgeSteps = [1, 5, 10];
+  const nudgeUpBtn = document.getElementById('nudgeUpBtn');
+  const nudgeDownBtn = document.getElementById('nudgeDownBtn');
+  const nudgeLeftBtn = document.getElementById('nudgeLeftBtn');
+  const nudgeRightBtn = document.getElementById('nudgeRightBtn');
+  const nudgeStepBtn = document.getElementById('nudgeStepBtn');
+
+  if (nudgeStepBtn) {
+    nudgeStepBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const idx = nudgeSteps.indexOf(nudgeStep);
+      nudgeStep = nudgeSteps[(idx + 1) % nudgeSteps.length];
+      nudgeStepBtn.textContent = `${nudgeStep}px`;
+      showToast(`🎯 微調整の移動量: ${nudgeStep}px`);
+    });
+  }
+
+  function performNudge(dx, dy, recordHistory = true) {
+    // 1. 範囲選択枠がアクティブな場合は選択枠とマスクを移動
+    if (isCropModeActive && cropSelection) {
+      const newX = Math.max(0, Math.min(canvas.width - cropSelection.w, cropSelection.x + dx));
+      const newY = Math.max(0, Math.min(canvas.height - cropSelection.h, cropSelection.y + dy));
+      const actualDx = newX - cropSelection.x;
+      const actualDy = newY - cropSelection.y;
+      if (actualDx === 0 && actualDy === 0) return;
+
+      cropSelection.x = newX;
+      cropSelection.y = newY;
+      if (cropSelection.points) {
+        cropSelection.points.forEach(p => {
+          p.x += actualDx;
+          p.y += actualDy;
+        });
+      }
+      if (cropMaskCanvas) {
+        const tempMask = document.createElement('canvas');
+        tempMask.width = canvas.width;
+        tempMask.height = canvas.height;
+        tempMask.getContext('2d').drawImage(cropMaskCanvas, 0, 0);
+        cropMaskCtx.clearRect(0, 0, canvas.width, canvas.height);
+        cropMaskCtx.drawImage(tempMask, actualDx, actualDy);
+      }
+      redraw();
+      return;
+    }
+
+    // 2. レイヤーが未選択でもキャンバス上にレイヤーがあれば最前面の表示レイヤーを自動選択
+    if (selectedObjects.length === 0 && !selectedObject) {
+      for (let i = objects.length - 1; i >= 0; i--) {
+        if (objects[i].visible !== false) {
+          selectedObject = objects[i];
+          selectedObjects = [objects[i]];
+          syncSelectedObjects();
+          break;
+        }
+      }
+    }
+
+    const targets = selectedObjects.length > 0 ? selectedObjects : (selectedObject ? [selectedObject] : []);
+    if (targets.length === 0) {
+      showToast('ℹ️ 移動するレイヤーまたは選択範囲がありません');
+      return;
+    }
+
+    if (recordHistory) {
+      saveState();
+    }
+
+    targets.forEach(obj => {
+      if (obj) moveObject(obj, dx, dy);
+    });
+
+    redraw();
+    updateLayerPanel();
+    saveAutosaveProject();
+  }
+
+  function bindNudgeButton(btn, dirX, dirY) {
+    if (!btn) return;
+    let holdTimeout = null;
+    let holdInterval = null;
+
+    const stopHold = () => {
+      if (holdTimeout) { clearTimeout(holdTimeout); holdTimeout = null; }
+      if (holdInterval) { clearInterval(holdInterval); holdInterval = null; }
+    };
+
+    const startHold = (e) => {
+      if (e.type === 'mousedown' && e.button !== 0) return;
+      e.preventDefault();
+      stopHold();
+      performNudge(dirX * nudgeStep, dirY * nudgeStep, true);
+      holdTimeout = setTimeout(() => {
+        holdInterval = setInterval(() => {
+          performNudge(dirX * nudgeStep, dirY * nudgeStep, false);
+        }, 70);
+      }, 320);
+    };
+
+    btn.addEventListener('mousedown', startHold);
+    btn.addEventListener('touchstart', startHold, { passive: false });
+    window.addEventListener('mouseup', stopHold);
+    window.addEventListener('touchend', stopHold);
+    btn.addEventListener('mouseleave', stopHold);
+  }
+
+  bindNudgeButton(nudgeUpBtn, 0, -1);
+  bindNudgeButton(nudgeDownBtn, 0, 1);
+  bindNudgeButton(nudgeLeftBtn, -1, 0);
+  bindNudgeButton(nudgeRightBtn, 1, 0);
+
+  // キーボードの矢印キー (↑ ↓ ← →) でも1px / Shift時は10px微調整移動
+  document.addEventListener('keydown', (e) => {
+    if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) return;
+    if (typeof isOpeningActive !== 'undefined' && isOpeningActive) return;
+
+    const step = e.shiftKey ? 10 : nudgeStep;
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      performNudge(0, -step, true);
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      performNudge(0, step, true);
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      performNudge(-step, 0, true);
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      performNudge(step, 0, true);
+    }
+  });
+
+})(); // initMenubar終了
+
 // 初期化
 setLanguage(currentLanguage);
+restoreAutosaveProject();
 updateHistoryButtons();
 redraw();
 registerServiceWorker();

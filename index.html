@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Icon Maker📂 – Icon Maker Pro</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="theme-color" content="#0A0F1F">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -88,7 +88,7 @@
 
     <!-- フッタークレジット -->
     <footer class="opening-footer">
-      <div class="opening-producer">- produced by H.Fukazu -</div>
+      <div class="opening-producer">- produce by H.Fukazu -</div>
       <div class="opening-info" id="openingInfoBtn" title="Information">- Information -</div>
     </footer>
   </div>
@@ -119,14 +119,106 @@
   </div>
 </header>
 
-<!-- モード切替タブ -->
-<nav class="mode-tabs">
-  <button id="tabCanvas" class="tab-btn active" data-mode="canvas">
-    <span class="tab-icon">🎨</span> <span data-i18n="tab_canvas">A：キャンバスで描く</span>
-  </button>
-  <button id="tabUpload" class="tab-btn" data-mode="upload">
-    <span class="tab-icon">📁</span> <span data-i18n="tab_upload">B：画像をアップロードする</span>
-  </button>
+<!-- プロ仕様 メニューバー (ファイル / 編集 / 表示 / 画面切替) -->
+<nav class="app-menubar" id="appMenubar">
+  <div class="menubar-left">
+    <!-- ファイルメニュー -->
+    <div class="menu-item-dropdown" id="menuDropdownFile">
+      <button type="button" class="menubar-btn" id="menuBtnFile">
+        📁 <span data-i18n="menu_file">ファイル</span> <span class="menu-arrow">▾</span>
+      </button>
+      <div class="dropdown-panel hidden" id="menuPanelFile">
+        <button type="button" class="dropdown-item" id="menuItemNew"><span class="d-icon">📄</span><span data-i18n="menu_new">新規作成</span></button>
+        <button type="button" class="dropdown-item" id="menuItemOpen"><span class="d-icon">📂</span><span data-i18n="menu_open">プロジェクトを開く</span><small>.imp</small></button>
+        <button type="button" class="dropdown-item" id="menuItemSave"><span class="d-icon">💾</span><span data-i18n="menu_save">プロジェクトを保存</span><small>Ctrl+S</small></button>
+        <div class="dropdown-divider"></div>
+        <button type="button" class="dropdown-item" id="menuItemImport"><span class="d-icon">📥</span><span data-i18n="menu_import_image">画像をインポート</span></button>
+        <button type="button" class="dropdown-item" id="menuItemSwitchUpload"><span class="d-icon">📁</span><span data-i18n="menu_switch_upload">画像アップロード変換 (モードB)</span></button>
+        <div class="dropdown-divider"></div>
+        <button type="button" class="dropdown-item" id="menuItemExport"><span class="d-icon">📤</span><span data-i18n="menu_export_icons">アイコンを保存 (書き出し)</span></button>
+        <button type="button" class="dropdown-item" id="menuItemPwaSnippet"><span class="d-icon">📋</span><span data-i18n="menu_pwa_code">Webアプリ・PWA組み込みコード</span></button>
+      </div>
+    </div>
+
+    <!-- 編集メニュー -->
+    <div class="menu-item-dropdown" id="menuDropdownEdit">
+      <button type="button" class="menubar-btn" id="menuBtnEdit">
+        🎨 <span data-i18n="menu_edit">編集</span> <span class="menu-arrow">▾</span>
+      </button>
+      <div class="dropdown-panel hidden" id="menuPanelEdit">
+        <button type="button" class="dropdown-item" id="menuItemToggleTools"><span class="d-icon">🛠</span><span data-i18n="menu_toggle_tools">ツールボックス・エフェクト表示切替</span></button>
+        <div class="dropdown-divider"></div>
+        <button type="button" class="dropdown-item" id="menuItemUndo"><span class="d-icon">↩</span><span data-i18n="menu_undo">元に戻す</span><small>Ctrl+Z</small></button>
+        <button type="button" class="dropdown-item" id="menuItemRedo"><span class="d-icon">↪</span><span data-i18n="menu_redo">やり直し</span><small>Ctrl+Y</small></button>
+        <div class="dropdown-divider"></div>
+        <button type="button" class="dropdown-item" id="menuItemCopy"><span class="d-icon">📋</span><span data-i18n="menu_copy">コピー</span><small>Ctrl+C</small></button>
+        <button type="button" class="dropdown-item" id="menuItemPaste"><span class="d-icon">📥</span><span data-i18n="menu_paste">貼り付け</span><small>Ctrl+V</small></button>
+        <button type="button" class="dropdown-item" id="menuItemDelete"><span class="d-icon">🗑</span><span data-i18n="menu_delete">選択レイヤーを削除</span><small>Del</small></button>
+        <div class="dropdown-divider"></div>
+        <button type="button" class="dropdown-item" id="menuItemRotate"><span class="d-icon">↷</span><span data-i18n="menu_rotate_90">90°時計回り回転</span></button>
+        <button type="button" class="dropdown-item" id="menuItemClear"><span class="d-icon">🗑</span><span data-i18n="menu_clear">全レイヤークリア</span></button>
+      </div>
+    </div>
+
+    <!-- 表示メニュー -->
+    <div class="menu-item-dropdown" id="menuDropdownView">
+      <button type="button" class="menubar-btn" id="menuBtnView">
+        🖥️ <span data-i18n="menu_view">表示</span> <span class="menu-arrow">▾</span>
+      </button>
+      <div class="dropdown-panel hidden" id="menuPanelView">
+        <div class="dropdown-sub-header" data-i18n="menu_zoom_header">🔍 キャンバス拡大・縮小 (ズーム)</div>
+        <div class="dropdown-item-group zoom-group">
+          <button type="button" class="btn-sub-opt active" data-zoom="1">100%</button>
+          <button type="button" class="btn-sub-opt" data-zoom="1.5">150%</button>
+          <button type="button" class="btn-sub-opt" data-zoom="2">200%</button>
+          <button type="button" class="btn-sub-opt" data-zoom="3">300%</button>
+        </div>
+        <div class="dropdown-divider"></div>
+        <button type="button" class="dropdown-item" id="menuItemLoupe">
+          <span class="d-icon">🔎</span><span data-i18n="menu_loupe">虫眼鏡 (ルーペ) モード</span>
+          <span class="status-badge" id="loupeStatusBadge">OFF</span>
+        </button>
+        <button type="button" class="dropdown-item" id="menuItemChecker">
+          <span class="d-icon">🏁</span><span data-i18n="menu_checker">透明グリッド (チェッカー) 表示</span>
+          <span class="status-badge on" id="checkerStatusBadge">ON</span>
+        </button>
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-sub-header" data-i18n="menu_uisize_header">🔤 文字・ボタンサイズ切替</div>
+        <div class="dropdown-item-group size-group">
+          <button type="button" class="btn-sub-opt active" data-uisize="normal" data-i18n="opt_size_normal">標準</button>
+          <button type="button" class="btn-sub-opt" data-uisize="large" data-i18n="opt_size_large">大</button>
+          <button type="button" class="btn-sub-opt" data-uisize="xlarge" data-i18n="opt_size_xlarge">特大</button>
+        </div>
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-sub-header" data-i18n="menu_layout_header">📐 画面レイアウト切替</div>
+        <div class="dropdown-item-group layout-group">
+          <button type="button" class="btn-sub-opt active" data-layout="auto" data-i18n="opt_layout_auto">自動</button>
+          <button type="button" class="btn-sub-opt" data-layout="mobile" data-i18n="opt_layout_mobile">📱 スマホ縦</button>
+          <button type="button" class="btn-sub-opt" data-layout="desktop" data-i18n="opt_layout_desktop">💻 PC横</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ワンタップ画面切替ボタン -->
+    <button type="button" class="menubar-btn menubar-layout-btn" id="quickLayoutBtn" title="スマホ縦画面 / PC横画面 レイアウト切替">
+      <span id="quickLayoutIcon">📱</span><span id="quickLayoutLabel" data-i18n="menu_quick_layout">画面切替</span>
+    </button>
+  </div>
+
+  <!-- クイック切り替え（キャンバス ⇔ 画像変換） -->
+  <div class="menubar-right">
+    <div class="mode-switch-pill">
+      <button type="button" id="tabCanvas" class="menubar-mode-btn active" data-mode="canvas">
+        🎨 <span data-i18n="tab_canvas_short">キャンバス</span>
+      </button>
+      <button type="button" id="tabUpload" class="menubar-mode-btn" data-mode="upload">
+        📁 <span data-i18n="tab_upload_short">画像変換</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 画像インポート用の隠しinput -->
+  <input type="file" id="imageImportInput" accept="image/*" class="file-input-hidden" style="display:none;">
 </nav>
 
 <!-- A：キャンバス描画モード -->
@@ -135,8 +227,29 @@
   <div class="canvas-stage-col">
     <div id="canvasWrapper">
       <div class="canvas-container">
-        <canvas id="canvas" width="256" height="256" class="checkerboard-bg"></canvas>
-        <div class="canvas-info" id="canvasInfo">256 × 256 px</div>
+        <!-- ズームコンテナ -->
+        <div class="canvas-zoom-viewport" id="canvasZoomViewport">
+          <canvas id="canvas" width="256" height="256" class="checkerboard-bg"></canvas>
+          <!-- 虫眼鏡（ルーペ）ウィジェット -->
+          <div id="canvasLoupe" class="canvas-loupe hidden">
+            <canvas id="loupeCanvas" width="90" height="90"></canvas>
+            <div class="loupe-reticle"></div>
+          </div>
+        </div>
+        
+        <!-- キャンバスフッター（サイズ情報 ＋ 十字キー微調整コントローラー） -->
+        <div class="canvas-footer-bar">
+          <div class="canvas-info" id="canvasInfo">256 × 256 px</div>
+          
+          <!-- 座標微調整コントローラー (☒枠内に綺麗に収まるネオン十字キー) -->
+          <div class="nudge-controller" id="nudgeController" title="選択中のレイヤーや範囲を微調整移動 (矢印キーでも可能)">
+            <button type="button" class="btn-nudge btn-nudge-up" id="nudgeUpBtn" title="上へ移動 (↑)" aria-label="上へ移動">▲</button>
+            <button type="button" class="btn-nudge btn-nudge-left" id="nudgeLeftBtn" title="左へ移動 (←)" aria-label="左へ移動">◀</button>
+            <button type="button" class="btn-nudge-step" id="nudgeStepBtn" title="移動量切り替え (1px / 5px / 10px)">1px</button>
+            <button type="button" class="btn-nudge btn-nudge-right" id="nudgeRightBtn" title="右へ移動 (→)" aria-label="右へ移動">▶</button>
+            <button type="button" class="btn-nudge btn-nudge-down" id="nudgeDownBtn" title="下へ移動 (↓)" aria-label="下へ移動">▼</button>
+          </div>
+        </div>
       </div>
       <div class="layer-panel-container">
         <div id="layerPanel"></div>
@@ -256,6 +369,17 @@
           <button type="button" id="pasteBtn" class="btn-tool" title="クリップボードから貼り付け (Ctrl+V)" data-i18n-title="btn_paste_tip" data-i18n="btn_paste">
             📥 貼付け
           </button>
+        </div>
+
+        <!-- プロジェクト保存・復元クラスター -->
+        <div class="toolbar-item-cluster project-cluster">
+          <button type="button" id="saveProjectBtn" class="btn-tool btn-save-project" title="作業中のプロジェクトを保存 (.imp)" data-i18n-title="btn_save_project_tip">
+            💾 <span data-i18n="btn_save_project">保存</span>
+          </button>
+          <button type="button" id="loadProjectBtn" class="btn-tool btn-load-project" title="保存したプロジェクトを読み込む" data-i18n-title="btn_load_project_tip">
+            📂 <span data-i18n="btn_load_project">開く</span>
+          </button>
+          <input type="file" id="projectFileInput" accept=".imp,.json" class="file-input-hidden" style="display:none;">
         </div>
 
         <!-- 履歴操作ボタン -->
@@ -496,6 +620,10 @@
           <span class="btn-icon">📦</span>
           <span class="btn-text" data-i18n="btn_export_zip"><strong>全サイズ一括ZIP</strong><small>全種アイコン + 設定ファイル</small></span>
         </button>
+        <button id="downloadProjectA" class="btn-export btn-project" title="全レイヤーを保持したプロジェクトファイルとして保存 (.imp)">
+          <span class="btn-icon">💾</span>
+          <span class="btn-text" data-i18n="btn_export_project"><strong>プロジェクト保存</strong><small>全レイヤー再開可能 (.imp)</small></span>
+        </button>
       </div>
     </div>
   </div>
@@ -656,7 +784,7 @@
 </section>
 
 <!-- PWA・Webアプリ用タグスニペット -->
-<section class="code-snippet-section neon-box">
+<section id="pwaSnippetSection" class="code-snippet-section neon-box">
   <div class="snippet-header">
     <h3 data-i18n="snippet_title">📋 Webアプリ・PWA組み込み用コード</h3>
     <button id="copySnippetBtn" class="btn-copy" data-i18n="btn_copy_code">📋 コードをコピー</button>
@@ -1001,6 +1129,51 @@
     data-i18n="back_to_top">↑ TOP</button>
 </div>
 
+
+<!-- テキストレイヤー再編集モーダル -->
+<div id="textEditModal" class="text-edit-modal-overlay hidden">
+  <div class="text-edit-modal-card">
+    <div class="text-edit-modal-header">
+      <h3 class="text-edit-modal-title">🔤 <span data-i18n="modal_text_title">テキストの再編集</span></h3>
+      <button type="button" id="textEditModalCloseBtn" class="text-edit-modal-close" title="閉じる">✕</button>
+    </div>
+    <div class="text-edit-modal-body">
+      <div class="modal-form-group">
+        <label for="modalTextInput" data-i18n="modal_text_content">テキスト内容</label>
+        <textarea id="modalTextInput" rows="2" class="modal-text-input" placeholder="テキストを入力"></textarea>
+      </div>
+      <div class="modal-form-row">
+        <div class="modal-form-group flex-1">
+          <label for="modalFontFamily" data-i18n="lbl_font_family">フォント</label>
+          <select id="modalFontFamily" class="modal-select">
+            <option value="'Outfit', 'Noto Sans JP', sans-serif">ゴシック (標準・モダン)</option>
+            <option value="'M PLUS Rounded 1c', sans-serif">丸ゴシック (ポップ・親しみ)</option>
+            <option value="'Noto Serif JP', serif">明朝体 (優雅・和風)</option>
+            <option value="'HG行書体', 'HGP行書体', 'HGS行書体', 'DF行書体', 'DFP行書体', 'Yuji Mai', 'Yuji Boku', cursive, serif">行書体 (流麗・毛筆)</option>
+            <option value="'Impact', sans-serif">インパクト (超太字)</option>
+            <option value="'Caveat', cursive">手書き (スクリプト)</option>
+            <option value="monospace">等幅 (テック・コード)</option>
+            <option value="'Georgia', serif">クラシック (Georgia)</option>
+          </select>
+        </div>
+        <div class="modal-form-group width-auto">
+          <label for="modalFontSize" data-i18n="lbl_font_size">サイズ</label>
+          <input type="number" id="modalFontSize" min="8" max="128" value="32" class="modal-num-input">
+        </div>
+        <div class="modal-form-group width-auto">
+          <label for="modalTextColor" data-i18n="lbl_pen_color">文字色</label>
+          <div class="color-picker-wrap">
+            <input type="color" id="modalTextColor" value="#4BEFFF">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-edit-modal-footer">
+      <button type="button" id="textEditModalCancelBtn" class="btn-tool btn-modal-cancel" data-i18n="btn_cancel">キャンセル</button>
+      <button type="button" id="textEditModalApplyBtn" class="btn-accent btn-modal-apply" data-i18n="btn_apply_text">✓ 変更を反映</button>
+    </div>
+  </div>
+</div>
 
 <!-- トースト通知 -->
 <div id="toast" class="toast hidden"></div>

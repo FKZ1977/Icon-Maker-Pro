@@ -41,13 +41,15 @@ body {
 }
 
 /* =========================
-   ヘッダー
+   ヘッダー (iPhoneノッチ・ステータスバー Safe Area 対応)
 ========================= */
 .app-header {
   position: relative;
   text-align: center;
   margin-bottom: 8px;
-  padding-top: 2px;
+  padding-top: calc(env(safe-area-inset-top, 0px) + 18px);
+  padding-left: max(12px, env(safe-area-inset-left, 12px));
+  padding-right: max(12px, env(safe-area-inset-right, 12px));
 }
 
 .header-top-bar {
@@ -114,6 +116,268 @@ h1 {
   color: var(--text-muted);
   font-size: 13px;
   margin: 6px 0 0 0;
+}
+
+/* =========================
+   プロ仕様メニューバー (ファイル / 編集 / 表示 / 画面切替)
+========================= */
+.app-menubar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  max-width: 900px;
+  margin: 0 auto 12px;
+  padding: 6px 10px;
+  background: rgba(14, 22, 38, 0.9);
+  border: 1px solid rgba(75, 239, 255, 0.35);
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45), inset 0 0 8px rgba(75, 239, 255, 0.08);
+  flex-wrap: wrap;
+}
+
+.menubar-left {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.menubar-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+/* メニューボタン（ファイル・編集・表示・画面切替） */
+.menubar-btn {
+  background: rgba(10, 15, 31, 0.75);
+  color: var(--text-main);
+  border: 1px solid rgba(75, 239, 255, 0.3);
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  font-family: inherit;
+}
+
+.menubar-layout-btn {
+  border-color: rgba(255, 75, 216, 0.45);
+  background: rgba(255, 75, 216, 0.1);
+}
+
+.menubar-layout-btn:hover {
+  background: rgba(255, 75, 216, 0.22) !important;
+  border-color: var(--accent-magenta) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 0 10px rgba(255, 75, 216, 0.45) !important;
+}
+
+.menubar-btn:hover,
+.menubar-btn.open {
+  background: rgba(75, 239, 255, 0.1);
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+  box-shadow: 0 0 8px rgba(75, 239, 255, 0.3);
+}
+
+.menu-arrow {
+  font-size: 10px;
+  opacity: 0.7;
+}
+
+/* ドロップダウン コンテナ */
+.menu-item-dropdown {
+  position: relative;
+}
+
+.dropdown-panel {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  background: #0E1626;
+  border: 1px solid rgba(75, 239, 255, 0.4);
+  border-radius: 10px;
+  min-width: 220px;
+  padding: 6px 0;
+  z-index: 9999;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7), 0 0 16px rgba(75, 239, 255, 0.15);
+  animation: dropdownFadeIn 0.15s ease;
+}
+
+.dropdown-panel.hidden {
+  display: none;
+}
+
+@keyframes dropdownFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 14px;
+  background: none;
+  border: none;
+  color: var(--text-main);
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.dropdown-item:hover {
+  background: rgba(75, 239, 255, 0.1);
+  color: var(--accent-cyan);
+}
+
+.dropdown-item .d-icon {
+  width: 18px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.dropdown-item small {
+  margin-left: auto;
+  font-size: 10px;
+  opacity: 0.5;
+  padding-left: 8px;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: rgba(75, 239, 255, 0.12);
+  margin: 4px 0;
+}
+
+.dropdown-sub-header {
+  padding: 6px 14px 3px;
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.dropdown-item-group {
+  display: flex;
+  gap: 5px;
+  padding: 4px 10px;
+  flex-wrap: wrap;
+}
+
+.btn-sub-opt {
+  background: rgba(10, 15, 31, 0.7);
+  border: 1px solid rgba(75, 239, 255, 0.3);
+  border-radius: 5px;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-family: inherit;
+  padding: 4px 9px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-sub-opt:hover {
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+}
+
+.btn-sub-opt.active {
+  background: rgba(75, 239, 255, 0.15);
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+  box-shadow: 0 0 6px rgba(75, 239, 255, 0.3);
+}
+
+/* ステータスバッジ（ルーペON/OFF等） */
+.status-badge {
+  background: rgba(10, 15, 31, 0.8);
+  border: 1px solid rgba(75, 239, 255, 0.4);
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  color: var(--text-muted);
+  margin-left: auto;
+}
+
+.status-badge.on {
+  background: rgba(56, 229, 77, 0.2);
+  border-color: var(--accent-green);
+  color: var(--accent-green);
+}
+
+/* モード切替ピル（キャンバス ⇔ 画像変換） */
+.mode-switch-pill {
+  display: flex;
+  gap: 3px;
+  background: rgba(10, 15, 31, 0.8);
+  border: 1px solid rgba(75, 239, 255, 0.3);
+  border-radius: 8px;
+  padding: 3px;
+}
+
+.menubar-mode-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-family: inherit;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.menubar-mode-btn.active {
+  background: rgba(75, 239, 255, 0.18);
+  color: var(--accent-cyan);
+  box-shadow: 0 0 8px rgba(75, 239, 255, 0.3);
+}
+
+.menubar-mode-btn:hover:not(.active) {
+  color: var(--text-main);
+  background: rgba(75, 239, 255, 0.08);
+}
+
+/* プロジェクト保存・開くボタン */
+.btn-save-project {
+  background: linear-gradient(135deg, rgba(56, 229, 77, 0.15), rgba(56, 229, 77, 0.05)) !important;
+  border-color: rgba(56, 229, 77, 0.6) !important;
+  color: #38E54D !important;
+  box-shadow: 0 0 8px rgba(56, 229, 77, 0.2) !important;
+}
+
+.btn-save-project:hover {
+  background: linear-gradient(135deg, rgba(56, 229, 77, 0.25), rgba(56, 229, 77, 0.1)) !important;
+  box-shadow: 0 0 12px rgba(56, 229, 77, 0.4) !important;
+}
+
+.btn-load-project {
+  background: linear-gradient(135deg, rgba(255, 211, 56, 0.15), rgba(255, 211, 56, 0.05)) !important;
+  border-color: rgba(255, 211, 56, 0.5) !important;
+  color: #FFD338 !important;
+}
+
+.btn-load-project:hover {
+  background: linear-gradient(135deg, rgba(255, 211, 56, 0.25), rgba(255, 211, 56, 0.1)) !important;
+  box-shadow: 0 0 10px rgba(255, 211, 56, 0.3) !important;
 }
 
 /* =========================
@@ -3109,5 +3373,582 @@ html.fonts-ready .opening-tagline {
   cursor: pointer;
 }
 
+/* ===================================================
+   プロジェクト保存・復元 & テキスト再編集モーダル追加スタイル
+   =================================================== */
 
+/* レイヤータグ内のテキスト編集ボタン */
+.layer-edit-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 12px;
+  padding: 2px 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  touch-action: manipulation;
+}
+
+.layer-edit-btn:hover {
+  color: var(--accent-cyan);
+  background: rgba(75, 239, 255, 0.2);
+  transform: scale(1.15);
+}
+
+/* プロジェクト保存・読込ボタングループ */
+.project-cluster {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.btn-save-project {
+  background: rgba(75, 239, 255, 0.12) !important;
+  border-color: rgba(75, 239, 255, 0.4) !important;
+  color: var(--accent-cyan) !important;
+  font-weight: 700;
+}
+
+.btn-save-project:hover {
+  background: rgba(75, 239, 255, 0.28) !important;
+  box-shadow: 0 0 12px rgba(75, 239, 255, 0.5) !important;
+  color: #FFFFFF !important;
+}
+
+.btn-load-project {
+  background: rgba(255, 204, 0, 0.12) !important;
+  border-color: rgba(255, 204, 0, 0.4) !important;
+  color: #FFD700 !important;
+  font-weight: 700;
+}
+
+.btn-load-project:hover {
+  background: rgba(255, 204, 0, 0.28) !important;
+  box-shadow: 0 0 12px rgba(255, 204, 0, 0.5) !important;
+  color: #FFFFFF !important;
+}
+
+.btn-project {
+  background: linear-gradient(135deg, rgba(75, 239, 255, 0.15) 0%, rgba(138, 43, 226, 0.25) 100%);
+  border-color: rgba(75, 239, 255, 0.5);
+  box-shadow: 0 4px 15px rgba(75, 239, 255, 0.2);
+}
+
+.btn-project:hover {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 6px 20px rgba(75, 239, 255, 0.45);
+}
+
+/* テキスト再編集モーダル */
+.text-edit-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(5, 8, 18, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 16px;
+  box-sizing: border-box;
+  animation: modalFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.text-edit-modal-overlay.hidden {
+  display: none !important;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.text-edit-modal-card {
+  width: 100%;
+  max-width: 480px;
+  background: linear-gradient(135deg, rgba(16, 24, 44, 0.95) 0%, rgba(10, 15, 31, 0.98) 100%);
+  border: 1px solid rgba(75, 239, 255, 0.4);
+  border-radius: 14px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 24px rgba(75, 239, 255, 0.25);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.text-edit-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(75, 239, 255, 0.2);
+  background: rgba(75, 239, 255, 0.05);
+}
+
+.text-edit-modal-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-shadow: 0 0 8px rgba(75, 239, 255, 0.5);
+}
+
+.text-edit-modal-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+.text-edit-modal-close:hover {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.text-edit-modal-body {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modal-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.modal-form-group label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.modal-text-input {
+  width: 100%;
+  background: rgba(10, 15, 31, 0.8);
+  border: 1px solid rgba(75, 239, 255, 0.35);
+  border-radius: 8px;
+  color: #FFFFFF;
+  padding: 10px 12px;
+  font-size: 15px;
+  font-family: inherit;
+  resize: vertical;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.modal-text-input:focus {
+  outline: none;
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 12px rgba(75, 239, 255, 0.4);
+}
+
+.modal-form-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.modal-form-row .flex-1 {
+  flex: 1;
+}
+
+.modal-form-row .width-auto {
+  flex: 0 0 auto;
+}
+
+.modal-select {
+  background: rgba(10, 15, 31, 0.8);
+  border: 1px solid rgba(75, 239, 255, 0.35);
+  border-radius: 8px;
+  color: #FFFFFF;
+  padding: 8px 10px;
+  font-size: 13px;
+  cursor: pointer;
+  outline: none;
+  width: 100%;
+}
+
+.modal-num-input {
+  width: 60px;
+  background: rgba(10, 15, 31, 0.8);
+  border: 1px solid rgba(75, 239, 255, 0.35);
+  border-radius: 8px;
+  color: #FFFFFF;
+  padding: 7px 8px;
+  font-size: 14px;
+  outline: none;
+  text-align: center;
+}
+
+.text-edit-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 18px;
+  border-top: 1px solid rgba(75, 239, 255, 0.15);
+  background: rgba(10, 15, 31, 0.5);
+}
+
+.btn-modal-cancel {
+  padding: 8px 16px;
+  font-size: 13px;
+}
+
+.btn-modal-apply {
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 0 14px rgba(75, 239, 255, 0.4);
+}
+
+/* ===================================================
+   キャンバスフッター & 十字キー微調整コントローラー (Nudge D-Pad)
+   ☒ の正方形フレーム内に美しい十字 (✚) で収まる設計
+   =================================================== */
+.canvas-footer-bar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 8px 2px 2px;
+  box-sizing: border-box;
+}
+
+.canvas-footer-bar .canvas-info {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+  letter-spacing: 0.3px;
+}
+
+/* ☒ の外枠の中に 3×3 グリッドで綺麗に十字配置 */
+.nudge-controller {
+  display: inline-grid;
+  grid-template-columns: repeat(3, 28px);
+  grid-template-rows: repeat(3, 28px);
+  gap: 3px;
+  padding: 4px;
+  background-color: #090e1d;
+  background-image:
+    linear-gradient(45deg, transparent 48.5%, rgba(75, 239, 255, 0.16) 49.5%, rgba(75, 239, 255, 0.16) 50.5%, transparent 51.5%),
+    linear-gradient(-45deg, transparent 48.5%, rgba(75, 239, 255, 0.16) 49.5%, rgba(75, 239, 255, 0.16) 50.5%, transparent 51.5%),
+    radial-gradient(circle at center, rgba(75, 239, 255, 0.12) 0%, rgba(10, 15, 31, 0.96) 75%);
+  border: 1.5px solid rgba(75, 239, 255, 0.45);
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55), inset 0 0 8px rgba(75, 239, 255, 0.12);
+  box-sizing: content-box;
+  flex-shrink: 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* 旧構造 (.nudge-row-mid) が残っている場合もグリッド直下として扱う安全策 */
+.nudge-row-mid {
+  display: contents;
+}
+
+/* 3×3 グリッド上の十字配置指定 */
+.btn-nudge-up {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.btn-nudge-left {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.btn-nudge-step {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.btn-nudge-right {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.btn-nudge-down {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+/* 上下左右キー (▲ ▼ ◀ ▶) */
+.btn-nudge {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(145deg, rgba(22, 36, 64, 0.95), rgba(12, 20, 38, 0.98));
+  border: 1px solid rgba(75, 239, 255, 0.5);
+  border-radius: 6px;
+  color: var(--accent-cyan);
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.14s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.45);
+  touch-action: manipulation;
+}
+
+.btn-nudge:hover {
+  background: rgba(75, 239, 255, 0.25);
+  border-color: #FFFFFF;
+  color: #FFFFFF;
+  box-shadow: 0 0 10px rgba(75, 239, 255, 0.65);
+  transform: scale(1.05);
+}
+
+.btn-nudge:active {
+  transform: scale(0.93);
+  background: rgba(75, 239, 255, 0.38);
+}
+
+/* 中央の移動量切替ボタン (1px / 5px / 10px) */
+.btn-nudge-step {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, rgba(255, 75, 216, 0.24), rgba(148, 0, 211, 0.28));
+  border: 1px solid rgba(255, 75, 216, 0.65);
+  border-radius: 6px;
+  color: #FFFFFF;
+  font-family: 'Outfit', monospace, sans-serif;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: -0.2px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: inset 0 0 6px rgba(255, 75, 216, 0.25);
+  touch-action: manipulation;
+}
+
+.btn-nudge-step:hover {
+  background: linear-gradient(135deg, rgba(255, 75, 216, 0.42), rgba(75, 239, 255, 0.3));
+  border-color: #FFFFFF;
+  box-shadow: 0 0 10px rgba(255, 75, 216, 0.7);
+}
+
+.btn-nudge-step:active {
+  transform: scale(0.92);
+}
+
+/* ===================================================
+   ズームビューポート & 虫眼鏡 (ルーペ) モード & 透明グリッド切替
+   =================================================== */
+.canvas-zoom-viewport {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.canvas-loupe {
+  position: absolute;
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  border: 2px solid var(--accent-cyan);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.8), 0 0 14px rgba(75, 239, 255, 0.7);
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 60;
+  background: #070B16;
+  transform: translate(-50%, -115%);
+}
+
+.canvas-loupe canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  image-rendering: pixelated;
+}
+
+.loupe-reticle {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.loupe-reticle::before,
+.loupe-reticle::after {
+  content: '';
+  position: absolute;
+  background: rgba(255, 75, 216, 0.75);
+}
+
+.loupe-reticle::before {
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  transform: translateY(-0.5px);
+}
+
+.loupe-reticle::after {
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  transform: translateX(-0.5px);
+}
+
+/* 透明グリッド（チェッカー）OFF状態 */
+#canvas.checkerboard-off,
+#previewCanvas.checkerboard-off {
+  background-image: none !important;
+  background-color: #0b101e !important;
+}
+
+/* ===================================================
+   表示メニュー：文字・ボタンサイズ切替 (大 / 特大)
+   =================================================== */
+body.ui-large .menubar-btn,
+body.ui-large .menubar-mode-btn,
+body.ui-large .btn-tool,
+body.ui-large select,
+body.ui-large input[type="number"] {
+  font-size: 14px;
+  height: 36px;
+  padding: 6px 12px;
+}
+
+body.ui-large .fx-tab-btn {
+  font-size: 14.5px;
+  padding: 11px 8px;
+}
+
+body.ui-large .nudge-controller {
+  grid-template-columns: repeat(3, 32px);
+  grid-template-rows: repeat(3, 32px);
+}
+
+body.ui-xlarge .menubar-btn,
+body.ui-xlarge .menubar-mode-btn,
+body.ui-xlarge .btn-tool,
+body.ui-xlarge select,
+body.ui-xlarge input[type="number"] {
+  font-size: 15.5px;
+  height: 40px;
+  padding: 8px 14px;
+}
+
+body.ui-xlarge .fx-tab-btn {
+  font-size: 16px;
+  padding: 13px 10px;
+}
+
+body.ui-xlarge .nudge-controller {
+  grid-template-columns: repeat(3, 36px);
+  grid-template-rows: repeat(3, 36px);
+}
+
+body.ui-xlarge .btn-nudge {
+  font-size: 13px;
+}
+
+body.ui-xlarge .btn-nudge-step {
+  font-size: 11px;
+}
+
+/* ===================================================
+   表示メニュー：画面レイアウト手動切替 (スマホ縦 / PC横)
+   =================================================== */
+body.layout-mobile .neon-box.canvas-mode-layout {
+  max-width: 680px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 18px !important;
+}
+
+body.layout-mobile .canvas-stage-col {
+  position: static !important;
+  width: 100% !important;
+}
+
+body.layout-desktop .neon-box.canvas-mode-layout {
+  max-width: 1200px !important;
+  display: grid !important;
+  grid-template-columns: auto 1fr !important;
+  gap: 24px !important;
+  align-items: start !important;
+}
+
+body.layout-desktop .canvas-stage-col {
+  position: sticky !important;
+  top: 16px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+
+@media (max-width: 768px) {
+  .opening-header-right {
+    top: calc(env(safe-area-inset-top, 0px) + 14px);
+    right: 14px;
+  }
+
+  .app-menubar {
+    padding: 5px 7px;
+    gap: 5px;
+  }
+
+  .menubar-btn {
+    padding: 4px 8px;
+    font-size: 11.5px;
+  }
+
+  .menubar-mode-btn {
+    padding: 4px 9px;
+    font-size: 11.5px;
+  }
+
+  .canvas-footer-bar {
+    padding: 4px 6px 2px 0;
+  }
+
+  .nudge-controller {
+    grid-template-columns: repeat(3, 25px);
+    grid-template-rows: repeat(3, 25px);
+    gap: 2.5px;
+    padding: 3px;
+  }
+
+  .btn-nudge {
+    font-size: 10px;
+  }
+
+  .btn-nudge-step {
+    font-size: 8.5px;
+  }
+}
 
