@@ -3,7 +3,7 @@
    オフライン対応 & 最新版自動読み込み (Network First / Stale-While-Revalidate)
    =================================================== */
 
-const CACHE_NAME = 'imp-pwa-v1.0.45';
+const CACHE_NAME = 'imp-pwa-v1.1.1';
 
 const PRECACHE_ASSETS = [
   './',

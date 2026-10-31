@@ -2663,7 +2663,7 @@ html.fonts-ready .opening-tagline {
   to { opacity: 1; }
 }
 
-/* "Information"の文字以上を上部に固定するヘッダー */
+/* "Information"の文字以上を上部に固定するヘッダー (iPhoneインカメ・ノッチ・ステータスバー回避) */
 .info-sticky-header {
   flex: 0 0 auto;
   width: 100%;
@@ -2671,7 +2671,10 @@ html.fonts-ready .opening-tagline {
   background: rgba(7, 11, 22, 0.96);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid rgba(75, 239, 255, 0.25);
-  padding: 16px 16px 10px;
+  padding-top: max(36px, calc(env(safe-area-inset-top, 0px) + 22px));
+  padding-left: max(16px, env(safe-area-inset-left, 16px));
+  padding-right: max(16px, env(safe-area-inset-right, 16px));
+  padding-bottom: 12px;
   box-sizing: border-box;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
 }
@@ -2682,7 +2685,7 @@ html.fonts-ready .opening-tagline {
   overflow-y: auto;
   overflow-x: hidden;
   width: 100%;
-  padding: 24px 16px 80px;
+  padding: 28px 16px calc(80px + env(safe-area-inset-bottom, 20px));
   box-sizing: border-box;
   -webkit-overflow-scrolling: touch;
 }
@@ -3962,8 +3965,18 @@ body.layout-mobile .dropdown-item {
 
 @media (max-width: 768px) {
   .opening-header-right {
-    top: calc(env(safe-area-inset-top, 0px) + 14px);
+    top: max(54px, calc(env(safe-area-inset-top, 44px) + 16px));
     right: 14px;
+  }
+
+  /* iPhone縦置き画面でインカメ（ダイナミックアイランド・ノッチ）列と重ならないようInformation画面上部をしっかり下げる */
+  .info-sticky-header {
+    padding-top: max(62px, calc(env(safe-area-inset-top, 48px) + 22px));
+    padding-bottom: 14px;
+  }
+
+  .info-top-bar {
+    margin-bottom: 12px;
   }
 
   .app-menubar {
