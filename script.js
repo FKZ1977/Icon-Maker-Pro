@@ -6510,12 +6510,18 @@ function loadSampleIcon(srcOrDataUrl, title) {
 }
 
 document.querySelectorAll('.sample-icon-card').forEach(card => {
+  const key = card.getAttribute('data-key');
+  const thumbImg = card.querySelector('img');
+  if (thumbImg && typeof SAMPLE_ICONS_DATA !== 'undefined' && SAMPLE_ICONS_DATA[key]) {
+    // サーバー上の sample_icons/ フォルダ未反映時やオフライン時でも「？」にならず確実にサムネイル表示されるようData URLを適用
+    thumbImg.src = SAMPLE_ICONS_DATA[key];
+  }
+
   card.addEventListener('click', () => {
     // 選択アクティブ表示
     document.querySelectorAll('.sample-icon-card').forEach(c => c.classList.remove('active-sample'));
     card.classList.add('active-sample');
 
-    const key = card.getAttribute('data-key');
     const name = card.getAttribute('data-name');
     const dataUrl = (typeof SAMPLE_ICONS_DATA !== 'undefined' && SAMPLE_ICONS_DATA[key])
       ? SAMPLE_ICONS_DATA[key]
@@ -7089,7 +7095,7 @@ function registerServiceWorker() {
     // 起動時に更新後ポップアップを表示判定
     checkShowUpdatedPopup();
 
-    navigator.serviceWorker.register('./sw.js?v=1.1.2')
+    navigator.serviceWorker.register('./sw.js?v=1.1.3')
       .then((reg) => {
         swRegistration = reg;
 
