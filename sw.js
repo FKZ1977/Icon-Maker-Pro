@@ -3,7 +3,7 @@
    オフライン対応 & 最新版自動読み込み (Network First / Stale-While-Revalidate)
    =================================================== */
 
-const CACHE_NAME = 'imp-pwa-v1.1.1';
+const CACHE_NAME = 'imp-pwa-v1.1.2';
 
 const PRECACHE_ASSETS = [
   './',
@@ -58,8 +58,8 @@ self.addEventListener('fetch', (event) => {
 
   // Google Analytics / Google Tag Manager の通信はキャッシュせず直接ネットワークへ
   if (url.hostname.includes('google-analytics.com') ||
-      url.hostname.includes('googletagmanager.com') ||
-      url.hostname.includes('analytics.google.com')) {
+    url.hostname.includes('googletagmanager.com') ||
+    url.hostname.includes('analytics.google.com')) {
     return;
   }
 

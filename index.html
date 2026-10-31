@@ -35,9 +35,9 @@
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png?v=1.1.0">
   <link rel="shortcut icon" href="favicon.ico?v=1.1.0">
   <link rel="icon" type="image/x-icon" href="favicon.ico?v=1.1.0">
-  <link rel="manifest" href="manifest.json?v=1.1.1">
-  <meta property="og:image" content="https://fkz1977.github.io/Icon-Maker-Pro/IMP_512.png?v=1.1.1">
-  <link rel="stylesheet" href="style.css?v=1.1.1">
+  <link rel="manifest" href="manifest.json?v=1.1.2">
+  <meta property="og:image" content="https://fkz1977.github.io/Icon-Maker-Pro/IMP_512.png?v=1.1.2">
+  <link rel="stylesheet" href="style.css?v=1.1.2">
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -650,7 +650,7 @@
     <!-- 著作権フリー・オリジナルサンプルアイコン集 -->
     <div class="sample-gallery-section">
       <div class="sample-gallery-header">
-        <span class="sample-gallery-title" data-i18n="sample_gallery_title">💡 著作権フリー・オリジナルサンプル（クリックで読み込み）</span>
+        <span class="sample-gallery-title" data-i18n="sample_gallery_title">💡 著作権フリー・オリジナルサンプル（タップで即選択）</span>
         <small class="sample-gallery-sub"><span data-i18n="sample_gallery_loc">保存場所</span>: <code>sample_icons/</code></small>
       </div>
       <div class="sample-icons-grid" id="sampleIconsGrid">
@@ -682,9 +682,41 @@
           <img src="sample_icons/07_Browser.png" alt="ブラウザ">
           <span data-i18n="sample_icon_07">ブラウザ</span>
         </button>
-        <button type="button" class="sample-icon-card" data-key="08_Photos" data-src="sample_icons/08_Photos.png" data-name="08 カメラ / フォト">
+        <button type="button" class="sample-icon-card" data-key="08_Photos" data-src="sample_icons/08_Photos.png" data-name="08 カメラ">
           <img src="sample_icons/08_Photos.png" alt="カメラ">
           <span data-i18n="sample_icon_08">カメラ</span>
+        </button>
+        <button type="button" class="sample-icon-card" data-key="11_Picture" data-src="sample_icons/11_Picture.png" data-name="11 画像・風景写真">
+          <img src="sample_icons/11_Picture.png" alt="画像・写真">
+          <span data-i18n="sample_icon_11">画像・写真</span>
+        </button>
+        <button type="button" class="sample-icon-card" data-key="12_Album" data-src="sample_icons/12_Album.png" data-name="12 アルバム">
+          <img src="sample_icons/12_Album.png" alt="アルバム">
+          <span data-i18n="sample_icon_12">アルバム</span>
+        </button>
+        <button type="button" class="sample-icon-card" data-key="13_Gallery" data-src="sample_icons/13_Gallery.png" data-name="13 ギャラリー">
+          <img src="sample_icons/13_Gallery.png" alt="ギャラリー">
+          <span data-i18n="sample_icon_13">ギャラリー</span>
+        </button>
+        <button type="button" class="sample-icon-card" data-key="14_NightPhoto" data-src="sample_icons/14_NightPhoto.png" data-name="14 星空・夜景写真">
+          <img src="sample_icons/14_NightPhoto.png" alt="夜景写真">
+          <span data-i18n="sample_icon_14">夜景写真</span>
+        </button>
+        <button type="button" class="sample-icon-card" data-key="15_FlowerPhoto" data-src="sample_icons/15_FlowerPhoto.png" data-name="15 フラワー写真">
+          <img src="sample_icons/15_FlowerPhoto.png" alt="花・自然">
+          <span data-i18n="sample_icon_15">花・自然</span>
+        </button>
+        <button type="button" class="sample-icon-card" data-key="16_Video" data-src="sample_icons/16_Video.png" data-name="16 動画・ムービー">
+          <img src="sample_icons/16_Video.png" alt="動画">
+          <span data-i18n="sample_icon_16">動画</span>
+        </button>
+        <button type="button" class="sample-icon-card" data-key="17_Portrait" data-src="sample_icons/17_Portrait.png" data-name="17 人物・ポートレート">
+          <img src="sample_icons/17_Portrait.png" alt="人物写真">
+          <span data-i18n="sample_icon_17">人物写真</span>
+        </button>
+        <button type="button" class="sample-icon-card" data-key="18_Palette" data-src="sample_icons/18_Palette.png" data-name="18 ペイント・イラスト">
+          <img src="sample_icons/18_Palette.png" alt="イラスト">
+          <span data-i18n="sample_icon_18">イラスト</span>
         </button>
         <button type="button" class="sample-icon-card" data-key="09_Music" data-src="sample_icons/09_Music.png" data-name="09 ミュージック">
           <img src="sample_icons/09_Music.png" alt="音楽">
@@ -695,6 +727,12 @@
           <span data-i18n="sample_icon_10">ターミナル</span>
         </button>
       </div>
+    </div>
+
+    <!-- プレビュー表示（スマホでもサンプルをタップしてすぐ直下に選択結果が見えるよう配置） -->
+    <div class="canvas-container upload-preview-container" id="uploadPreviewContainer">
+      <canvas id="previewCanvas" width="256" height="256" class="checkerboard-bg"></canvas>
+      <div class="canvas-info" id="uploadFileInfo" data-i18n="upload_no_file">未選択（画像を選択してください）</div>
     </div>
 
     <!-- アップロード設定 -->
@@ -726,12 +764,6 @@
           🎨 キャンバスに転送してお絵描き・編集する
         </button>
       </div>
-    </div>
-
-    <!-- プレビュー表示 -->
-    <div class="canvas-container">
-      <canvas id="previewCanvas" width="256" height="256" class="checkerboard-bg"></canvas>
-      <div class="canvas-info" id="uploadFileInfo" data-i18n="upload_no_file">未選択（画像を選択してください）</div>
     </div>
   </div>
 
@@ -1188,8 +1220,8 @@
 <!-- ライブラリ -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="sample_icons_data.js?v=1.1.1"></script>
-<script src="script.js?v=1.1.1"></script>
+<script src="sample_icons_data.js?v=1.1.2"></script>
+<script src="script.js?v=1.1.2"></script>
 
 </body>
 </html>

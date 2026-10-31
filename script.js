@@ -155,7 +155,7 @@ const i18nData = {
     drop_zone_title: "画像をここにドラッグ＆ドロップ",
     drop_zone_desc: "またはクリックして画像を選択（PNG, JPG, WEBP, SVG対応 / スマホ撮影写真OK）",
     btn_select_file: "ファイルを選択する",
-    sample_gallery_title: "💡 著作権フリー・オリジナルサンプル（クリックで読み込み）",
+    sample_gallery_title: "💡 著作権フリー・オリジナルサンプル（タップで即選択）",
     sample_gallery_loc: "保存場所",
     sample_icon_01: "フォルダー",
     sample_icon_02: "PC / モニタ",
@@ -167,6 +167,14 @@ const i18nData = {
     sample_icon_08: "カメラ",
     sample_icon_09: "音楽",
     sample_icon_10: "ターミナル",
+    sample_icon_11: "画像・写真",
+    sample_icon_12: "アルバム",
+    sample_icon_13: "ギャラリー",
+    sample_icon_14: "夜景写真",
+    sample_icon_15: "花・自然",
+    sample_icon_16: "動画",
+    sample_icon_17: "人物写真",
+    sample_icon_18: "イラスト",
     lbl_fit_mode: "フィット形式：",
     opt_fit_cover: "中央トリミング（正方形を埋める・おすすめ）",
     opt_fit_contain: "全体を収める（比率維持・余白あり）",
@@ -367,7 +375,7 @@ const i18nData = {
     drop_zone_title: "Drag & Drop Image Here",
     drop_zone_desc: "or click to select file (Supports PNG, JPG, WEBP, SVG / Mobile photos OK)",
     btn_select_file: "Select File",
-    sample_gallery_title: "💡 Copyright-Free Original Samples (Click to load)",
+    sample_gallery_title: "💡 Copyright-Free Original Samples (Tap to Select)",
     sample_gallery_loc: "Location",
     sample_icon_01: "Folder",
     sample_icon_02: "PC / Display",
@@ -379,6 +387,14 @@ const i18nData = {
     sample_icon_08: "Camera",
     sample_icon_09: "Music",
     sample_icon_10: "Terminal",
+    sample_icon_11: "Photo",
+    sample_icon_12: "Album",
+    sample_icon_13: "Gallery",
+    sample_icon_14: "Night Sky",
+    sample_icon_15: "Flower",
+    sample_icon_16: "Video",
+    sample_icon_17: "Portrait",
+    sample_icon_18: "Palette",
     lbl_fit_mode: "Fit Mode:",
     opt_fit_cover: "Center Crop (Fill Square - Recommended)",
     opt_fit_contain: "Contain All (Keep Aspect - Has Margins)",
@@ -6476,8 +6492,16 @@ function loadSampleIcon(srcOrDataUrl, title) {
   img.onload = function() {
     currentUploadedImage = img;
     renderUploadPreview();
-    uploadFileInfo.textContent = `${title} (${img.width}×${img.height}px)`;
-    showToast(`💡 サンプル「${title}」を読み込みました！`);
+    uploadFileInfo.textContent = `✅ 選択中: ${title} (${img.width}×${img.height}px)`;
+    if (previewCanvas) {
+      previewCanvas.style.boxShadow = '0 0 18px rgba(75, 239, 255, 0.85)';
+      previewCanvas.style.borderColor = '#4BEFFF';
+      setTimeout(() => {
+        previewCanvas.style.boxShadow = '';
+        previewCanvas.style.borderColor = '';
+      }, 700);
+    }
+    showToast(`💡 サンプル「${title}」を選択しました！`);
   };
   img.onerror = function() {
     showToast(`⚠️ サンプル画像の読み込みに失敗しました: ${title}`);
@@ -7065,7 +7089,7 @@ function registerServiceWorker() {
     // 起動時に更新後ポップアップを表示判定
     checkShowUpdatedPopup();
 
-    navigator.serviceWorker.register('./sw.js?v=1.1.1')
+    navigator.serviceWorker.register('./sw.js?v=1.1.2')
       .then((reg) => {
         swRegistration = reg;
 
