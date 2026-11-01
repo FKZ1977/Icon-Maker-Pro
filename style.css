@@ -1540,6 +1540,12 @@ input[type="color"]::-webkit-color-swatch {
   }
 }
 
+.btn-transfer-side.waiting-to-pop {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  animation: none !important;
+}
+
 .btn-transfer-side.pop-in-btn {
   animation: popInTransferBtn 0.36s cubic-bezier(0.22, 1.35, 0.36, 1) forwards;
 }

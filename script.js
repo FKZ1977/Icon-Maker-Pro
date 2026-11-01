@@ -6440,22 +6440,64 @@ function orientImage(img, orientation) {
   return oc;
 }
 
-// プレビュー左側の「キャンバスに転送」ボタンをポンと出現させるヘルパー
+// プレビュー左側の「キャンバスに転送」ボタンを段階的アニメーションで出現させるヘルパー
+// 初回選択時: ①中央プレビューに画像表示 → ②プレビュー枠が右へスライド移動 → ③左側に転送ボタンがポンッと出現
+// 2回目以降: プレビュー枠は右側に固定したまま、転送ボタンの強調アニメーションのみ実行
+let hasTransferBtnAppeared = false;
+let transferSlideTimer = null;
+let transferPopTimer = null;
+
 function showSendToCanvasBtnWithPop() {
-  if (!sendToCanvasBtn) return;
-  sendToCanvasBtn.classList.remove('hidden');
-  sendToCanvasBtn.classList.remove('pop-in-btn');
-  void sendToCanvasBtn.offsetWidth; // リフローでアニメーションを再トリガー
-  sendToCanvasBtn.classList.add('pop-in-btn');
+  if (!sendToCanvasBtn || !previewCanvas) return;
+
+  // 2回目以降の選択（すでにボタンが出現済み、または初回アニメーション進行中に連続タップされた場合）
+  if (hasTransferBtnAppeared) {
+    if (transferSlideTimer) { clearTimeout(transferSlideTimer); transferSlideTimer = null; }
+    if (transferPopTimer) { clearTimeout(transferPopTimer); transferPopTimer = null; }
+    previewCanvas.style.transition = '';
+    previewCanvas.style.transform = '';
+    sendToCanvasBtn.classList.remove('hidden', 'waiting-to-pop', 'pop-in-btn');
+    void sendToCanvasBtn.offsetWidth; // リフローでアニメーションを再トリガー
+    sendToCanvasBtn.classList.add('pop-in-btn');
+    return;
+  }
+
+  // 初回選択時：まずは中央のプレビュー枠に画像が表示された状態を少し見せてから右へスライド
+  hasTransferBtnAppeared = true;
+
+  transferSlideTimer = setTimeout(() => {
+    transferSlideTimer = null;
+    // 1. 現在（中央配置時）のプレビュー枠の位置を記録
+    const firstRect = previewCanvas.getBoundingClientRect();
+
+    // 2. 左側の転送ボタン領域を透明状態でレイアウトに出現させ、プレビュー枠の移動先（右側）位置を計測
+    sendToCanvasBtn.classList.remove('hidden', 'pop-in-btn');
+    sendToCanvasBtn.classList.add('waiting-to-pop');
+    const lastRect = previewCanvas.getBoundingClientRect();
+    const deltaX = firstRect.left - lastRect.left;
+
+    // 3. FLIPアニメーションで中央から右側へなめらかにスライド移動
+    previewCanvas.style.transition = 'none';
+    previewCanvas.style.transform = `translateX(${deltaX}px)`;
+    void previewCanvas.offsetWidth;
+    previewCanvas.style.transition = 'transform 0.34s cubic-bezier(0.22, 1, 0.36, 1)';
+    previewCanvas.style.transform = 'translateX(0)';
+
+    // 4. プレビュー枠が右側へ移動し終えた直後に、左側の転送ボタンをポンッと出現させる
+    transferPopTimer = setTimeout(() => {
+      transferPopTimer = null;
+      previewCanvas.style.transition = '';
+      previewCanvas.style.transform = '';
+      sendToCanvasBtn.classList.remove('waiting-to-pop');
+      void sendToCanvasBtn.offsetWidth;
+      sendToCanvasBtn.classList.add('pop-in-btn');
+    }, 330);
+  }, 180);
 }
 
 // アップロードプレビューの描画
 function renderUploadPreview() {
   if (!currentUploadedImage) return;
-
-  if (sendToCanvasBtn) {
-    sendToCanvasBtn.classList.remove('hidden');
-  }
 
   const w = previewCanvas.width;
   const h = previewCanvas.height;
@@ -7111,7 +7153,7 @@ function registerServiceWorker() {
     // 起動時に更新後ポップアップを表示判定
     checkShowUpdatedPopup();
 
-    navigator.serviceWorker.register('./sw.js?v=1.1.5')
+    navigator.serviceWorker.register('./sw.js?v=1.1.6')
       .then((reg) => {
         swRegistration = reg;
 
