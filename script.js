@@ -6381,6 +6381,9 @@ function processImageFile(file) {
     return;
   }
 
+  // サンプルの選択状態を解除
+  document.querySelectorAll('.sample-icon-card').forEach(c => c.classList.remove('active-sample'));
+
   trackEvent('upload_image', { file_type: file.type });
 
   const reader = new FileReader();
@@ -6567,6 +6570,71 @@ function loadSampleIcon(srcOrDataUrl, title) {
   img.src = srcOrDataUrl;
 }
 
+// サンプル選択の解除＆プレビュー枠を中央に戻すヘルパー
+function clearSampleSelection(animate = true) {
+  // 全サンプルの選択アクティブ状態を解除（チェックを外す）
+  document.querySelectorAll('.sample-icon-card').forEach(c => c.classList.remove('active-sample'));
+
+  // 進行中の出現タイマーをキャンセル
+  if (transferSlideTimer) { clearTimeout(transferSlideTimer); transferSlideTimer = null; }
+  if (transferPopTimer) { clearTimeout(transferPopTimer); transferPopTimer = null; }
+
+  // 選択画像とプレビュー表示を未選択状態にクリア
+  currentUploadedImage = null;
+  if (previewCtx && previewCanvas) {
+    previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
+    previewCanvas.classList.add('checkerboard-bg');
+    previewCanvas.style.backgroundColor = '';
+  }
+  if (uploadFileInfo) {
+    const dict = (typeof i18nData !== 'undefined' && i18nData[currentLanguage]) ? i18nData[currentLanguage] : i18nData.ja;
+    uploadFileInfo.textContent = dict.upload_no_file || '未選択（画像を選択してください）';
+  }
+
+  if (!sendToCanvasBtn || !previewCanvas) {
+    hasTransferBtnAppeared = false;
+    return;
+  }
+
+  // ボタンが表示中の場合、ボタンをポンッと消してプレビュー枠を中央へ戻すアニメーション
+  if (hasTransferBtnAppeared && animate && !sendToCanvasBtn.classList.contains('hidden')) {
+    sendToCanvasBtn.classList.remove('pop-in-btn', 'waiting-to-pop');
+    sendToCanvasBtn.classList.add('pop-out-btn');
+
+    setTimeout(() => {
+      // 1. ボタン消滅直前のプレビュー枠位置（右側）を記録
+      const firstRect = previewCanvas.getBoundingClientRect();
+
+      // 2. ボタンを完全に非表示化してレイアウトスペースを中央化
+      sendToCanvasBtn.classList.add('hidden');
+      sendToCanvasBtn.classList.remove('pop-out-btn');
+
+      // 3. 中央に戻った新しいプレビュー枠位置を計測
+      const lastRect = previewCanvas.getBoundingClientRect();
+      const deltaX = firstRect.left - lastRect.left;
+
+      // 4. 右側から中央へスーッとなめらかにスライド移動
+      previewCanvas.style.transition = 'none';
+      previewCanvas.style.transform = `translateX(${deltaX}px)`;
+      void previewCanvas.offsetWidth;
+      previewCanvas.style.transition = 'transform 0.32s cubic-bezier(0.22, 1, 0.36, 1)';
+      previewCanvas.style.transform = 'translateX(0)';
+
+      setTimeout(() => {
+        previewCanvas.style.transition = '';
+        previewCanvas.style.transform = '';
+      }, 330);
+    }, 170);
+  } else {
+    sendToCanvasBtn.classList.add('hidden');
+    sendToCanvasBtn.classList.remove('pop-in-btn', 'pop-out-btn', 'waiting-to-pop');
+    previewCanvas.style.transition = '';
+    previewCanvas.style.transform = '';
+  }
+
+  hasTransferBtnAppeared = false;
+}
+
 document.querySelectorAll('.sample-icon-card').forEach(card => {
   const key = card.getAttribute('data-key');
   const thumbImg = card.querySelector('img');
@@ -6576,7 +6644,14 @@ document.querySelectorAll('.sample-icon-card').forEach(card => {
   }
 
   card.addEventListener('click', () => {
-    // 選択アクティブ表示
+    // 同じサンプルをもう一度タップした場合はチェックを外し、ボタンを消して枠を中央に戻す
+    if (card.classList.contains('active-sample')) {
+      clearSampleSelection(true);
+      showToast('💡 選択を解除しました');
+      return;
+    }
+
+    // 選択アクティブ表示（他サンプルのチェックを外して今回タップしたものを選択）
     document.querySelectorAll('.sample-icon-card').forEach(c => c.classList.remove('active-sample'));
     card.classList.add('active-sample');
 
@@ -7153,7 +7228,7 @@ function registerServiceWorker() {
     // 起動時に更新後ポップアップを表示判定
     checkShowUpdatedPopup();
 
-    navigator.serviceWorker.register('./sw.js?v=1.1.6')
+    navigator.serviceWorker.register('./sw.js?v=1.1.7')
       .then((reg) => {
         swRegistration = reg;
 

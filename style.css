@@ -1550,6 +1550,21 @@ input[type="color"]::-webkit-color-swatch {
   animation: popInTransferBtn 0.36s cubic-bezier(0.22, 1.35, 0.36, 1) forwards;
 }
 
+@keyframes popOutTransferBtn {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.65) translateX(10px);
+  }
+}
+
+.btn-transfer-side.pop-out-btn {
+  animation: popOutTransferBtn 0.18s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
 /* =========================
    エクスポート / アイコン保存エリア
 ========================= */
