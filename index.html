@@ -35,9 +35,9 @@
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png?v=1.1.0">
   <link rel="shortcut icon" href="favicon.ico?v=1.1.0">
   <link rel="icon" type="image/x-icon" href="favicon.ico?v=1.1.0">
-  <link rel="manifest" href="manifest.json?v=1.1.3">
-  <meta property="og:image" content="https://fkz1977.github.io/Icon-Maker-Pro/IMP_512.png?v=1.1.3">
-  <link rel="stylesheet" href="style.css?v=1.1.3">
+  <link rel="manifest" href="manifest.json?v=1.1.5">
+  <meta property="og:image" content="https://fkz1977.github.io/Icon-Maker-Pro/IMP_512.png?v=1.1.5">
+  <link rel="stylesheet" href="style.css?v=1.1.5">
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -729,9 +729,14 @@
       </div>
     </div>
 
-    <!-- プレビュー表示（スマホでもサンプルをタップしてすぐ直下に選択結果が見えるよう配置） -->
+    <!-- プレビュー表示（スマホでもサンプルをタップしてすぐ直下に選択結果＆左側に編集転送ボタンがポンと出現するよう配置） -->
     <div class="canvas-container upload-preview-container" id="uploadPreviewContainer">
-      <canvas id="previewCanvas" width="256" height="256" class="checkerboard-bg"></canvas>
+      <div class="upload-preview-stage">
+        <button type="button" id="sendToCanvasBtn" class="btn-tool btn-transfer btn-transfer-side hidden" title="この画像をキャンバスのレイヤーとして追加して編集します" data-i18n="btn_send_to_canvas">
+          🎨 キャンバスに転送してお絵描き・編集する
+        </button>
+        <canvas id="previewCanvas" width="256" height="256" class="checkerboard-bg"></canvas>
+      </div>
       <div class="canvas-info" id="uploadFileInfo" data-i18n="upload_no_file">未選択（画像を選択してください）</div>
     </div>
 
@@ -755,13 +760,8 @@
             <option value="#0a0f1f" data-i18n="bg_navy">テーマ紺 (#0A0F1F)</option>
           </select>
         </div>
-      </div>
-      <div class="control-row">
         <button type="button" id="uploadRotate90Btn" class="btn-tool btn-rotate" title="画像を時計回りに90度回転" data-i18n-title="btn_rotate_90_tip">
           ↷ <span data-i18n="btn_rotate_90">90°</span>
-        </button>
-        <button id="sendToCanvasBtn" class="btn-tool btn-transfer" title="この画像をキャンバスのレイヤーとして追加して編集します" data-i18n="btn_send_to_canvas">
-          🎨 キャンバスに転送してお絵描き・編集する
         </button>
       </div>
     </div>
@@ -1220,8 +1220,8 @@
 <!-- ライブラリ -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="sample_icons_data.js?v=1.1.3"></script>
-<script src="script.js?v=1.1.3"></script>
+<script src="sample_icons_data.js?v=1.1.5"></script>
+<script src="script.js?v=1.1.5"></script>
 
 </body>
 </html>

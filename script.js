@@ -5939,22 +5939,22 @@ function redraw() {
     drawCropOverlay(ctx, cropSelection);
   }
 
-  // キャンバス下部のステータス表示（オブジェクトのpixelサイズと位置を常時表示）
+  // キャンバス下部のステータス表示（横幅を押し広げないようコンパクト2行表示）
   const canvasInfoEl = document.getElementById('canvasInfo');
   if (canvasInfoEl) {
     if (cropSelection && cropSelection.w > 0 && cropSelection.h > 0) {
-      const modeNames = { rect: '「」 矩形', freehand: '✏️ 手でなぞる範囲', lasso: '🪢 投げ縄' };
-      const mName = modeNames[cropSelection.type] || '範囲選択';
-      canvasInfoEl.textContent = `${mName}: ${Math.round(cropSelection.w)} × ${Math.round(cropSelection.h)} px (X:${Math.round(cropSelection.x)}, Y:${Math.round(cropSelection.y)})`;
+      const modeNames = { rect: '矩形', freehand: 'フリー', lasso: '投げ縄' };
+      const mName = modeNames[cropSelection.type] || '範囲';
+      canvasInfoEl.textContent = `${mName}: ${Math.round(cropSelection.w)}×${Math.round(cropSelection.h)}px\n(X:${Math.round(cropSelection.x)}, Y:${Math.round(cropSelection.y)})`;
       canvasInfoEl.style.color = '#ffcc00';
     } else if (selectedObjects.length > 1) {
-      canvasInfoEl.textContent = `選択中: ${selectedObjects.length}個のレイヤー（ドラッグで一括移動）`;
+      canvasInfoEl.textContent = `選択中: ${selectedObjects.length}レイヤー\n(ドラッグで一括移動)`;
       canvasInfoEl.style.color = '#FF4BD8';
     } else if (selectedObject) {
       const sb = getObjectBounds(selectedObject);
       if (sb) {
-        const rotStr = selectedObject.rotation ? ` 角度: ${selectedObject.rotation}°` : '';
-        canvasInfoEl.textContent = `選択サイズ: ${Math.round(sb.w)} × ${Math.round(sb.h)} px (X:${Math.round(sb.x)}, Y:${Math.round(sb.y)})${rotStr}`;
+        const rotStr = selectedObject.rotation ? ` ↷${selectedObject.rotation}°` : '';
+        canvasInfoEl.textContent = `選択: ${Math.round(sb.w)}×${Math.round(sb.h)}px\n(X:${Math.round(sb.x)}, Y:${Math.round(sb.y)})${rotStr}`;
         canvasInfoEl.style.color = 'var(--accent-cyan)';
       }
     } else {
@@ -6393,12 +6393,14 @@ function processImageFile(file) {
           const orientation = EXIF.getTag(this, "Orientation") || 1;
           currentUploadedImage = orientImage(img, orientation);
           renderUploadPreview();
+          showSendToCanvasBtnWithPop();
           uploadFileInfo.textContent = `${file.name} (${img.width}×${img.height}px)`;
           showToast(`📁 画像を読み込みました: ${file.name}`);
         });
       } else {
         currentUploadedImage = img;
         renderUploadPreview();
+        showSendToCanvasBtnWithPop();
         uploadFileInfo.textContent = `${file.name} (${img.width}×${img.height}px)`;
         showToast(`📁 画像を読み込みました: ${file.name}`);
       }
@@ -6438,9 +6440,22 @@ function orientImage(img, orientation) {
   return oc;
 }
 
+// プレビュー左側の「キャンバスに転送」ボタンをポンと出現させるヘルパー
+function showSendToCanvasBtnWithPop() {
+  if (!sendToCanvasBtn) return;
+  sendToCanvasBtn.classList.remove('hidden');
+  sendToCanvasBtn.classList.remove('pop-in-btn');
+  void sendToCanvasBtn.offsetWidth; // リフローでアニメーションを再トリガー
+  sendToCanvasBtn.classList.add('pop-in-btn');
+}
+
 // アップロードプレビューの描画
 function renderUploadPreview() {
   if (!currentUploadedImage) return;
+
+  if (sendToCanvasBtn) {
+    sendToCanvasBtn.classList.remove('hidden');
+  }
 
   const w = previewCanvas.width;
   const h = previewCanvas.height;
@@ -6492,6 +6507,7 @@ function loadSampleIcon(srcOrDataUrl, title) {
   img.onload = function() {
     currentUploadedImage = img;
     renderUploadPreview();
+    showSendToCanvasBtnWithPop();
     uploadFileInfo.textContent = `✅ 選択中: ${title} (${img.width}×${img.height}px)`;
     if (previewCanvas) {
       previewCanvas.style.boxShadow = '0 0 18px rgba(75, 239, 255, 0.85)';
@@ -7095,7 +7111,7 @@ function registerServiceWorker() {
     // 起動時に更新後ポップアップを表示判定
     checkShowUpdatedPopup();
 
-    navigator.serviceWorker.register('./sw.js?v=1.1.3')
+    navigator.serviceWorker.register('./sw.js?v=1.1.5')
       .then((reg) => {
         swRegistration = reg;
 
