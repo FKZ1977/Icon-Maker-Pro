@@ -2412,7 +2412,25 @@ pre code {
   pointer-events: none;
 }
 
-/* サイバーグリッド床面（元の角度 perspective(600px) rotateX(60deg) に復元 & ゆっくり前進） */
+/* ===================================================
+   省エネ・発熱防止（Eco & Battery Saver）
+   ・非表示中や放置中、画面切り替え時のGPUレンダリング完全休止
+   =================================================== */
+/* アプリがバックグラウンド（画面消灯・他タブ）に回った時は全アニメーションを完全停止して発熱ゼロ化 */
+body.app-suspended *,
+body.eco-mode .opening-screen * {
+  animation-play-state: paused !important;
+}
+
+/* オープニング画面が閉じた後は、裏でGPUが3D描画やアニメーションを計算しないよう完全破棄 */
+.opening-screen.hidden,
+.opening-screen.hidden * {
+  animation: none !important;
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* サイバーグリッド床面（GPUレンダリングを最適化してスマホ発熱を抑制） */
 .opening-bg-grid {
   position: absolute;
   inset: -50%;
@@ -2420,12 +2438,14 @@ pre code {
     linear-gradient(rgba(75, 239, 255, 0.16) 1px, transparent 1px),
     linear-gradient(90deg, rgba(75, 239, 255, 0.16) 1px, transparent 1px);
   background-size: 50px 50px;
-  transform: perspective(600px) rotateX(60deg);
+  transform: perspective(600px) rotateX(60deg) translateZ(0);
   -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.8) 60%, rgba(0, 0, 0, 0) 95%);
   mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.8) 60%, rgba(0, 0, 0, 0) 95%);
   animation: cyberFloorForward 3.5s linear infinite;
   pointer-events: none;
   z-index: 0;
+  contain: strict;
+  will-change: background-position;
 }
 
 /* 格子が奥から手前へもっとゆっくりゆっくりと流れ続け、前に進んでいる感を演出 */

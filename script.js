@@ -7228,7 +7228,7 @@ function registerServiceWorker() {
     // 起動時に更新後ポップアップを表示判定
     checkShowUpdatedPopup();
 
-    navigator.serviceWorker.register('./sw.js?v=1.1.7')
+    navigator.serviceWorker.register('./sw.js?v=1.1.8')
       .then((reg) => {
         swRegistration = reg;
 
@@ -7262,12 +7262,36 @@ function registerServiceWorker() {
         console.warn('ServiceWorker registration error:', err);
       });
 
-    // iOS Safari ホーム画面や Android PWA のフォアグラウンド復帰時に即座に自動チェック
+    // ==========================================
+    // 対策1: 画面から目を離した時のGPU完全休止 & 復帰時処理
+    // ==========================================
     document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible' && swRegistration) {
-        swRegistration.update().catch(() => {});
+      if (document.hidden) {
+        document.body.classList.add('app-suspended');
+      } else {
+        document.body.classList.remove('app-suspended');
+        if (swRegistration) {
+          swRegistration.update().catch(() => {});
+        }
       }
     });
+
+    // ==========================================
+    // 対策2: 操作放置時の自動省電力エコモード (発熱防止)
+    // ==========================================
+    let ecoIdleTimer = null;
+    const resetEcoIdleTimer = () => {
+      document.body.classList.remove('eco-mode');
+      if (ecoIdleTimer) clearTimeout(ecoIdleTimer);
+      // 2分半操作がなければGPUアニメーションを休止して発熱を抑制
+      ecoIdleTimer = setTimeout(() => {
+        document.body.classList.add('eco-mode');
+      }, 150000);
+    };
+    ['touchstart', 'mousedown', 'keydown', 'scroll'].forEach(evt => {
+      window.addEventListener(evt, resetEcoIdleTimer, { passive: true });
+    });
+    resetEcoIdleTimer();
 
     // オンラインに復帰した時も自動チェック
     window.addEventListener('online', () => {
