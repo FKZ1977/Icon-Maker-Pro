@@ -6939,7 +6939,7 @@ async function saveAllInZip(sourceCanvas, isModeA = true) {
   zip.file("favicon-16x16.ico", ico16Bytes);
 
   // 5. PWA設定ファイル (manifest.json)
-  // ※iOSの共有シート・ホーム画面追加で白枠縮小を起こさないよう 512px / 180px / 192px のみを優先配置
+  // ※iOSの共有シート・Android・ChromeOSのタスクバーで白枠縮小を起こさないよう any maskable を指定
   const manifest = {
     name: "My App",
     short_name: "App",
@@ -6948,7 +6948,7 @@ async function saveAllInZip(sourceCanvas, isModeA = true) {
         src: "/icon-512.png",
         sizes: "512x512",
         type: "image/png",
-        purpose: "any"
+        purpose: "any maskable"
       },
       {
         src: "/apple-touch-icon.png",
@@ -6960,7 +6960,7 @@ async function saveAllInZip(sourceCanvas, isModeA = true) {
         src: "/icon-192.png",
         sizes: "192x192",
         type: "image/png",
-        purpose: "any"
+        purpose: "any maskable"
       }
     ],
     theme_color: "#0A0F1F",
@@ -7228,7 +7228,7 @@ function registerServiceWorker() {
     // 起動時に更新後ポップアップを表示判定
     checkShowUpdatedPopup();
 
-    navigator.serviceWorker.register('./sw.js?v=1.1.8')
+    navigator.serviceWorker.register('./sw.js?v=1.1.9')
       .then((reg) => {
         swRegistration = reg;
 
